@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+    <!-- Allow to group invoices by currency -->
+    <record id="xopgi_account_view_account_invoice_filter" model="ir.ui.view">
+      <field name="name">xopgi.account.view.account.invoice.filter</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account.view_account_invoice_filter" />
+      <field name="arch" type="xml">
+        <filter string="Period" position="after" >
+          <filter string="Currency" icon="terp-go-month" domain="[]"
+                  context="{'group_by':'currency_id'}"/>
+        </filter>
+      </field>
+    </record>
+
+    <!-- Allows to group move's lines by currency -->
+    <record id="xopgi_account_view_move_line_filter" model="ir.ui.view">
+      <field name="name">xopgi.view.move.line.filter</field>
+      <field name="model">account.move.line</field>
+      <field name="inherit_id" ref="account.view_account_move_line_filter" />
+      <field name="arch" type="xml">
+        <filter string="Period" position="after" >
+          <filter string="Currency" icon="terp-go-month" domain="[]"
+                  context="{'group_by':'currency_id'}" />
+        </filter>
+      </field>
+    </record>
+  </data>
+</openerp>

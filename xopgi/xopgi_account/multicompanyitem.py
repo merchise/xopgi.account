@@ -24,16 +24,24 @@ import openerp.addons.account.account as base_account
 from xoeuf.osv.orm import get_modelname
 
 
+def _get_initials(name):
+    return ''.join(word[0].upper() for word in name.split())
+
+
 class MultiCompanyItem(object):
     '''Mixin for models that are involved in multicompany scenarios.
 
     Fixes names (that could be equal) to have the company's initial.
 
     .. important:: You should place this class *before* Model.
+
     '''
     def name_get(self, cr, uid, ids, context=None):
         '''Adds the Company's Initial to each journal name.
+
         '''
+        companies = self.pool['res.company']
+        hasmany_companies = len(companies.search(cr, uid, [])) > 1
         if not ids:
             return []
         if isinstance(ids, (int, long)):
@@ -42,8 +50,11 @@ class MultiCompanyItem(object):
                          context=context)
         res = []
         for row in rows:
-            company = ''.join(x[0] for x in row['company_id'][1].split(' '))
-            name = row['name'] + ' - ' + company if company else row['name']
+            name = row['name']
+            if hasmany_companies:
+                company = _get_initials(row['company_id'][1])
+                if company:
+                    name += ' - %s' % company
             res.append((row['id'], name))
         return res
 

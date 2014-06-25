@@ -20,8 +20,7 @@ from __future__ import (division as _py3_division,
 
 def read_terpfile():
     import os
-    from xoutil.fs.path import join
-    with open(join(os.path.dirname(__file__), '__openerp__.py'), 'rU') as fh:
+    with open(os.path.join(os.path.dirname(__file__), '__openerp__.py'), 'rU') as fh:
         content = fh.read()
         return eval(content, {}, {})
 

@@ -36,7 +36,7 @@ from xoeuf.osv.orm import get_modelname, store_identity
 
 
 try:
-    from xoeuf.osv.orm import guess_id
+    from xoeuf.osv.orm import guess_id  # migrate
 except ImportError:
     def guess_id(which, attr='id'):
         '''Guess the id of an object.

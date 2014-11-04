@@ -49,7 +49,7 @@ except ImportError:
         '''
         from openerp.osv.orm import browse_record
         from xoutil.collections import Mapping
-        from xoutil.six import integer_types
+        from six import integer_types
         if isinstance(which, integer_types):
             return which
         elif isinstance(which, (Mapping, browse_record)):

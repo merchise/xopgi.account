@@ -18,7 +18,7 @@ msgstr ""
 #. module: xopgi_account
 #: view:account.move:0
 msgid "Debit (line currency)"
-msgstr "Haber (moneda propia)"
+msgstr "Deber (moneda propia)"
 
 #. module: xopgi_account
 #: field:account.account,normal_balance:0
@@ -63,7 +63,7 @@ msgstr "{'type': type, 'force_company': company_id}"
 #. module: xopgi_account
 #: field:account.move.line,currency_debit:0
 msgid "Debit"
-msgstr "Haber"
+msgstr "Deber"
 
 #. module: xopgi_account
 #: view:account.voucher:0
@@ -73,7 +73,7 @@ msgstr "onchange_company()"
 #. module: xopgi_account
 #: view:account.move:0
 msgid "Debit (base currency)"
-msgstr "Haber (moneda base)"
+msgstr "Deber (moneda base)"
 
 #. module: xopgi_account
 #: view:account.invoice:0
@@ -148,7 +148,7 @@ msgstr "Balance foráneo"
 #. module: xopgi_account
 #: field:account.move.line,currency_credit:0
 msgid "Credit"
-msgstr "Crédito"
+msgstr "Haber"
 
 #. module: xopgi_account
 #: model:ir.model,name:xopgi_account.model_account_fiscalyear
@@ -163,7 +163,7 @@ msgstr "{\"no_open\":True}"
 #. module: xopgi_account
 #: view:account.move:0
 msgid "Credit (base currency)"
-msgstr "Crédito (moneda base)"
+msgstr "Haber (moneda base)"
 
 #. module: xopgi_account
 #: view:account.invoice:0
@@ -234,7 +234,7 @@ msgstr "Extracto bancario"
 #. module: xopgi_account
 #: view:account.move:0
 msgid "Credit (line currency)"
-msgstr "Crédito (moneda propia)"
+msgstr "Haber (moneda propia)"
 
 #. module: xopgi_account
 #: view:account.account:0

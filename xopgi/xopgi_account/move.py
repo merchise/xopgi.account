@@ -301,7 +301,7 @@ class account_fiscalyear_close(TransientModel):
         # hog.
         from xoeuf.osv import savepoint
         from xoutil.iterators import flatten
-        from xoeuf.osv.model_extensions import search_read
+        from xoeuf.osv.model_extensions import search_browse
         _super = super(account_fiscalyear_close, self).data_save
         with savepoint(cr, 'xopgi_fy_close_data_save'):
             result = _super(cr, uid, ids, context=context)
@@ -311,15 +311,15 @@ class account_fiscalyear_close(TransientModel):
         period_id = data.period_id.id
         query = [('journal_id', '=', journal_id),
                  ('period_id', '=', period_id)]
-        selected_moves = search_read(move_obj, cr, uid, query, ['line_id'],
-                                     context=context)
-        if isinstance(selected_moves, dict):
+        selected_moves = search_browse(move_obj, cr, uid, query,
+                                       context=context)
+        if not isinstance(selected_moves, list):
             # Only one result, as usually expected.
             selected_moves = [selected_moves]
         sentences = []
-        all_lines = flatten(move['line_id'] for move in selected_moves)
-        for lineid in all_lines:
-            sentences.append(UPDATE_SQL_TEMPLATE.format(id=lineid))
+        all_lines = flatten(move.line_id for move in selected_moves)
+        for line in all_lines:
+            sentences.append(UPDATE_SQL_TEMPLATE.format(id=line.id))
         if sentences:
             cr.execute(''.join(sentences))
         return result

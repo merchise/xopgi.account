@@ -272,22 +272,6 @@ class account_move_line(Model):
     }
 
 
-import contextlib
-
-
-@contextlib.contextmanager
-def savepoint(cr, name):
-    cr.execute('SAVEPOINT %s' % name)
-    try:
-        yield cr
-    except:
-        cr.execute('ROLLBACK TO SAVEPOINT %s' % name)
-        raise
-    else:
-        cr.execute('RELEASE SAVEPOINT %s' % name)
-del contextlib
-
-
 UPDATE_SQL_TEMPLATE = '''
 UPDATE account_move_line
 SET currency_debit = (
@@ -315,6 +299,7 @@ class account_fiscalyear_close(TransientModel):
         # The super implementation is filled with SQL, our approach is to
         # simply emit UPDATEs afterwards.  Doing via the ORM is a resource
         # hog.
+        from xoeuf.osv import savepoint
         from xoutil.iterators import flatten
         from xoeuf.osv.model_extensions import search_read
         _super = super(account_fiscalyear_close, self).data_save

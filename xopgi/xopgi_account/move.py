@@ -303,7 +303,7 @@ class account_fiscalyear_close(TransientModel):
         from xoeuf.osv.model_extensions import search_browse
         _super = super(account_fiscalyear_close, self).data_save
         with savepoint(cr, 'xopgi_fy_close_data_save'):
-            result = _super(cr, uid, ids, context=context)
+            _super(cr, uid, ids, context=context)
         move_obj = self.pool['account.move']
         data = self.browse(cr, uid, ids, context=context)[0]
         journal_id = data.journal_id.id
@@ -316,4 +316,11 @@ class account_fiscalyear_close(TransientModel):
             sentences.append(UPDATE_SQL_TEMPLATE.format(id=line.id))
         if sentences:
             cr.execute(''.join(sentences))
-        return result
+        return {
+            # Go to the view of the generated entry.
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_model': 'account.move',
+            'res_id': move.id,
+        }

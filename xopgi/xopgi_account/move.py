@@ -36,7 +36,7 @@ from xoeuf.osv.orm import get_modelname, store_identity
 
 
 try:
-    from xoeuf.osv.orm import guess_id
+    from xoeuf.osv.orm import guess_id  # migrate
 except ImportError:
     def guess_id(which, attr='id'):
         '''Guess the id of an object.
@@ -49,7 +49,7 @@ except ImportError:
         '''
         from openerp.osv.orm import browse_record
         from xoutil.collections import Mapping
-        from xoutil.six import integer_types
+        from six import integer_types
         if isinstance(which, integer_types):
             return which
         elif isinstance(which, (Mapping, browse_record)):
@@ -166,23 +166,24 @@ class account_move_line(Model):
             fields = [fields, ]
         result = {}
         for obj in self.browse(cr, uid, ids, context):
-            result[obj.id] = {}
-            for field_name in fields:
-                result[obj.id][field_name] = 0
-                # Notice: currency_debit should only have a value if the value
-                # is bigger than 0, and currency_credit should only have a
-                # value if it's less that 0. Otherwise they'll always get the
-                # same value, and only ONE of them should have a value, that's
-                # why we need the conditions.
-                if obj.currency_id:
-                    value = obj.amount_currency
-                    if field_name == 'currency_debit' and value > 0:
-                        result[obj.id][field_name] = value
-                    elif field_name == 'currency_credit' and value < 0:
-                        result[obj.id][field_name] = abs(value)
-                else:
-                    true_field = field_name.split('_')[-1]
-                    result[obj.id][field_name] = getattr(obj, true_field)
+            if obj:
+                result[obj.id] = {}
+                for field_name in fields:
+                    result[obj.id][field_name] = 0
+                    # Notice: currency_debit should only have a value if the value
+                    # is bigger than 0, and currency_credit should only have a
+                    # value if it's less that 0. Otherwise they'll always get the
+                    # same value, and only ONE of them should have a value, that's
+                    # why we need the conditions.
+                    if obj.currency_id:
+                        value = obj.amount_currency
+                        if field_name == 'currency_debit' and value > 0:
+                            result[obj.id][field_name] = value
+                        elif field_name == 'currency_credit' and value < 0:
+                            result[obj.id][field_name] = abs(value)
+                    else:
+                        true_field = field_name.split('_')[-1]
+                        result[obj.id][field_name] = getattr(obj, true_field)
         return result
 
     def _set_currency_credit_debit(self, cr, uid, line_id, name, value, arg,
@@ -194,30 +195,30 @@ class account_move_line(Model):
         :param arg: The original field name.
 
         '''
-        move_line = self.browse(cr, uid, line_id, context)
-        to_write = dict(debit=0, credit=0)  # Be safe. Fixes bug when creating
-                                            # several lines.  I think this has
-                                            # to do with a (JS?) computation
-                                            # of credit/debit for lines based
-                                            # on current lines.  Not sure.
-        if value != 0:
-            if move_line.currency_id:
-                from_currency = move_line.currency_id.id
-                to_currency = move_line.account_id.company_id.currency_id.id
-                base_value = _convert(self, cr, uid, value, move_line.date,
-                                      from_currency, to_currency,
-                                      context=context)
-                to_write[arg] = base_value
-                if name == 'currency_debit':
-                    to_write['amount_currency'] = value
-                elif name == 'currency_credit':
-                    to_write['amount_currency'] = -value
-            else:
-                to_write[arg] = value
-                to_write['amount_currency'] = 0    # Otherwise a validation
-                                                   # error might hunt you
-            return self.write(cr, uid, line_id, to_write, context,
-                              update_check=_update_check)
+        move_line = self.browse(cr, uid, line_id, context=context)
+        if move_line:
+            # Be safe. Fixes bug when creating several lines.  I think this
+            # has to do with a (JS?)  computation of credit/debit for lines
+            # based on current lines.  Not sure.
+            to_write = dict(debit=0, credit=0)
+            if value != 0:
+                if move_line.currency_id:
+                    from_currency = move_line.currency_id.id
+                    to_currency = move_line.account_id.company_id.currency_id.id
+                    base_value = _convert(self, cr, uid, value, move_line.date,
+                                          from_currency, to_currency,
+                                          context=context)
+                    to_write[arg] = base_value
+                    if name == 'currency_debit':
+                        to_write['amount_currency'] = value
+                    elif name == 'currency_credit':
+                        to_write['amount_currency'] = -value
+                else:
+                    to_write[arg] = value
+                    to_write['amount_currency'] = 0  # Otherwise a validation
+                                                     # error might hunt you
+                return self.write(cr, uid, line_id, to_write, context,
+                                  update_check=_update_check)
 
     def recalculate(self, cr, uid, ids, account_id,
                     debit, credit, currency,
@@ -271,37 +272,55 @@ class account_move_line(Model):
     }
 
 
+UPDATE_SQL_TEMPLATE = '''
+UPDATE account_move_line
+SET currency_debit = (
+      CASE WHEN currency_id IS NOT NULL AND amount_currency > 0
+           THEN amount_currency
+           ELSE debit
+      END),
+    currency_credit = (
+      CASE WHEN currency_id IS NOT NULL AND amount_currency < 0
+           THEN -amount_currency
+           ELSE credit
+      END)
+WHERE id={id};
+'''
+
+
 # Since the closing entry is made by magical SQL, we need to invoke the
 # computation of functional fields by ourselves.
 class account_fiscalyear_close(TransientModel):
-    '''Recalculates all functional fields for the generated closing entry.'''
+    '''Recalculates functional fields for the generated closing entry.'''
     _name = get_modelname(base_fiscalyear_close.account_fiscalyear_close)
     _inherit = _name
 
     def data_save(self, cr, uid, ids, context=None):
-        '''Overrode to recalculate functional fields after vanilla `data_save`
-        does it SQL magic.
-
-        The super `data_save` creates the opening entry via SQL statements
-        directly.  This bypasses the normal ORM and additional stored
-        functional fields are not calculated.
-
-        '''
-        from xoutil.iterators import flatten
-        from xoeuf.osv.model_extensions import search_read, touch_fields
+        # The super implementation is filled with SQL, our approach is to
+        # simply emit UPDATEs afterwards.  Doing via the ORM is a resource
+        # hog.
+        from xoeuf.osv import savepoint
+        from xoeuf.osv.model_extensions import search_browse
         _super = super(account_fiscalyear_close, self).data_save
-        result = _super(cr, uid, ids, context=context)
+        with savepoint(cr, 'xopgi_fy_close_data_save'):
+            _super(cr, uid, ids, context=context)
         move_obj = self.pool['account.move']
-        lines_obj = self.pool['account.move.line']
         data = self.browse(cr, uid, ids, context=context)[0]
         journal_id = data.journal_id.id
         period_id = data.period_id.id
         query = [('journal_id', '=', journal_id),
                  ('period_id', '=', period_id)]
-        selected_moves = search_read(move_obj, cr, uid, query, ['line_id'],
-                                     context=context)
-        if selected_moves:
-            touch_fields(lines_obj, cr, uid,
-                         flatten(move.line_id for move in selected_moves),
-                         context=dict(context))
-        return result
+        move = search_browse(move_obj, cr, uid, query, context=context)
+        sentences = []
+        for line in move.line_id:
+            sentences.append(UPDATE_SQL_TEMPLATE.format(id=line.id))
+        if sentences:
+            cr.execute(''.join(sentences))
+        return {
+            # Go to the view of the generated entry.
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_model': 'account.move',
+            'res_id': move.id,
+        }

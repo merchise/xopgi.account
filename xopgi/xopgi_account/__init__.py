@@ -19,3 +19,4 @@ from . import statement
 from . import multicompanyitem
 from . import voucher
 from . import currency
+from . import misc

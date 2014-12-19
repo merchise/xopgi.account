@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
-# xopgi.xopgi.xopgi_account.account
+# xopgi.xopgi.xopgi_account.chart
 # ---------------------------------------------------------------------
 # Copyright (c) 2013, 2014 Merchise Autrement
 # All rights reserved.
@@ -23,6 +23,7 @@ from openerp.osv.orm import TransientModel
 import openerp.addons.account as base_account
 
 from xoeuf.osv.orm import get_modelname
+
 
 class account_chart(TransientModel):
     '''Wizard for "Chart of Accounts".

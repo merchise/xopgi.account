@@ -12,11 +12,11 @@
 #
 # @created: 2013-11-11
 
-from . import account
-from . import move
-from . import invoice
-from . import statement
-from . import multicompanyitem
-from . import voucher
-from . import currency
-from . import misc
+from . import chart  # noqa
+from . import move  # noqa
+from . import invoice  # noqa
+from . import statement  # noqa
+from . import multicompanyitem  # noqa
+from . import voucher  # noqa
+from . import currency  # noqa
+from . import misc  # noqa

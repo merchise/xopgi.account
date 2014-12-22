@@ -20,3 +20,4 @@ from . import multicompanyitem  # noqa
 from . import voucher  # noqa
 from . import currency  # noqa
 from . import misc  # noqa
+from . import config  # noqa

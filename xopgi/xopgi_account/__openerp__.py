@@ -22,6 +22,7 @@
     "depends": ['account_accountant'],
     "init_xml": [],
     "update_xml": [
+        'view/config.xml',
         'view/company.xml',
         'view/account.xml',
         'view/filters.xml',

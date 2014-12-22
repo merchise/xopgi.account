@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+    <record id="hide_tax_journal_entry" model="ir.ui.view">
+      <field name="name">xopgi_hide_tax_journal_entry</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_move_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='line_id']/tree/field[@name='reconcile_id']"
+               position="attributes">
+          <attribute name="invisible">True</attribute>
+        </xpath>
+
+        <xpath expr="//field[@name='line_id']/tree/field[@name='reconcile_partial_id']"
+               position="attributes">
+          <attribute name="invisible">True</attribute>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</openerp>

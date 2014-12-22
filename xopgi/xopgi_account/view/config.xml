@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+    <record id="account_config_settings_extension" model="ir.ui.view">
+      <field name="name">xopgi.account settings</field>
+      <field name="model">account.config.settings</field>
+      <field name="inherit_id" ref="account.view_account_config_settings"/>
+      <field name="arch" type="xml">
+        <xpath expr="//div[preceding-sibling::label[position()=1 and @string='Features']]"
+               position="inside">
+          <div>
+            <field name="module_xopgi_invisible_tax" class="oe_inline"/>
+            <label for="module_xopgi_invisible_tax"/>
+          </div>
+          <div>
+            <field name="module_xopgi_invisible_conciliation" class="oe_inline"/>
+            <label for="module_xopgi_invisible_conciliation"/>
+          </div>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</openerp>

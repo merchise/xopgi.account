@@ -1,35 +1,31 @@
-# -*- coding: utf-8 -*-
-#----------------------------------------------------------------------
-# xopgi.xopgi_account.__openerp__
-#----------------------------------------------------------------------
-# Copyright (c) 2013, 2014 Merchise Autrement
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+# ---------------------------------------------------------------------
+# __openerp__
+# ---------------------------------------------------------------------
+# Copyright (c) 2014 Merchise Autrement and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
 # terms of the LICENCE attached (see LICENCE file) in the distribution
 # package.
 #
-# @created: 2013-11-11
-
+# Created on 2014-12-18
 
 {
-    "name": "Accounting (extended - xopgi)",
-    "version": "1.8",
+    "name": "Accounting for holdings (xopgi)",
+    "version": "1.7",
     "author": "Merchise Autrement",
     "website": "http://xopgi.merchise.org/addons/xopgi_account",
     "category": "Accounting",
     "description": "Accounting",
-    "depends": ['account_accountant'],
+    "depends": ['xopgi_account'],
     "init_xml": [],
     "update_xml": [
-        'view/config.xml',
-        'view/company.xml',
-        'view/account.xml',
-        'view/filters.xml',
+        'view/chart.xml',
     ],
     "demo_xml": [],
     # TODO: [review ~med] Where to place UI enhancements.  Proposal xopgi_ui.
-    "css": ["static/css/xopgi_account.css", ],
     "application": False,
     "installable": True,
 }

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-#----------------------------------------------------------------------
+# ---------------------------------------------------------------------
 # xopgi.xopgi.xopgi_account.invoice
-#----------------------------------------------------------------------
-# Copyright (c) 2013, 2014 Merchise Autrement
+# ---------------------------------------------------------------------
+# Copyright (c) 2013-2015 Merchise Autrement
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -49,7 +49,6 @@ class account_voucher(Model):
         '''Cleans the journal and period when the company changes.'''
         return {'value': {'journal_id': False, 'period_id': False}}
 
-
     def recompute_voucher_lines(self, cr, uid, ids, partner_id, journal_id,
                                 price, currency_id, ttype, date, context=None):
         '''Computes the `invoice` related field for the voucher line.
@@ -59,9 +58,11 @@ class account_voucher(Model):
         This method is called by the OpenERP's voucher addon, specifically in
         the onchange_amount, and onchange_partner_id.
         '''
-        res = super(account_voucher, self).recompute_voucher_lines(cr, uid,
-                                             ids, partner_id, journal_id, price,
-                                             currency_id, ttype, date, context)
+        res = super(account_voucher, self).recompute_voucher_lines(
+            cr, uid,
+            ids, partner_id, journal_id, price,
+            currency_id, ttype, date, context
+        )
         ml = self.pool.get('account.move.line')
         for line in res['value']['line_cr_ids']:
             origin = ml.browse(cr, uid, line['move_line_id']).invoice.origin

@@ -45,7 +45,7 @@ class account_invoice_refund(TransientModel):
         if company_id and journals:
             def current_company_journal(item):
                 journal_id, _name = item
-                cpn = journal.browse(cr, uid, journal_id, context).company_id
+                cpn = journal.browse(cr, uid, journal_id, context=context).company_id
                 return cpn.id == company_id
             journals['selection'] = filter(current_company_journal,
                                            journals['selection'])

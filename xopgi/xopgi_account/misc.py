@@ -29,7 +29,9 @@ class OpenClosedFiscalYear(TransientModel):
     _inherit = "account.open.closed.fiscalyear"
 
     def remove_entries(self, cr, uid, ids, context=None):
-        super(OpenClosedFiscalYear, self).remove_entries(cr, uid, ids, context)
+        super(OpenClosedFiscalYear, self).remove_entries(
+            cr, uid, ids, context=context
+        )
         return {
             'type': 'ir.actions.act_window',
             'view': 'form',

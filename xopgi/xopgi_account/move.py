@@ -139,7 +139,7 @@ class account_move_line(Model):
 
         """
         # TODO: Support multi-holding.
-        res = super(account_move_line, self)._query_get(cr, uid, obj, context)
+        res = super(account_move_line, self)._query_get(cr, uid, obj, context=context)
         if context.get('consolidate', False):
             to_search = [
                 ('company_id', '!=', False),
@@ -165,7 +165,7 @@ class account_move_line(Model):
         if not is_collection(fields):
             fields = [fields, ]
         result = {}
-        for obj in self.browse(cr, uid, ids, context):
+        for obj in self.browse(cr, uid, ids, context=context):
             if obj:
                 result[obj.id] = {}
                 for field_name in fields:

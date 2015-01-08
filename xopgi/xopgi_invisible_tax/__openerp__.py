@@ -20,8 +20,7 @@
     "category": "Hidden",
     "description": "Hides tax column when editing journal items.",
     "depends": ['account_accountant'],
-    "init_xml": [],
-    "update_xml": [
+    "data": [
         'tax.xml',
     ],
     "demo_xml": [],

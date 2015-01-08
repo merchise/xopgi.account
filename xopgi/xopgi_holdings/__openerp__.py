@@ -20,8 +20,7 @@
     "category": "Accounting",
     "description": "Accounting",
     "depends": ['xopgi_account'],
-    "init_xml": [],
-    "update_xml": [
+    "data": [
         'view/chart.xml',
     ],
     "demo_xml": [],

@@ -20,8 +20,7 @@
     "category": "Hidden",
     "description": "Hides conciliation columns when editing journal items.",
     "depends": ['account_accountant'],
-    "init_xml": [],
-    "update_xml": [
+    "data": [
         'conciliate.xml',
     ],
     "demo_xml": [],

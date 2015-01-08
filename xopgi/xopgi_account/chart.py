@@ -28,7 +28,9 @@ from xoeuf.osv.orm import get_modelname
 class account_chart(TransientModel):
     '''Wizard for "Chart of Accounts".
 
-    Minor usability fixes.
+    Minor usability fixes:
+
+    - Limit the periods to those of the selected company.
 
     '''
     _name = get_modelname(base_account.wizard.account_chart.account_chart)

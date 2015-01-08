@@ -49,14 +49,16 @@ class account_chart(TransientModel):
     _inherit = _name
     _columns = {
         'chart_mode':
-            fields.selection([(AGGREGATED_CHART, 'Aggregate'),
-                              (CONSOLIDATE_CHART, 'Consolidate')],
-                             'Chart mode',
-                             help='You may select "Aggregate" for standard '
-                             'chart: ie. all journal items are '
-                             'displayed. Consolidated charts exclude journal '
-                             'items between companies of the same holding. '
-                             'Use the "Consolidate" only for Holdings.')
+            fields.selection(
+                [(AGGREGATED_CHART, 'Aggregate'),
+                 (CONSOLIDATE_CHART, 'Consolidate')],
+                'Chart mode',
+                help=('You may select "Aggregate" for standard '
+                      'chart: ie. all journal items are '
+                      'displayed. Consolidated charts exclude journal '
+                      'items between companies of the same holding. '
+                      'Use the "Consolidate" only for Holdings.')
+            )
     }
 
     _defaults = {

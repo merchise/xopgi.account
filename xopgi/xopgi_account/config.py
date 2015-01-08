@@ -32,4 +32,5 @@ class AccountConfigSettings(TransientModel):
         'module_xopgi_invisible_conciliation':
             fields.boolean('Hides conciliation columns when editing journal '
                            'items.'),
+
     }

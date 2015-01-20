@@ -37,4 +37,7 @@ class AccountConfigSettings(TransientModel):
             fields.boolean('Enter foreign currencies in debit/credit '
                            'columns.'),
 
+        'module_xopgi_holdings':
+            fields.boolean('Manage company holdings.'),
+
     }

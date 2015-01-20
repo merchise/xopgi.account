@@ -18,7 +18,15 @@
     "author": "Merchise Autrement",
     "website": "http://xopgi.merchise.org/addons/xopgi_account",
     "category": "Accounting",
-    "description": "Accounting",
+    "description": """
+Accounting for Holdings
+=======================
+
+Allows to do accounting for each company controlled by a single holding.  Each
+company does its accounting in its own currency, while the holding
+consolidates the reports.
+
+""",
     "depends": ['xopgi_account'],
     "data": [
         'view/chart.xml',

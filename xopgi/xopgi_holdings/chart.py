@@ -12,14 +12,20 @@
 #
 # Created on 2014-12-18
 
-'''General Accounting extensions - Account model.'''
+'''Chart support for holdings.
+
+Allows the chart to be either: (1) consolidate or (2) aggregate.  The
+consolidate form excludes inter-companies moves.
+
+'''
 
 from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
 from openerp.osv import fields
-from openerp.osv.orm import TransientModel
+from openerp.osv.orm import TransientModel, Model
+import openerp.addons.account.account_move_line as base_move_line
 import openerp.addons.account as base_account
 
 from xoeuf.osv.orm import get_modelname
@@ -91,3 +97,40 @@ class account_chart(TransientModel):
             ctx.update({str('currency_symbol'): True})
             result['context'] = repr(ctx)
         return result
+
+
+class account_move_line(Model):
+    '''Fixes to account move lines.
+
+    '''
+    _name = get_modelname(base_move_line.account_move_line)
+    _inherit = _name
+
+    def _query_get(self, cr, uid, obj='l', context=None):
+        """Builds the QUERY for selecting the journal items for the chart of
+        accounts.
+
+        This method modifies the query for the case of the `Consolidated
+        Holding`, in which case:
+
+        a) Journal entries for which the partner belongs to the holding.
+
+        .. warning:: About holding and companies.
+
+           - This method works for a single holding in the data base.
+
+           - The holding is the company that does not have a parent.
+
+        """
+        # TODO: Support multi-holding.
+        _super = super(account_move_line, self)._query_get
+        res = _super(cr, uid, obj, context=context)
+        if context.get('consolidate', False):
+            to_search = [
+                ('company_id', '!=', False),
+                ('company_id.parent_id', '!=', False)
+            ]
+            partner = self.pool.get('res.partner')
+            partner_ids = partner.search(cr, uid, to_search, context=context)
+            res += "AND partner_id NOT IN " + str(tuple(partner_ids))
+        return res

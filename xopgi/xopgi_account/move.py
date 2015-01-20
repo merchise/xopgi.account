@@ -122,33 +122,6 @@ class account_move_line(Model):
     _name = get_modelname(base_move_line.account_move_line)
     _inherit = _name
 
-    def _query_get(self, cr, uid, obj='l', context=None):
-        """Builds the QUERY for selecting the journal items for the chart of
-        accounts.
-
-        This method modifies the query for the case of the `Consolidated
-        Holding`, in which case:
-
-        a) Journal entries for which the partner belongs to the holding.
-
-        .. warning:: About holding and companies.
-
-           - This method works for a single holding in the data base.
-
-           - The holding is the company that does not have a parent.
-
-        """
-        # TODO: Support multi-holding.
-        res = super(account_move_line, self)._query_get(cr, uid, obj, context=context)
-        if context.get('consolidate', False):
-            to_search = [
-                ('company_id', '!=', False),
-                ('company_id.parent_id', '!=', False)
-            ]
-            partner = self.pool.get('res.partner')
-            partner_ids = partner.search(cr, uid, to_search, context=context)
-            res += "AND partner_id NOT IN " + str(tuple(partner_ids))
-        return res
 
     def _get_currency_credit_debit(self, cr, uid, ids, fields, arg,
                                    context=None):

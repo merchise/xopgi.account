@@ -33,4 +33,8 @@ class AccountConfigSettings(TransientModel):
             fields.boolean('Hides conciliation columns when editing journal '
                            'items.'),
 
+        'module_xopgi_proper_currency':
+            fields.boolean('Enter foreign currencies in debit/credit '
+                           'columns.'),
+
     }

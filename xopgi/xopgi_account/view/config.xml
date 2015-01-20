@@ -16,6 +16,10 @@
             <field name="module_xopgi_invisible_conciliation" class="oe_inline"/>
             <label for="module_xopgi_invisible_conciliation"/>
           </div>
+          <div>
+            <field name="module_xopgi_proper_currency" class="oe_inline"/>
+            <label for="module_xopgi_proper_currency"/>
+          </div>
         </xpath>
       </field>
     </record>

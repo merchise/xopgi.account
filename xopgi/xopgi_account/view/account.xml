@@ -41,34 +41,6 @@
         <xpath expr="//tree/field[@name='date_maturity']" position="attributes">
           <attribute name="invisible">True</attribute>
         </xpath>
-        <xpath expr="//tree/field[@name='currency_id']" position="replace" />
-        <xpath expr="//tree/field[@name='account_id']" position="after">
-          <field name="currency_debit"
-                 string="Debit (line currency)"
-                 sum=""
-                 on_change="recalculate(account_id, currency_debit, currency_credit, currency_id, context)"
-                 context="{'parent_date': parent.date}"/>
-          <field name="currency_credit"
-                 string="Credit (line currency)"
-                 sum=""
-                 on_change="recalculate(account_id, currency_debit, currency_credit, currency_id, context)"
-                 context="{'parent_date': parent.date}"/>
-          <field name="currency_id"
-                 on_change="recalculate(account_id, currency_debit, currency_credit, currency_id, context)"
-                 context="{'parent_date': parent.date}"/>
-        </xpath>
-        <xpath expr="//tree/field[@name='debit']" position="replace">
-          <field name="debit" sum="" string="Debit (base currency)"
-                 readonly="True"/>
-        </xpath>
-        <xpath expr="//tree/field[@name='credit']" position="replace">
-          <field name="credit" sum="" string="Credit (base currency)"
-                 readonly="True"/>
-        </xpath>
-        <xpath expr="//tree/field[@name='amount_currency']"
-               position="attributes">
-          <attribute name="invisible">True</attribute>
-        </xpath>
         <xpath expr="//tree/field[@name='state']" position="attributes">
           <attribute name="invisible">True</attribute>
         </xpath>
@@ -92,22 +64,6 @@
         </field>
         <field name="account_tax_id" position="attributes">
           <attribute name="invisible">True</attribute>
-        </field>
-        <field name="account_id" position="after">
-          <field groups="base.group_multi_currency"
-                 name="currency_debit"
-                 sum="Total debit. ** Only valid if grouped by currency!"/>
-          <field groups="base.group_multi_currency"
-                 name="currency_credit"
-                 sum="Total credit. ** Only valid if grouped by currency!"/>
-          <field groups="base.group_multi_currency"
-                 name="currency_id" options="{'no_open': True}"/>
-        </field>
-        <field name="debit" position="attributes">
-          <attribute name="readonly">True</attribute>
-        </field>
-        <field name="credit" position="attributes">
-          <attribute name="readonly">True</attribute>
         </field>
         <field name="date_maturity" position="attributes" >
           <attribute name="invisible">True</attribute>

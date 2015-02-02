@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # xopgi.xopgi.xopgi_account.chart
 # ---------------------------------------------------------------------
-# Copyright (c) 2013, 2014 Merchise Autrement
+# Copyright (c) 2013-2015 Merchise Autrement
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -28,7 +28,9 @@ from xoeuf.osv.orm import get_modelname
 class account_chart(TransientModel):
     '''Wizard for "Chart of Accounts".
 
-    Minor usability fixes.
+    Minor usability fixes:
+
+    - Limit the periods to those of the selected company.
 
     '''
     _name = get_modelname(base_account.wizard.account_chart.account_chart)

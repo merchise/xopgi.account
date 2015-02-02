@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-#----------------------------------------------------------------------
+# ---------------------------------------------------------------------
 # xopgi.xopgi.xopgi_account.statement
-#----------------------------------------------------------------------
-# Copyright (c) 2013, 2014 Merchise Autrement
+# ---------------------------------------------------------------------
+# Copyright (c) 2013-2015 Merchise Autrement
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -20,6 +20,7 @@ from openerp.osv.orm import Model
 import openerp.addons.account.account_bank_statement as base
 
 from xoeuf.osv.orm import get_modelname
+
 
 class account_bank_statement(Model):
     '''An account bank statement.

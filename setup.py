@@ -53,7 +53,6 @@ setup(name=project_name,
           'xoeuf',
           'xoutil',
           'six',
-          'openerp',
       ],
       entry_points="""
       [xoeuf.addons]

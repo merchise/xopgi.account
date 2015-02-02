@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # xopgi_normal_balance.account
 # ---------------------------------------------------------------------
-# Copyright (c) 2014 Merchise Autrement and Contributors
+# Copyright (c) 2014, 2015 Merchise Autrement and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the

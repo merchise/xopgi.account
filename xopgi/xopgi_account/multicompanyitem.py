@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-#----------------------------------------------------------------------
+# ---------------------------------------------------------------------
 # xopgi.xopgi.xopgi_account.journal
-#----------------------------------------------------------------------
-# Copyright (c) 2013, 2014 Merchise Autrement
+# ---------------------------------------------------------------------
+# Copyright (c) 2013-2015 Merchise Autrement
 # All rights reserved.
 #
 #
@@ -23,6 +23,11 @@ import openerp.addons.account.account as base_account
 
 from xoeuf.osv.orm import get_modelname
 
+try:
+    from openerp.api import guess
+except ImportError:
+    guess = lambda f: f
+
 
 def _get_initials(name):
     return ''.join(word[0].upper() for word in name.split())
@@ -36,6 +41,7 @@ class MultiCompanyItem(object):
     .. important:: You should place this class *before* Model.
 
     '''
+    @guess
     def name_get(self, cr, uid, ids, context=None):
         '''Adds the Company's Initial to each journal name.
 

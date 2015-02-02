@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # xopgi_account.config
 # ---------------------------------------------------------------------
-# Copyright (c) 2014 Merchise Autrement and Contributors
+# Copyright (c) 2014, 2015 Merchise Autrement and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -32,4 +32,12 @@ class AccountConfigSettings(TransientModel):
         'module_xopgi_invisible_conciliation':
             fields.boolean('Hides conciliation columns when editing journal '
                            'items.'),
+
+        'module_xopgi_proper_currency':
+            fields.boolean('Enter foreign currencies in debit/credit '
+                           'columns.'),
+
+        'module_xopgi_holdings':
+            fields.boolean('Manage company holdings.'),
+
     }

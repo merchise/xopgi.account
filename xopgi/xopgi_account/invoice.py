@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-#----------------------------------------------------------------------
+# ---------------------------------------------------------------------
 # xopgi.xopgi.xopgi_account.invoice
-#----------------------------------------------------------------------
-# Copyright (c) 2013, 2014 Merchise Autrement
+# ---------------------------------------------------------------------
+# Copyright (c) 2013-2015 Merchise Autrement
 # All rights reserved.
 #
 #
@@ -28,6 +28,7 @@ class account_invoice_refund(TransientModel):
     '''An invoice refund.
 
     Restricts the journals to those belonging to the selected company.
+
     '''
     _name = get_modelname(base_invoice_refund.account_invoice_refund)
     _inherit = _name
@@ -36,16 +37,17 @@ class account_invoice_refund(TransientModel):
                         context=None, toolbar=False, submenu=False):
         '''The ORM calls this method when the view is being showed.'''
         context = context or {}
-        res = super(account_invoice_refund, self).fields_view_get(cr, uid,
-                        view_id=view_id, view_type=view_type, context=context,
-                        toolbar=toolbar, submenu=submenu)
+        _super = super(account_invoice_refund, self).fields_view_get
+        res = _super(cr, uid,
+                     view_id=view_id, view_type=view_type, context=context,
+                     toolbar=toolbar, submenu=submenu)
         journal = self.pool.get('account.journal')
         company_id = context.get('invoice_company_id', False)
         journals = res['fields'].get('journal_id', {})
         if company_id and journals:
             def current_company_journal(item):
                 journal_id, _name = item
-                cpn = journal.browse(cr, uid, journal_id, context).company_id
+                cpn = journal.browse(cr, uid, journal_id, context=context).company_id
                 return cpn.id == company_id
             journals['selection'] = filter(current_company_journal,
                                            journals['selection'])

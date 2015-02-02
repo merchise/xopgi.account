@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # __openerp__
 # ---------------------------------------------------------------------
-# Copyright (c) 2014 Merchise Autrement and Contributors
+# Copyright (c) 2014, 2015 Merchise Autrement and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -18,10 +18,17 @@
     "author": "Merchise Autrement",
     "website": "http://xopgi.merchise.org/addons/xopgi_account",
     "category": "Accounting",
-    "description": "Accounting",
+    "description": """
+Accounting for Holdings
+=======================
+
+Allows to do accounting for each company controlled by a single holding.  Each
+company does its accounting in its own currency, while the holding
+consolidates the reports.
+
+""",
     "depends": ['xopgi_account'],
-    "init_xml": [],
-    "update_xml": [
+    "data": [
         'view/chart.xml',
     ],
     "demo_xml": [],

@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
-#----------------------------------------------------------------------
+# ---------------------------------------------------------------------
 # xopgi.account.misc
-#----------------------------------------------------------------------
-# Copyright (c) 2014 Merchise Autrement and Contributors
+# ---------------------------------------------------------------------
+# Copyright (c) 2014, 2015 Merchise Autrement and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -29,7 +29,9 @@ class OpenClosedFiscalYear(TransientModel):
     _inherit = "account.open.closed.fiscalyear"
 
     def remove_entries(self, cr, uid, ids, context=None):
-        super(OpenClosedFiscalYear, self).remove_entries(cr, uid, ids, context)
+        super(OpenClosedFiscalYear, self).remove_entries(
+            cr, uid, ids, context=context
+        )
         return {
             'type': 'ir.actions.act_window',
             'view': 'form',

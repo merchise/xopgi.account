@@ -4,14 +4,14 @@
 
 :author: Manuel Vázquez Acosta <manuel@merchise.org>
 
-This document is an **early draft**, meaning that is contents be inaccurate,
-incomplete and thus subject to future changes without notice.
+This document is an **early draft**, meaning that its contents may be
+inaccurate, incomplete and thus subject to future changes without notice.
 
 Introduction
 ============
 
 The purpose of this module is to support accounting tasks for companies
-organized as holdings.  We understand a holding as company that owns another
+organized as holdings.  We understand a holding as a company that owns another
 companies and that manage them (at least to the point needed by the holding)
 in the instance of Odoo.
 
@@ -22,8 +22,8 @@ Reporting of consolidated statements
 ====================================
 
 Both `US GAAP`_ and `IFRS`_ require that when a company invest in another in a
-way the investor has controlling power over the investee, the investor must
-make *consolidated statements*.
+way it has controlling power over the investee, the investor must make
+*consolidated statements*.
 
 Since holdings by our definition has controlling power of its subsidiaries,
 this rule applies.

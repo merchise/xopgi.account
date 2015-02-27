@@ -150,13 +150,34 @@ class account_move_line(Model):
             res += "AND partner_id NOT IN " + str(tuple(partner_ids))
         return res
 
-    # def default_get(self, cr, uid, fields, context=None):
-    #     from xoutil.collections import opendict
-    #     result = super(account_move_line, self).default_get(
-    #         cr, uid, fields, context=context
-    #     )
-    #     result.update(self._calc_currency_debit_credit(opendict(result)))
-    #     return result
+    def default_get(self, cr, uid, fields, context=None):
+        from xoutil import Unset
+        from six import integer_types
+        result = super(account_move_line, self).default_get(
+            cr, uid, fields, context=context
+        )
+        entry_currency = Unset
+        balance = curr_debit = curr_credit = 0
+        move_obj = self.pool['account.move']
+        if context.get('line_id'):
+            lines = move_obj.resolve_2many_commands(cr, uid, 'line_id',
+                                                    context.get('line_id'),
+                                                    context=context)
+            for line in lines:
+                currency_id = line.get('currency_id', None)
+                # XXX: Sometimes is (id, name) and other is id alone.
+                if not isinstance(currency_id, integer_types):
+                    currency_id = currency_id[0]
+                if entry_currency is Unset:
+                    entry_currency = currency_id
+                if entry_currency == currency_id:
+                    curr_debit += line.get('currency_debit', 0)
+                    curr_credit += line.get('currency_credit', 0)
+            balance = curr_debit - curr_credit
+        result.update(currency_debit=-balance if balance < 0 else 0,
+                      currency_credit=balance if balance > 0 else 0,
+                      currency_id=entry_currency if entry_currency else None)
+        return result
 
     def _calc_currency_debit_credit(self, obj, fields=None):
         from xoutil.collections import opendict

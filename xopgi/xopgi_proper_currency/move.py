@@ -145,7 +145,8 @@ class account_move_line(Model):
         result = super(account_move_line, self).default_get(
             cr, uid, fields, context=context
         )
-        entry_currency = Unset
+        default_currency = result.get('currency_id', None)
+        entry_currency = default_currency if default_currency else Unset
         balance = curr_debit = curr_credit = 0
         move_obj = self.pool['account.move']
         if context.get('line_id'):
@@ -163,9 +164,11 @@ class account_move_line(Model):
                     curr_debit += line.get('currency_debit', 0)
                     curr_credit += line.get('currency_credit', 0)
             balance = curr_debit - curr_credit
-        result.update(currency_debit=-balance if balance < 0 else 0,
-                      currency_credit=balance if balance > 0 else 0,
-                      currency_id=entry_currency if entry_currency else None)
+        result.update(
+            currency_debit=-balance if balance < 0 else 0,
+            currency_credit=balance if balance > 0 else 0,
+            currency_id=entry_currency if entry_currency else default_currency
+        )
         return result
 
     def _calc_currency_debit_credit(self, obj, fields=None):

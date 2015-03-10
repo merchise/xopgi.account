@@ -123,6 +123,23 @@ class account_move_line(Model):
     _inherit = _name
 
     def default_get(self, cr, uid, fields, context=None):
+        '''Gets the defaults for debit and credit in proper currency.
+
+        The UI injects the lines in the `context['line_id']`.  We take the
+        first currency to compute the remaining debit/credit balance and
+        propose a balancing item.
+
+        If the same entry has several currencies then this won't work very
+        well, but it is expected that be a rare case.
+
+        .. note:: We don't trying to recompute the debit and credit in base
+           currency since the UI will trigger an onchange to that with the
+           `recalculate`:meth: method.
+
+        .. warning:: We assume both `currency_debit` and `currency_credit` are
+           to be returned.
+
+        '''
         from xoutil import Unset
         from six import integer_types
         result = super(account_move_line, self).default_get(
@@ -137,8 +154,8 @@ class account_move_line(Model):
                                                     context=context)
             for line in lines:
                 currency_id = line.get('currency_id', None)
-                # XXX: Sometimes is (id, name) and other is id alone.
                 if not isinstance(currency_id, integer_types):
+                    # XXX: Sometimes is (id, name) and other is id alone.
                     currency_id = currency_id[0]
                 if entry_currency is Unset:
                     entry_currency = currency_id
@@ -171,11 +188,10 @@ class account_move_line(Model):
         '''Functional getter for `credit` and `debit` fields.
 
         This changes the normal behaviour of a single :class:`journal item
-        <account_move_line>`.
-
-        Instead of having a separate `amount_currency` field when the currency
-        is not the same as the one defined for company, use debit for positive
-        `amount_currency` and credit for negative.
+        <account_move_line>`: Instead of having a separate `amount_currency`
+        field when the currency is not the same as the one defined for
+        company, use debit for positive `amount_currency` and credit for
+        negative.
 
         '''
         from xoutil.types import is_collection
@@ -284,6 +300,9 @@ class account_move_line(Model):
     }
 
 
+# Since the closing entry is made by magical SQL, we need to invoke the
+# computation of functional fields by ourselves.
+
 UPDATE_SQL_TEMPLATE = '''
 UPDATE account_move_line
 SET currency_debit = (
@@ -300,8 +319,6 @@ WHERE id={id};
 '''
 
 
-# Since the closing entry is made by magical SQL, we need to invoke the
-# computation of functional fields by ourselves.
 class account_fiscalyear_close(TransientModel):
     '''Recalculates functional fields for the generated closing entry.'''
     _name = get_modelname(base_fiscalyear_close.account_fiscalyear_close)

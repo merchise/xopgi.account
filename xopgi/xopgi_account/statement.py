@@ -19,6 +19,7 @@ from __future__ import (division as _py3_division,
 from openerp.osv.orm import Model
 import openerp.addons.account.account_bank_statement as base
 
+from six import integer_types
 from xoeuf.osv.orm import get_modelname
 
 
@@ -43,7 +44,12 @@ class account_bank_statement(Model):
         values = res.setdefault('value', {})
         company = values.get('company_id', False)
         if company:
-            company_id = company[0]
+            if not isinstance(company, integer_types):
+                # In Odoo it will the int and not the tuple... Anyways this is
+                # safe in cases you get either the int or the (int, str).
+                company_id = company[0]
+            else:
+                company_id = company
             domain = res.setdefault('domain', {})
             domain['period_id'] = [('company_id', '=', company_id)]
             period_context = dict(context, company_id=company_id)

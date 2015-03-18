@@ -20,14 +20,12 @@
     "category": "Accounting",
     "description": "Accounting",
     "depends": ['account_accountant'],
-    "init_xml": [],
-    "update_xml": [
+    "data": [
         'view/config.xml',
         'view/company.xml',
         'view/account.xml',
         'view/filters.xml',
     ],
-    "demo_xml": [],
     # TODO: [review ~med] Where to place UI enhancements.  Proposal xopgi_ui.
     "css": ["static/css/xopgi_account.css", ],
     "application": False,

@@ -19,7 +19,9 @@
     "website": "http://xopgi.merchise.org/addons/xopgi_account",
     "category": "Hidden",
     "description": "Hides tax column when editing journal items.",
-    "depends": ['account_accountant'],
+    "depends": [
+        'xopgi_account',
+    ],
     "data": [
         'tax.xml',
     ],

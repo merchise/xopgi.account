@@ -23,6 +23,11 @@ dict(
     depends=['xopgi_account'],
     data=[
         'view/moves.xml',
+        (
+            'view/7/moves.xml'
+            if ODOO_VERSION_INFO < (8, 0)  # noqa
+            else 'dummy.xml'
+        ),
     ],
     application=False,
     installable=True,

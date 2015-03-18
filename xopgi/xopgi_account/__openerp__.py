@@ -25,6 +25,7 @@
         'view/company.xml',
         'view/account.xml',
         'view/filters.xml',
+        'view/posting.xml',
     ],
     # TODO: [review ~med] Where to place UI enhancements.  Proposal xopgi_ui.
     "css": ["static/css/xopgi_account.css", ],

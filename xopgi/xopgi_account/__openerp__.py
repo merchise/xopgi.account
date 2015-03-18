@@ -26,6 +26,7 @@
         'view/account.xml',
         'view/filters.xml',
         'view/posting.xml',
+        'static/assets.xml' if ODOO_VERSION_INFO >= (8, 0) else 'dummy.xml',
     ],
     # TODO: [review ~med] Where to place UI enhancements.  Proposal xopgi_ui.
     "css": ["static/css/xopgi_account.css", ],

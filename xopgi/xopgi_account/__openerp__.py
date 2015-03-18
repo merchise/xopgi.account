@@ -26,6 +26,7 @@
         'view/account.xml',
         'view/filters.xml',
         'view/posting.xml',
+        'view/reconcile.xml',
         (
             'static/assets.xml'
             if ODOO_VERSION_INFO >= (8, 0)  # noqa

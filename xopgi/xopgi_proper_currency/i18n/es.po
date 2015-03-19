@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: OpenERP Server 7.0-20150204-105822-a4b753a\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-03-04 23:30+0000\n"
-"PO-Revision-Date: 2015-03-04 18:31-0500\n"
+"PO-Revision-Date: 2015-03-19 09:13-0400\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Haber total. ** ¡Válido sólo cuando se agrupa por moneda!"
 #: view:account.move:0
 #: view:account.move.line:0
 msgid "Credit (line currency)"
-msgstr "Haber (moneda propia)"
+msgstr "Haber (moneda propia)"
 
 #. module: xopgi_proper_currency
 #: view:account.move.line:0

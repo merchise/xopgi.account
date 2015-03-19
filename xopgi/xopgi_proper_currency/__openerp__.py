@@ -14,7 +14,7 @@
 
 dict(
     name='xopgi_proper_currency',
-    version="1.7",
+    version="1.10",
     author="Merchise Autrement",
     website="http://merchise-autrement.gitlab.io/xopgi/",
     category="Hidden",
@@ -23,6 +23,11 @@ dict(
     depends=['xopgi_account'],
     data=[
         'view/moves.xml',
+        (
+            'view/7/moves.xml'
+            if ODOO_VERSION_INFO < (8, 0)  # noqa
+            else 'dummy.xml'
+        ),
     ],
     application=False,
     installable=True,

@@ -1,4 +1,4 @@
 .openerp .oe_form_sheet_width {
   /* Uses most of the screen, so that list with many columns are best aligned */
-  max-width: 90%;
+  max-width: 94%;
 }

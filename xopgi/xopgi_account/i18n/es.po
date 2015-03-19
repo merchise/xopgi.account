@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: OpenERP Server 7.0-20140331-231318\n"
+"Project-Id-Version: OpenERP Server 7.0-20150204-105822-a4b753a\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-21 16:50+0000\n"
-"PO-Revision-Date: 2014-04-21 15:37-0400\n"
+"POT-Creation-Date: 2015-03-04 23:32+0000\n"
+"PO-Revision-Date: 2015-03-04 18:33-0500\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,14 +16,9 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: xopgi_account
-#: view:account.move:0
-msgid "Debit (line currency)"
-msgstr "Deber (moneda propia)"
-
-#. module: xopgi_account
-#: field:account.account,normal_balance:0
-msgid "Normal balance"
-msgstr "Balance normal"
+#: model:ir.ui.menu,name:xopgi_account.menu_custom_multicompany
+msgid "Multi-Companies"
+msgstr "Multi-Compañías"
 
 #. module: xopgi_account
 #: view:account.voucher:0
@@ -36,24 +31,24 @@ msgid "[('type','in',['bank', 'cash']), ('company_id', '=', company_id)]"
 msgstr "[('type','in',['bank', 'cash']), ('company_id', '=', company_id)]"
 
 #. module: xopgi_account
+#: model:ir.model,name:xopgi_account.model_account_config_settings
+msgid "account.config.settings"
+msgstr "Parámetros de configuración contable"
+
+#. module: xopgi_account
 #: model:ir.model,name:xopgi_account.model_account_fiscalyear_close
 msgid "Fiscalyear Close"
 msgstr "Cierre ejercicio fiscal"
 
 #. module: xopgi_account
-#: field:res.currency,rate_silent:0
-msgid "Current Rate"
-msgstr "Tasa actual"
+#: model:ir.model,name:xopgi_account.model_account_open_closed_fiscalyear
+msgid "Choose Fiscal Year"
+msgstr "Seleccione el ejercicio fiscal"
 
 #. module: xopgi_account
-#: model:ir.model,name:xopgi_account.model_account_chart
-msgid "Account chart"
-msgstr "Plan contable"
-
-#. module: xopgi_account
-#: model:ir.ui.menu,name:xopgi_account.menu_custom_multicompany
-msgid "Multi-Companies"
-msgstr "Multi-Compañías"
+#: field:account.config.settings,module_xopgi_invisible_tax:0
+msgid "Hide account tax column when editing journal items."
+msgstr "Hide account tax column when editing journal items."
 
 #. module: xopgi_account
 #: view:account.invoice:0
@@ -71,9 +66,14 @@ msgid "onchange_company()"
 msgstr "onchange_company()"
 
 #. module: xopgi_account
+#: view:multi_company.default:0
+msgid "Multi Company"
+msgstr "Multi compañía"
+
+#. module: xopgi_account
 #: view:account.move:0
-msgid "Debit (base currency)"
-msgstr "Deber (moneda base)"
+msgid "bottom"
+msgstr "bottom"
 
 #. module: xopgi_account
 #: view:account.invoice:0
@@ -86,9 +86,9 @@ msgid "Account period"
 msgstr "Período contable"
 
 #. module: xopgi_account
-#: view:multi_company.default:0
-msgid "Multi Company"
-msgstr "Multi compañía"
+#: field:account.config.settings,module_xopgi_invisible_conciliation:0
+msgid "Hides conciliation columns when editing journal items."
+msgstr "Hides conciliation columns when editing journal items."
 
 #. module: xopgi_account
 #: view:account.account:0
@@ -96,18 +96,9 @@ msgid "Second Currency"
 msgstr "Divisa secundaria"
 
 #. module: xopgi_account
-#: help:account.account,normal_balance:0
-msgid "Identifies the normal balance of the account.  An account has either \"credit\" or \"debit\" normal balance.  An account with credit normal balance increases its value by credits; an account with debit normal balance increases its value by debits."
-msgstr ""
-"Balance normal de la cuenta.  Una cuenta tiene balance normal de crédito o\n"
-"débito.  Una cuenta con balance normal de crédito incrementa su valor por la\n"
-"columna del crédito; una cuenta con balance normal de débito incrementa su\n"
-"valor por la columna del débito (haber)."
-
-#. module: xopgi_account
-#: selection:account.chart,chart_mode:0
-msgid "Aggregate"
-msgstr "Agregado"
+#: model:ir.model,name:xopgi_account.model_account_move_line
+msgid "Journal Items"
+msgstr "Apuntes contables"
 
 #. module: xopgi_account
 #: view:account.move:0
@@ -116,19 +107,9 @@ msgid "True"
 msgstr "Verdadero"
 
 #. module: xopgi_account
-#: view:account.invoice:0
-msgid "Origin"
-msgstr "Origen"
-
-#. module: xopgi_account
 #: model:ir.model,name:xopgi_account.model_account_account
 msgid "Account"
 msgstr "Cuenta"
-
-#. module: xopgi_account
-#: field:account.chart,chart_mode:0
-msgid "Chart mode"
-msgstr "Modo del plan"
 
 #. module: xopgi_account
 #: view:account.invoice:0
@@ -139,6 +120,11 @@ msgstr "Nombre"
 #: model:ir.model,name:xopgi_account.model_account_invoice_refund
 msgid "Invoice Refund"
 msgstr "Abono factura"
+
+#. module: xopgi_account
+#: model:ir.model,name:xopgi_account.model_account_chart
+msgid "Account chart"
+msgstr "Plan contable"
 
 #. module: xopgi_account
 #: view:account.account:0
@@ -161,11 +147,6 @@ msgid "{\"no_open\":True}"
 msgstr "{\"no_open\":True}"
 
 #. module: xopgi_account
-#: view:account.move:0
-msgid "Credit (base currency)"
-msgstr "Haber (moneda base)"
-
-#. module: xopgi_account
 #: view:account.invoice:0
 #: view:account.voucher:0
 msgid "False"
@@ -177,14 +158,9 @@ msgid "Default Company per Object"
 msgstr "Compañía por defecto por objeto"
 
 #. module: xopgi_account
-#: help:res.currency,rate_silent:0
-msgid "The rate of the currency to the currency of rate 1 (0 if no rate defined)."
-msgstr "La tasa en relación a la divisa cuya tasa es 1 (0 cuando no hay ninguna tasa definida)."
-
-#. module: xopgi_account
-#: selection:account.chart,chart_mode:0
-msgid "Consolidate"
-msgstr "Consolidado"
+#: view:account.invoice:0
+msgid "Origin"
+msgstr "Origen"
 
 #. module: xopgi_account
 #: view:account.invoice:0
@@ -195,20 +171,6 @@ msgstr "Reintegrar factura"
 #: model:ir.model,name:xopgi_account.model_account_move
 msgid "Account Entry"
 msgstr "Asiento contable"
-
-#. module: xopgi_account
-#: help:account.chart,chart_mode:0
-msgid "You may select \"Aggregate\" for standard chart: ie. all journal items are displayed. Consolidated charts exclude journal items between companies of the same holding. Use the \"Consolidate\" only for Holdings."
-msgstr ""
-"Puede selectionar \"Agregado\" para obtener el plan estándar, es decir, todos\n"
-"los apuntes son utilizados para obtener los totales.  El plan consolidado\n"
-"excluye los apuntes que se hacen entre compañías del mismo holding.  Use\n"
-"\"Consolidado\" sólo para ver el plan contable del Holding."
-
-#. module: xopgi_account
-#: view:account.move.line:0
-msgid "Total credit. ** Only valid if grouped by currency!"
-msgstr "Haber total. ** ¡Válido sólo cuando se agrupa por moneda!"
 
 #. module: xopgi_account
 #: model:ir.model,name:xopgi_account.model_account_voucher
@@ -232,11 +194,6 @@ msgid "Bank Statement"
 msgstr "Extracto bancario"
 
 #. module: xopgi_account
-#: view:account.move:0
-msgid "Credit (line currency)"
-msgstr "Haber (moneda propia)"
-
-#. module: xopgi_account
 #: view:account.account:0
 #: view:account.invoice:0
 #: view:account.move.line:0
@@ -245,9 +202,9 @@ msgid "Currency"
 msgstr "Divisa"
 
 #. module: xopgi_account
-#: view:account.move.line:0
-msgid "Total debit. ** Only valid if grouped by currency!"
-msgstr "Deber total. ** ¡Válido sólo cuando se agrupa por monedas!"
+#: field:account.config.settings,module_xopgi_proper_currency:0
+msgid "Enter foreign currencies in debit/credit columns."
+msgstr "Enter foreign currencies in debit/credit columns."
 
 #. module: xopgi_account
 #: field:account.voucher.line,invoice:0
@@ -265,11 +222,11 @@ msgid "Partner"
 msgstr "Empresa"
 
 #. module: xopgi_account
+#: field:account.config.settings,module_xopgi_holdings:0
+msgid "Manage company holdings."
+msgstr "Manage company holdings."
+
+#. module: xopgi_account
 #: model:ir.model,name:xopgi_account.model_account_journal
 msgid "Journal"
 msgstr "Diario"
-
-#. module: xopgi_account
-#: model:ir.model,name:xopgi_account.model_account_move_line
-msgid "Journal Items"
-msgstr "Apuntes contables"

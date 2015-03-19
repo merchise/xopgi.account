@@ -14,12 +14,14 @@
 
 {
     "name": "xopgi_invisible_tax",
-    "version": "1.7",
+    "version": "1.10",
     "author": "Merchise Autrement",
     "website": "http://xopgi.merchise.org/addons/xopgi_account",
     "category": "Hidden",
     "description": "Hides tax column when editing journal items.",
-    "depends": ['account_accountant'],
+    "depends": [
+        'xopgi_account',
+    ],
     "data": [
         'tax.xml',
     ],

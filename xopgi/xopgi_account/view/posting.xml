@@ -6,6 +6,7 @@
     <act_window
 	id="action_confirm_post"
 	multi="True"
+	key2="client_action_multi"
 	name="Post moves"
 	res_model="xopgi.account.move.confirm"
 	src_model="account.move"

@@ -14,7 +14,7 @@
 
 {
     "name": "Accounting (extended - xopgi)",
-    "version": "1.10",
+    "version": "1.11",
     "author": "Merchise Autrement",
     "website": "http://xopgi.merchise.org/addons/xopgi_account",
     "category": "Accounting",

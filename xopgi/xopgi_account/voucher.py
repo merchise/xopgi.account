@@ -57,6 +57,9 @@ class account_voucher(Model):
 
         This method is called by the OpenERP's voucher addon, specifically in
         the onchange_amount, and onchange_partner_id.
+
+        It also cleans amount assignment cause it's more usable.
+
         '''
         res = super(account_voucher, self).recompute_voucher_lines(
             cr, uid,
@@ -67,7 +70,11 @@ class account_voucher(Model):
         for line in res['value']['line_cr_ids']:
             origin = ml.browse(cr, uid, line['move_line_id']).invoice.origin
             line['invoice'] = origin or ''
+            line['reconcile'] = False
+            line['amount'] = 0
         for line in res['value']['line_dr_ids']:
             origin = ml.browse(cr, uid, line['move_line_id']).invoice.origin
             line['invoice'] = origin or ''
+            line['reconcile'] = False
+            line['amount'] = 0
         return res

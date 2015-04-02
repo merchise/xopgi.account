@@ -68,18 +68,12 @@ class account_voucher(Model):
             currency_id, ttype, date, context
         )
         ml = self.pool['account.move.line']
-        vlines = res['value']['line_cr_ids']
-        ids = [vl['move_line_id'] for vl in vlines]
-        for line, mline in zip(vlines, ml.browse(cr, uid, ids)):
-            origin = mline.invoice.origin
-            line['invoice'] = origin or ''
-            line['reconcile'] = False
-            line['amount'] = 0
-        vlines = res['value']['line_dr_ids']
-        ids = [vl['move_line_id'] for vl in vlines]
-        for line, mline in zip(vlines, ml.browse(cr, uid, ids)):
-            origin = mline.invoice.origin
-            line['invoice'] = origin or ''
-            line['reconcile'] = False
-            line['amount'] = 0
+        for which in ('line_cr_ids', 'line_dr_ids'):
+            vlines = res['value'][which]
+            ids = [vl['move_line_id'] for vl in vlines]
+            for line, mline in zip(vlines, ml.browse(cr, uid, ids)):
+                origin = mline.invoice.origin
+                line['invoice'] = origin or ''
+                line['reconcile'] = False
+                line['amount'] = 0
         return res

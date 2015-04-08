@@ -74,6 +74,4 @@ class account_voucher(Model):
             for line, mline in zip(vlines, ml.browse(cr, uid, ids)):
                 origin = mline.invoice.origin
                 line['invoice'] = origin or ''
-                line['reconcile'] = False
-                line['amount'] = 0
         return res

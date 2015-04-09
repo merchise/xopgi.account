@@ -65,7 +65,7 @@ class account_voucher(Model):
         res = super(account_voucher, self).recompute_voucher_lines(
             cr, uid,
             ids, partner_id, journal_id, price,
-            currency_id, ttype, date, context
+            currency_id, ttype, date, context=context
         )
         ml = self.pool['account.move.line']
         for which in ('line_cr_ids', 'line_dr_ids'):
@@ -74,6 +74,4 @@ class account_voucher(Model):
             for line, mline in zip(vlines, ml.browse(cr, uid, ids)):
                 origin = mline.invoice.origin
                 line['invoice'] = origin or ''
-                line['reconcile'] = False
-                line['amount'] = 0
         return res

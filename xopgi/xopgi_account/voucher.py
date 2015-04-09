@@ -65,7 +65,7 @@ class account_voucher(Model):
         res = super(account_voucher, self).recompute_voucher_lines(
             cr, uid,
             ids, partner_id, journal_id, price,
-            currency_id, ttype, date, context
+            currency_id, ttype, date, context=context
         )
         ml = self.pool['account.move.line']
         for which in ('line_cr_ids', 'line_dr_ids'):

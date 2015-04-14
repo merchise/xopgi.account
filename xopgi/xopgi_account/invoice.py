@@ -35,7 +35,7 @@ class account_invoice_refund(TransientModel):
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,
                         context=None, toolbar=False, submenu=False):
-        '''The ORM calls this method when the view is being showed.'''
+        '''The ORM calls this method when the view is being shown.'''
         context = context or {}
         _super = super(account_invoice_refund, self).fields_view_get
         res = _super(cr, uid,

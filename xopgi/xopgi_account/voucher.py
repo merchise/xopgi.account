@@ -70,7 +70,11 @@ class account_voucher(Model):
         ml = self.pool['account.move.line']
         for which in ('line_cr_ids', 'line_dr_ids'):
             vlines = res['value'][which]
-            ids = [vl['move_line_id'] for vl in vlines]
+            ids = [vl['move_line_id']
+                   for vl in vlines
+                   # In some cases the vl may hold a "command" tuple for
+                   # removing lines.
+                   if isinstance(vl, dict)]
             for line, mline in zip(vlines, ml.browse(cr, uid, ids)):
                 origin = mline.invoice.origin
                 line['invoice'] = origin or ''

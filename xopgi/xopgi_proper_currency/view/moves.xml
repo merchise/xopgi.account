@@ -23,12 +23,10 @@
                  context="{'parent_date': parent.date}"/>
         </xpath>
         <xpath expr="//tree/field[@name='debit']" position="replace">
-          <field name="debit" sum="" string="Debit (base currency)"
-                 readonly="True"/>
+          <field name="debit" sum="" string="Debit (base currency)"/>
         </xpath>
         <xpath expr="//tree/field[@name='credit']" position="replace">
-          <field name="credit" sum="" string="Credit (base currency)"
-                 readonly="True"/>
+          <field name="credit" sum="" string="Credit (base currency)"/>
         </xpath>
         <xpath expr="//tree/field[@name='amount_currency']"
                position="attributes">

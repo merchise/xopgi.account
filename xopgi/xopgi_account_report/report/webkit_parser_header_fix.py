@@ -91,7 +91,6 @@ def mako_template(text):
 
 
 class HeaderFooterTextWebKitParser(webkit_report.WebKitParser):
-
     def generate_pdf(self, comm_path, report_xml, header, footer, html_list,
                      webkit_header=False, parser_instance=False):
         """Call webkit in order to generate pdf"""

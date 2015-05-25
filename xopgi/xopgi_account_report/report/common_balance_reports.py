@@ -26,7 +26,6 @@ from .common_reports import CommonReportHeaderWebkit
 
 
 class CommonBalanceReportHeaderWebkit(CommonReportHeaderWebkit):
-
     """Define common helper for balance (trial balance, P&L, BS oriented
        financial report"""
 

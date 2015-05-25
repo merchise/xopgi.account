@@ -1,173 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
+  <data>
 
-        <!-- inheriting views from more than 2 differents inherited models like
-        partner.balance.webkit -> account.common.balance.report -> account.common.account.report
-        is not supported so we have to copy paste the same view for partner balance, balance sheet
-          -->
-        <record id="summarize_account_partner_balance_view_webkit" model="ir.ui.view">
-            <field name="name">Summarize Partner Balance</field>
-            <field name="model">partner.balance.webkit</field>
-            <field name="inherit_id" ref="account.account_common_report_view"/>
-            <field name="arch" type="xml">
-                <data>
-                    <xpath expr="//form/label[@string='']" position="replace">
-                        <separator string="Summarize Partner Balance" colspan="4"/>
-                        <label nolabel="1" colspan="4" string="This report is an analysis done by partners, It is a PDF report containing one line per partner representing the cumulative credit balance for each account"/>
-                    </xpath>
-                    <field name="chart_account_id" position='attributes'>
-                        <attribute name="colspan">4</attribute>
-                    </field>
-                    <field name="target_move" position="after">
-                        <newline/>
-                        <field name="result_selection" colspan="4"/>
-                    </field>
-                    <page name="filters" position="after">
-                        <page string="Accounts Filters" name="accounts">
-                            <separator string="Print only" colspan="4"/>
-                            <field name="account_ids" colspan="4" nolabel="1" domain="[('type', 'in', ['receivable', 'payable'])]">
-                                <tree>
-                                    <field name="code"/>
-                                    <field name="name"/>
-                                    <field name="type"/>
-                                    <field name="company_id"/>
-                                </tree>
-                            </field>
-                        </page>
-                        <page string="Partners Filters" name="accounts">
-                            <separator string="Print only" colspan="4"/>
-                            <field name="partner_ids" colspan="4" nolabel="1"/>
-                        </page>
-                        <page string="Layout Options" name="layout_options">
-                            <group colspan="4" col="2">
-                                <field name="amount_currency"/>
-                            </group>
-                        </page>
-                    </page>
+    <!-- inheriting views from more than 2 differents inherited models like
+         partner.balance.webkit -> account.common.balance.report ->
+         account.common.account.report is not supported so we have to copy
+         paste the same view for partner balance, balance sheet
+    -->
+    <record id="summarize_account_partner_balance_view_webkit"
+	    model="ir.ui.view">
+      <field name="name">Summarize Partner Balance</field>
+      <field name="model">partner.balance.webkit</field>
+      <field name="inherit_id" ref="account.account_common_report_view"/>
+      <field name="arch" type="xml">
+	<data>
+	  <xpath expr="//form/label[@string='']" position="replace">
+	    <separator string="Summarize Partner Balance" colspan="4"/>
+	    <label nolabel="1" colspan="4" string="This report is an analysis done by partners, It is a PDF report containing one line per partner representing the cumulative credit balance for each account"/>
+	  </xpath>
+	  <field name="chart_account_id" position='attributes'>
+	    <attribute name="colspan">4</attribute>
+	  </field>
+	  <field name="target_move" position="after">
+	    <newline/>
+	    <field name="result_selection" colspan="4"/>
+	  </field>
+	  <page name="filters" position="after">
+	    <page string="Accounts Filters" name="accounts">
+	      <separator string="Print only" colspan="4"/>
+	      <field name="account_ids" colspan="4"
+		     nolabel="1"
+		     domain="[('type', 'in', ['receivable', 'payable'])]">
+		<tree>
+		  <field name="code"/>
+		  <field name="name"/>
+		  <field name="type"/>
+		  <field name="company_id"/>
+		</tree>
+	      </field>
+	    </page>
+	    <page string="Partners Filters" name="accounts">
+	      <separator string="Print only" colspan="4"/>
+	      <field name="partner_ids" colspan="4" nolabel="1"/>
+	    </page>
+	    <page string="Layout Options" name="layout_options">
+	      <group colspan="4" col="2">
+		<field name="amount_currency"/>
+	      </group>
+	    </page>
+	  </page>
 
-                    <page name="journal_ids" position="attributes">
-                        <attribute name="invisible">True</attribute>
-                    </page>
-                    <page name="filters" position="attributes">
-                        <attribute name="string">Time Filters</attribute>
-                    </page>
-                    <field name="period_from" position="attributes">
-                        <attribute name="domain">[('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]</attribute>
-                    </field>
-                    <field name="period_to" position="attributes">
-                        <attribute name="domain">[('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]</attribute>
-                    </field>
-                    <field name="fiscalyear_id" position="attributes">
-                        <attribute name="attrs">{'required': [('filter', '=', 'filter_opening')]}</attribute>
-                    </field>
-                </data>
-            </field>
-        </record>
+	  <page name="journal_ids" position="attributes">
+	    <attribute name="invisible">True</attribute>
+	  </page>
+	  <page name="filters" position="attributes">
+	    <attribute name="string">Time Filters</attribute>
+	  </page>
+	  <field name="period_from" position="attributes">
+	    <attribute name="domain">[('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]</attribute>
+	  </field>
+	  <field name="period_to" position="attributes">
+	    <attribute name="domain">[('fiscalyear_id', '=', fiscalyear_id), ('special', '=', False)]</attribute>
+	  </field>
+	  <field name="fiscalyear_id" position="attributes">
+	    <attribute name="attrs">{'required': [('filter', '=', 'filter_opening')]}</attribute>
+	  </field>
+	</data>
+      </field>
+    </record>
 
-            <!--<field name="arch" type="xml">-->
-            <!--<form string="Report Options">-->
-                <!--<separator string="Summarize Partner Balance" colspan="4"/>-->
-                <!--<label nolabel="1" colspan="4" string="This report is an analysis done by partners, It is a PDF report containing one line per partner representing the cumulative credit balance for each account"/>-->
-                <!--<group col="4">-->
-                   <!--<field name="chart_account_id" widget='selection' on_change="onchange_chart_id(chart_account_id, context)">-->
-                      <!--<attribute name="colspan">4</attribute>-->
-                   <!--</field>-->
-                   <!--<field name="company_id" invisible="1"/>-->
-                   <!--<field name="fiscalyear_id" domain="[('company_id','=',company_id)]"/>-->
-                   <!--<field name="target_move" widget="radio" nolable="1"/>-->
-                      <!--<newline/>-->
-                   <!--<field name="result_selection" colspan="4"/>-->
-                <!--</group>-->
-                <!--<notebook tabpos="up" colspan="4">-->
-                    <!--<page string="Filters" name="filters">-->
-                        <!--<group col="4">-->
-                            <!--<field name="filter" on_change="onchange_filter(filter, fiscalyear_id)" widget="radio" nolabel="1"/>-->
-                        <!--</group>-->
-                        <!--<group string="Dates"  attrs="{'invisible':[('filter', '!=', 'filter_date')], 'required':[('filter', '=', 'filter_date')]}">-->
-                            <!--<field name="date_from" />-->
-                            <!--<field name="date_to" />-->
-                        <!--</group>-->
-                        <!--<group string="Periods" attrs="{'invisible':[('filter','!=','filter_period')], 'required':[('filter', '=', 'filter_period')]}">-->
-                            <!--<field name="period_from" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>-->
-                            <!--<field name="period_to" domain="[('fiscalyear_id', '=', fiscalyear_id)]"/>-->
-                        <!--</group>-->
-                    <!--</page>-->
-                    <!--<page string="Accounts Filters" name="accounts">-->
-                            <!--<separator string="Print only" colspan="4"/>-->
-                            <!--<field name="account_ids" colspan="4" nolabel="1" domain="[('type', 'in', ['receivable', 'payable'])]">-->
-                                <!--<tree>-->
-                                    <!--<field name="code"/>-->
-                                    <!--<field name="name"/>-->
-                                    <!--<field name="type"/>-->
-                                    <!--<field name="company_id"/>-->
-                                <!--</tree>-->
-                            <!--</field>-->
-                    <!--</page>-->
-                    <!--<page string="Partners Filters" name="accounts">-->
-                            <!--<separator string="Print only" colspan="4"/>-->
-                            <!--<field name="partner_ids" colspan="4" nolabel="1"/>-->
-                    <!--</page>-->
-                    <!--<page string="Layout Options" name="layout_options">-->
-                            <!--<group colspan="4" col="2">-->
-                                <!--<field name="amount_currency" />-->
-                            <!--</group>-->
-                    <!--</page>-->
-                    <!--<page string="Journals" name="journal_ids">-->
-                        <!--<field name="journal_ids"/>-->
-                    <!--</page>-->
-                <!--</notebook>-->
-                <!--<footer>-->
-                    <!--<button name="check_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>-->
-                    <!--or-->
-                    <!--<button string="Cancel" class="oe_link" special="cancel" />-->
-                <!--</footer>-->
-            <!--</form>-->
-            <!--</field>-->
-        <!--</record>-->
+    <record id="action_summarize_account_partner_balance_menu_webkit" model="ir.actions.act_window">
+      <field name="name">Summarize Partner Balance</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">partner.balance.webkit</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="view_id"
+	     ref="summarize_account_partner_balance_view_webkit"/>
+      <field name="target">new</field>
+    </record>
 
-        <record id="action_summarize_account_partner_balance_menu_webkit" model="ir.actions.act_window">
-            <field name="name">Summarize Partner Balance</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">partner.balance.webkit</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="summarize_account_partner_balance_view_webkit"/>
-            <field name="target">new</field>
-        </record>
+    <menuitem icon="STOCK_PRINT" name="Summarize Partner Balance"
+	      parent="account.menu_finance_receivables" action="action_summarize_account_partner_balance_menu_webkit" sequence = "13"
+	      groups="account.group_account_manager,account.group_account_user" id="menu_summarize_account_partner_balance_report_customer"/>
 
-        <menuitem icon="STOCK_PRINT" name="Summarize Partner Balance"
-            parent="account.menu_finance_receivables" action="action_summarize_account_partner_balance_menu_webkit" sequence = "13"
-            groups="account.group_account_manager,account.group_account_user" id="menu_summarize_account_partner_balance_report_customer"/>
+    <menuitem icon="STOCK_PRINT" name="Summarize Partner Balance"
+	      parent="account.menu_finance_payables" action="action_summarize_account_partner_balance_menu_webkit" sequence = "13"
+	      groups="account.group_account_manager,account.group_account_user" id="menu_summarize_account_partner_balance_report_supplier"/>
 
-        <menuitem icon="STOCK_PRINT" name="Summarize Partner Balance"
-            parent="account.menu_finance_payables" action="action_summarize_account_partner_balance_menu_webkit" sequence = "13"
-            groups="account.group_account_manager,account.group_account_user" id="menu_summarize_account_partner_balance_report_supplier"/>
-
-        <record model="ir.values" id="action_account_partner_balance_values_webkit">
-            <field name="model_id" ref="account.model_account_account"/>
-            <field name="object" eval="1"/>
-            <field name="name">Summarize Partner Balance</field>
-            <field name="key2">client_print_multi</field>
-            <field name="value"
-                eval="'ir.actions.act_window,' +str(ref('action_summarize_account_partner_balance_menu_webkit'))"/>
-            <field name="key">action</field>
-            <field name="model">account.account</field>
-        </record>
+    <record model="ir.values" id="action_account_partner_balance_values_webkit">
+      <field name="model_id" ref="account.model_account_account"/>
+      <field name="object" eval="1"/>
+      <field name="name">Summarize Partner Balance</field>
+      <field name="key2">client_print_multi</field>
+      <field name="value"
+	     eval="'ir.actions.act_window,' +str(ref('action_summarize_account_partner_balance_menu_webkit'))"/>
+      <field name="key">action</field>
+      <field name="model">account.account</field>
+    </record>
 
 
-        <!--parent="account.next_id_22-->
-        <!--
-        <record model="ir.values" id="action_account_partner_balance_values_webkit">
-            <field name="model_id" ref="account.model_account_account"/>
-            <field name="object" eval="1"/>
-            <field name="name">Partner Balance</field>
-            <field name="key2">client_print_multi</field>
-            <field name="value"
-                eval="'ir.actions.act_window,' +str(ref('action_account_partner_balance_menu_webkit'))"/>
-            <field name="key">action</field>
-            <field name="model">account.account</field>
-        </record>
-		-->
-    </data>
+    <!--parent="account.next_id_22-->
+    <!--
+	<record model="ir.values" id="action_account_partner_balance_values_webkit">
+	<field name="model_id" ref="account.model_account_account"/>
+	<field name="object" eval="1"/>
+	<field name="name">Partner Balance</field>
+	<field name="key2">client_print_multi</field>
+	<field name="value"
+	eval="'ir.actions.act_window,' +str(ref('action_account_partner_balance_menu_webkit'))"/>
+	<field name="key">action</field>
+	<field name="model">account.account</field>
+	</record>
+    -->
+  </data>
 </openerp>

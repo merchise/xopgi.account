@@ -35,7 +35,6 @@ MAX_MONSTER_SLICE = 50000
 
 
 class CommonReportHeaderWebkit(common_report_header):
-
     """Define common helper for financial report"""
 
     ######################################################################

@@ -21,7 +21,7 @@
     "description": "Accounting",
     "depends": ['account', 'report_webkit'],
     "data": [
-		'data/financial_webkit_header.xml',
+        'data/financial_webkit_header.xml',
         'report/report.xml',
         'view/summarize_partner_balance_wizard_view.xml'
     ],

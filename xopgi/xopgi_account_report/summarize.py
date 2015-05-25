@@ -18,26 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import time
-
 from openerp.osv import fields, orm
 
 
 class SummarizeAccountPartnerBalanceWizard(orm.TransientModel):
-
     """Will launch partner balance report and pass required args"""
 
     _inherit = "account.common.balance.report"
     _name = "partner.balance.webkit"
-    #_name = "summarize.partners.balance.webkit"
     _description = "Summarize Partner Balance Report"
-
-    # _columns = {
-    #     'amount_currency': fields.boolean("With Currency",
-    #                                       help="It adds the currency column"),
-    #
-    # }
-
 
     _columns = {
         'result_selection': fields.selection(
@@ -55,42 +44,22 @@ class SummarizeAccountPartnerBalanceWizard(orm.TransientModel):
 
     _defaults = {
         'result_selection': 'customer_supplier',
-        'amount_currency' : True,
+        'amount_currency': True,
     }
 
     def pre_print_report(self, cr, uid, ids, data, context=None):
         data = super(SummarizeAccountPartnerBalanceWizard, self).pre_print_report(
             cr, uid, ids, data, context)
-        # if context is None:
-        #     context = {}
-        # # will be used to attach the report on the main account
-        # data['ids'] = [data['form']['chart_account_id']]
-        # vals = self.read(cr, uid, ids,
-        #                  ['amount_currency'],
-        #                  context=context)[0]
-        # data['form'].update(vals)
-
-
-        vals = self.read(cr, uid, ids,
-                         ['result_selection', 'partner_ids', 'amount_currency'],
-                         context=context)[0]
+        vals = self.read(
+            cr, uid, ids,
+            ['result_selection', 'partner_ids', 'amount_currency'],
+            context=context
+        )[0]
         data['form'].update(vals)
-
         return data
 
-
-
-
-
     def _print_report(self, cursor, uid, ids, data, context=None):
-        # we update form with display account value
-        # action = super(SummarizeAccountPartnerBalanceWizard, self)._print_report(cursor, uid, ids, data, context=context)
-        # if context and context.get('summarize', False):
-        #     action['report_name'] = 'summarize_partner_balance_webkit'
-        # return action
-          data = self.pre_print_report(cursor, uid, ids, data, context=context)
-
-          return {'type': 'ir.actions.report.xml',
-                  'report_name': 'summarize_partner_balance_webkit',
-                  'datas': data}
-
+        data = self.pre_print_report(cursor, uid, ids, data, context=context)
+        return {'type': 'ir.actions.report.xml',
+                'report_name': 'summarize_partner_balance_webkit',
+                'datas': data}

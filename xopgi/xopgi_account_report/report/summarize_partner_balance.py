@@ -26,14 +26,13 @@ from openerp import pooler
 from openerp.report import report_sxw
 from openerp.tools.translate import _
 from openerp.addons.xopgi_account_report.report.common_partner_balance_reports \
-      import CommonPartnerBalanceReportHeaderWebkit
+    import CommonPartnerBalanceReportHeaderWebkit
 from openerp.addons.xopgi_account_report.report.webkit_parser_header_fix \
-     import HeaderFooterTextWebKitParser
+    import HeaderFooterTextWebKitParser
 
 
 class summarize_partner_balance_webkit(report_sxw.rml_parse,
                                        CommonPartnerBalanceReportHeaderWebkit):
-
     def __init__(self, cursor, uid, name, context):
         super(summarize_partner_balance_webkit, self).__init__(
             cursor, uid, name, context=context)
@@ -89,13 +88,13 @@ class summarize_partner_balance_webkit(report_sxw.rml_parse,
         """Populate a ledger_lines attribute on each browse record that will
             be used by mako template"""
         objects, new_ids, context_report_values = self.compute_partner_balance_data(data)
-
         self.localcontext.update(context_report_values)
         return super(summarize_partner_balance_webkit, self).set_context(
             objects, data, new_ids, report_type=report_type)
 
 HeaderFooterTextWebKitParser(
-   'report.summarize_partner_balance_webkit',
-   'account.account',
-   'addons/xopgi_account_report/report/templates/summarize_account_report_partner_balance.mako',
-   parser=summarize_partner_balance_webkit)
+    'report.summarize_partner_balance_webkit',
+    'account.account',
+    'addons/xopgi_account_report/report/templates/summarize_account_report_partner_balance.mako',
+    parser=summarize_partner_balance_webkit
+)

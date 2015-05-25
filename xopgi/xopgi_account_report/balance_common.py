@@ -47,7 +47,6 @@ def previous_year_date(date, nb_prev=1):
 
 
 class AccountBalanceCommonWizard(orm.TransientModel):
-
     """Will launch trial balance report and pass required args"""
 
     _inherit = "account.common.account.report"

@@ -24,7 +24,6 @@ from openerp.osv import fields, orm
 
 
 class AccountReportPartnersLedgerWizard(orm.TransientModel):
-
     """Will launch partner ledger report and pass required args"""
 
     _inherit = "account.common.partner.report"

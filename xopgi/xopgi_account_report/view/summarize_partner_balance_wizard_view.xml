@@ -3,13 +3,13 @@
   <data>
 
     <!-- inheriting views from more than 2 differents inherited models like
-         partner.balance.webkit -> account.common.balance.report ->
-         account.common.account.report is not supported so we have to copy
-         paste the same view for partner balance, balance sheet
+	 partner.balance.webkit -> account.common.balance.report ->
+	 account.common.account.report is not supported so we have to copy
+	 paste the same view for partner balance, balance sheet
     -->
     <record id="summarize_account_partner_balance_view_webkit"
 	    model="ir.ui.view">
-      <field name="name">Summarize Partner Balance</field>
+      <field name="name">Receivables</field>
       <field name="model">partner.balance.webkit</field>
       <field name="inherit_id" ref="account.account_common_report_view"/>
       <field name="arch" type="xml">
@@ -69,8 +69,9 @@
       </field>
     </record>
 
-    <record id="action_summarize_account_partner_balance_menu_webkit" model="ir.actions.act_window">
-      <field name="name">Summarize Partner Balance</field>
+    <record id="action_summarize_account_partner_balance_menu_webkit"
+	    model="ir.actions.act_window">
+      <field name="name">Receivables</field>
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">partner.balance.webkit</field>
       <field name="view_type">form</field>
@@ -80,38 +81,30 @@
       <field name="target">new</field>
     </record>
 
-    <menuitem icon="STOCK_PRINT" name="Summarize Partner Balance"
-	      parent="account.menu_finance_receivables" action="action_summarize_account_partner_balance_menu_webkit" sequence = "13"
-	      groups="account.group_account_manager,account.group_account_user" id="menu_summarize_account_partner_balance_report_customer"/>
+    <menuitem name="Receivables"
+	      parent="account.menu_finance_receivables"
+	      action="action_summarize_account_partner_balance_menu_webkit"
+	      sequence="13"
+	      groups="account.group_account_manager,account.group_account_user"
+	      id="menu_summarize_account_partner_balance_report_customer"/>
 
-    <menuitem icon="STOCK_PRINT" name="Summarize Partner Balance"
-	      parent="account.menu_finance_payables" action="action_summarize_account_partner_balance_menu_webkit" sequence = "13"
-	      groups="account.group_account_manager,account.group_account_user" id="menu_summarize_account_partner_balance_report_supplier"/>
+    <menuitem name="Payables"
+	      parent="account.menu_finance_payables"
+	      action="action_summarize_account_partner_balance_menu_webkit"
+	      sequence="13"
+	      groups="account.group_account_manager,account.group_account_user"
+	      id="menu_summarize_account_partner_balance_report_supplier"/>
 
-    <record model="ir.values" id="action_account_partner_balance_values_webkit">
+    <record model="ir.values"
+	    id="action_account_partner_balance_values_webkit">
       <field name="model_id" ref="account.model_account_account"/>
       <field name="object" eval="1"/>
-      <field name="name">Summarize Partner Balance</field>
+      <field name="name">Receivables/Payables</field>
       <field name="key2">client_print_multi</field>
       <field name="value"
 	     eval="'ir.actions.act_window,' +str(ref('action_summarize_account_partner_balance_menu_webkit'))"/>
       <field name="key">action</field>
       <field name="model">account.account</field>
     </record>
-
-
-    <!--parent="account.next_id_22-->
-    <!--
-	<record model="ir.values" id="action_account_partner_balance_values_webkit">
-	<field name="model_id" ref="account.model_account_account"/>
-	<field name="object" eval="1"/>
-	<field name="name">Partner Balance</field>
-	<field name="key2">client_print_multi</field>
-	<field name="value"
-	eval="'ir.actions.act_window,' +str(ref('action_account_partner_balance_menu_webkit'))"/>
-	<field name="key">action</field>
-	<field name="model">account.account</field>
-	</record>
-    -->
   </data>
 </openerp>

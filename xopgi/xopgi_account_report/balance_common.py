@@ -50,20 +50,23 @@ class AccountBalanceCommonWizard(orm.TransientModel):
                          ('filter_period', 'Periods'),
                          ('filter_opening', 'Opening Only')]
 
-    M2O_DYNAMIC_FIELDS = [f % index for f in ["comp%s_fiscalyear_id",
-                                              "comp%s_period_from",
-                                              "comp%s_period_to"]
-                          for index in range(COMPARISON_LEVEL)]
-    SIMPLE_DYNAMIC_FIELDS = [f % index for f in ["comp%s_filter",
-                                                 "comp%s_date_from",
-                                                 "comp%s_date_to"]
-                             for index in range(COMPARISON_LEVEL)]
+    M2O_DYNAMIC_FIELDS = [
+        f % index
+        for f in ["comp%s_fiscalyear_id", "comp%s_period_from",
+                  "comp%s_period_to"]
+        for index in range(COMPARISON_LEVEL)
+    ]
+    SIMPLE_DYNAMIC_FIELDS = [
+        f % index
+        for f in ["comp%s_filter", "comp%s_date_from", "comp%s_date_to"]
+        for index in range(COMPARISON_LEVEL)
+    ]
     DYNAMIC_FIELDS = M2O_DYNAMIC_FIELDS + SIMPLE_DYNAMIC_FIELDS
 
     def _get_account_ids(self, cr, uid, context=None):
         res = False
-        if context.get('active_model', False) == 'account.account' \
-                and context.get('active_ids', False):
+        if context.get('active_model') == 'account.account' \
+                and context.get('active_ids'):
             res = context['active_ids']
         return res
 

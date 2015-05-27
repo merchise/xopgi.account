@@ -25,7 +25,6 @@
         'report/report.xml',
         'view/summarize_partner_balance_wizard_view.xml'
     ],
-    # TODO: [review ~med] Where to place UI enhancements.  Proposal xopgi_ui.
     "application": False,
     "installable": True,
 }

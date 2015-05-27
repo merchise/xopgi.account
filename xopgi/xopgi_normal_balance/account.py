@@ -64,11 +64,6 @@ class xopgi_account_account(Model):
 
     - "credit" for liabilities, equity and income.
 
-    .. [#cuba] En Cuba se utiliza la terminología «Cuenta acreedora» para una
-       cuenta con balance normal por créditos («credit normal balance») y
-       «Cuenta deudora» para una cuenta con balance normal por débitos («debit
-       normal balance»).
-
     '''
     _name = get_modelname(base_account.account.account_account)
     _inherit = _name

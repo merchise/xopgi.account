@@ -23,6 +23,7 @@ dict(
     depends=['xopgi_account'],
     data=[
         'view/moves.xml',
+        'view/invoices.xml',
     ],
     application=False,
     installable=True,

@@ -27,20 +27,7 @@
         'view/filters.xml',
         'view/posting.xml',
         'view/reconcile.xml',
-        (
-            'view/7/account.xml'
-            if ODOO_VERSION_INFO < (8, 0)  # noqa
-            else 'dummy.xml'
-        ),
-        (
-            'static/assets.xml'
-            if ODOO_VERSION_INFO >= (8, 0)  # noqa
-            else 'dummy.xml'
-        ),
     ],
-    # TODO: [review ~med] Where to place UI enhancements.  Proposal xopgi_ui.
-    "css": ["static/src/css/xopgi_account.css", ],
-    "js": ["static/src/js/reconciliation.js"],
     "application": False,
     "installable": True,
 }

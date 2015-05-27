@@ -1,24 +1,17 @@
+#!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-##############################################################################
+# ---------------------------------------------------------------------
+# common_partner_reports
+# ---------------------------------------------------------------------
+# Copyright (c) 2015 Merchise Autrement and Contributors
+# All rights reserved.
 #
-#    Author: Nicolas Bessi, Guewen Baconnier
-#    Copyright Camptocamp SA 2011
-#    SQL inspired from OpenERP original code
+# This is free software; you can redistribute it and/or modify it under the
+# terms of the LICENCE attached (see LICENCE file) in the distribution
+# package.
 #
-#    This program is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as
-#    published by the Free Software Foundation, either version 3 of the
-#    License, or (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# Created on 2015-05-27
+
 # TODO refactor helper in order to act more like mixin
 # By using properties we will have a more simple signature in fuctions
 

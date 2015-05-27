@@ -20,14 +20,17 @@ from openerp.osv import fields, orm
 from openerp.tools.translate import _
 
 
-def previous_year_date(date, nb_prev=1):
-    if not date:
+def previous_year_date(date, nb=1):
+    'Return the same date `nb` years back.'
+    from xoeuf.tools import normalize_date
+    if date:
+        parsed_date = normalize_date(date)
+        previous_date = datetime(year=parsed_date.year - nb,
+                                 month=parsed_date.month,
+                                 day=parsed_date.day)
+        return previous_date
+    else:
         return False
-    parsed_date = datetime.strptime(date, '%Y-%m-%d')
-    previous_date = datetime(year=parsed_date.year - nb_prev,
-                             month=parsed_date.month,
-                             day=parsed_date.day)
-    return previous_date
 
 
 class AccountBalanceCommonWizard(orm.TransientModel):

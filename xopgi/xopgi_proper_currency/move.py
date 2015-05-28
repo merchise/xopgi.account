@@ -180,10 +180,18 @@ class account_move_line(Model):
         # currency_id may be unset, and we default to do nothing.
         if getattr(obj, 'currency_id', None):
             value = obj.amount_currency
+            # Notice: currency_debit should only have a value if the value is
+            # bigger than 0, and currency_credit should only have a value if
+            # it's less that 0. Otherwise they'll always get the same value,
+            # and only ONE of them should have a value, that's why we need the
+            # conditions.
             if value > 0:
                 result['currency_debit'] = value
             else:
                 result['currency_credit'] = -value
+            result['line_amount_currency'] = value
+        else:
+            result['line_amount_currency'] = obj.debit - obj.credit
         return result
 
     def _get_currency_credit_debit(self, cr, uid, ids, fields, arg,
@@ -201,20 +209,15 @@ class account_move_line(Model):
         if not is_collection(fields):
             fields = [fields, ]
         result = {}
-        for obj in self.browse(cr, uid, ids, context=context):
-            if obj:
-                result[obj.id] = {}
-                res = self._calc_currency_debit_credit(obj, fields)
+        for line in self.browse(cr, uid, ids, context=context):
+            if line:
+                result[line.id] = {}
+                res = self._calc_currency_debit_credit(line, fields)
                 for field_name in fields:
-                    result[obj.id][field_name] = res.get(field_name, 0)
-                    # Notice: currency_debit should only have a value if the
-                    # value is bigger than 0, and currency_credit should only
-                    # have a value if it's less that 0. Otherwise they'll
-                    # always get the same value, and only ONE of them should
-                    # have a value, that's why we need the conditions.
-                    if not obj.currency_id:
-                        true_field = field_name.split('_')[-1]
-                        result[obj.id][field_name] = getattr(obj, true_field)
+                    result[line.id][field_name] = res.get(field_name, 0)
+                    if not line.currency_id:
+                        true_field = self._columns[field_name]._arg
+                        result[line.id][field_name] = getattr(line, true_field)
         return result
 
     def _set_currency_credit_debit(self, cr, uid, line_id, name, value, arg,
@@ -250,6 +253,13 @@ class account_move_line(Model):
                                                      # error might hunt you
                 return self.write(cr, uid, line_id, to_write, context,
                                   update_check=_update_check)
+
+    def _get_line_currency_amount(self, cr, uid, ids, field, arg,
+                                  context=None):
+        result = {}
+        for line in self.browse(cr, uid, ids, context=context):
+            result[line.id] = line.debit - line.credit
+        return result
 
     def recalculate(self, cr, uid, ids, account_id,
                     debit, credit, currency,
@@ -299,7 +309,13 @@ class account_move_line(Model):
                             fnct_inv=_set_currency_credit_debit,
                             digits_compute=dp.get_precision('Account'),
                             string='Credit',
-                            multi=nameof(_get_currency_credit_debit))
+                            multi=nameof(_get_currency_credit_debit)),
+        'line_currency_amount':
+            fields.function(_get_line_currency_amount,
+                            type='float',
+                            store=_CURRENCY_INVALIDATE_RULE,
+                            arg='amount_currency',
+                            string='Currency Amount',)
     }
 
 

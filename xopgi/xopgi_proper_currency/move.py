@@ -258,7 +258,7 @@ class account_move_line(Model):
                                   context=None):
         result = {}
         for line in self.browse(cr, uid, ids, context=context):
-            result[line.id] = line.debit - line.credit
+            result[line.id] = line.currency_debit - line.currency_credit
         return result
 
     def recalculate(self, cr, uid, ids, account_id,

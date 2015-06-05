@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record model="ir.ui.view" id="view_obligations_graph">
+      <field name="name">account.receivables.graph</field>
+      <field name="model">account.move.line</field>
+      <field name="arch" type="xml">
+	<graph string="Invoices" type="pivot" stacked="True">
+	  <field name="partner_id" type="row"/>
+	  <field name="currency_id" type="col"/>
+	  <field name="account_id" type="col"/>
+	  <field name="line_currency_amount" operator="+"/>
+	</graph>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_receivables_graph">
+      <field name="name">Receivables</field>
+      <field name="res_model">account.move.line</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">graph,tree</field>
+      <field name="view_id" ref="view_obligations_graph"/>
+      <field name="domain">
+	[('account_id.type', '=', 'receivable')]
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_payables_graph">
+      <field name="name">Payables</field>
+      <field name="res_model">account.move.line</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="view_obligations_graph"/>
+      <field name="domain">
+	[('account_id.type', '=', 'payable')]
+      </field>
+    </record>
+
+    <menuitem
+	id="menu_receivables_graph"
+	parent="account.menu_finance_receivables"
+	action="action_receivables_graph"/>
+
+    <menuitem
+	id="menu_payables_graph"
+	parent="account.menu_finance_payables"
+	action="action_payables_graph"/>
+
+  </data>
+</openerp>

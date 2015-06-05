@@ -1,0 +1,33 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* xopgi_account_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-05 14:29+0000\n"
+"PO-Revision-Date: 2015-06-05 10:31-0400\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: xopgi_account_report
+#: view:account.move.line:xopgi_account_report.view_obligations_graph
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: xopgi_account_report
+#: model:ir.actions.act_window,name:xopgi_account_report.action_payables_graph
+#: model:ir.ui.menu,name:xopgi_account_report.menu_payables_graph
+msgid "Payables"
+msgstr "Cuentas por pagar"
+
+#. module: xopgi_account_report
+#: model:ir.actions.act_window,name:xopgi_account_report.action_receivables_graph
+#: model:ir.ui.menu,name:xopgi_account_report.menu_receivables_graph
+msgid "Receivables"
+msgstr "Cuentas por cobrar"

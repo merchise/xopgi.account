@@ -258,7 +258,7 @@ class account_move_line(Model):
                                   context=None):
         result = {}
         for line in self.browse(cr, uid, ids, context=context):
-            result[line.id] = line.debit - line.credit
+            result[line.id] = line.currency_debit - line.currency_credit
         return result
 
     def recalculate(self, cr, uid, ids, account_id,
@@ -322,7 +322,7 @@ class account_move_line(Model):
 # Since the closing entry is made by magical SQL, we need to invoke the
 # computation of functional fields by ourselves.
 
-UPDATE_SQL_TEMPLATE = '''
+UPDATE_SQL_QUERY = '''
 UPDATE account_move_line
 SET currency_debit = (
       CASE WHEN currency_id IS NOT NULL AND amount_currency > 0
@@ -333,8 +333,13 @@ SET currency_debit = (
       CASE WHEN currency_id IS NOT NULL AND amount_currency < 0
            THEN -amount_currency
            ELSE credit
+      END),
+   line_currency_amount = (
+      CASE WHEN currency_id IS NOT NULL
+          THEN amount_currency
+          ELSE debit - credit
       END)
-WHERE id={id};
+WHERE id IN %s;
 '''
 
 
@@ -359,11 +364,9 @@ class account_fiscalyear_close(TransientModel):
         query = [('journal_id', '=', journal_id),
                  ('period_id', '=', period_id)]
         move = search_browse(move_obj, cr, uid, query, context=context)
-        sentences = []
-        for line in move.line_id:
-            sentences.append(UPDATE_SQL_TEMPLATE.format(id=line.id))
-        if sentences:
-            cr.execute(''.join(sentences))
+        ids = tuple(line.id for line in move.line_id)
+        if ids:
+            cr.execute(UPDATE_SQL_QUERY, (ids, ))
         return {
             # Go to the view of the generated entry.
             'type': 'ir.actions.act_window',

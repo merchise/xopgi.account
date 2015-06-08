@@ -14,7 +14,7 @@
 
 dict(
     name='xopgi_proper_currency',
-    version="1.10",
+    version="1.15",
     author="Merchise Autrement",
     website="http://merchise-autrement.gitlab.io/xopgi/",
     category="Hidden",

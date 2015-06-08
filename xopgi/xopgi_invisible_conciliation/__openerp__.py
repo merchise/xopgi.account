@@ -14,7 +14,7 @@
 
 {
     "name": "xopgi_invisible_tax",
-    "version": "1.10",
+    "version": "1.15",
     "author": "Merchise Autrement",
     "website": "http://xopgi.merchise.org/addons/xopgi_account",
     "category": "Hidden",

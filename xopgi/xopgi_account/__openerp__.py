@@ -27,6 +27,7 @@
         'view/filters.xml',
         'view/posting.xml',
         'view/reconcile.xml',
+        'static/assets.xml',
     ],
     "application": False,
     "installable": True,

@@ -40,4 +40,8 @@ class AccountConfigSettings(TransientModel):
         'module_xopgi_holdings':
             fields.boolean('Manage company holdings.'),
 
+        'module_xopgi_account_report':
+            fields.boolean('Add reports for receivables/payables accounts '
+                           'to sales/purchases staff.')
+
     }

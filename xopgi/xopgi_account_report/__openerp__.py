@@ -14,7 +14,7 @@
 
 dict(
     name="Summarize Account Partner Balance (extended - xopgi)",
-    version="1.15",
+    version="1.16",
     author="Merchise Autrement",
     category="Accounting",
     description="Adds graphs for receivables and payables with currency.",

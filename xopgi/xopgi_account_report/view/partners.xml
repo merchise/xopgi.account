@@ -7,7 +7,7 @@
       <field name="arch" type="xml">
 	<graph string="Invoices" type="pivot" stacked="True">
 	  <field name="partner_id" type="row"/>
-	  <field name="currency_id" type="col"/>
+	  <field name="line_currency" type="col"/>
 	  <field name="account_id" type="col"/>
 	  <field name="line_currency_amount" operator="+"/>
 	</graph>

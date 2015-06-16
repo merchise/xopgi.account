@@ -261,6 +261,15 @@ class account_move_line(Model):
             result[line.id] = line.currency_debit - line.currency_credit
         return result
 
+    def _get_line_currency(self, cr, uid, ids, field, arg, context=None):
+        result = {}
+        for line in self.browse(cr, uid, ids, context=context):
+            if line.currency_id:
+                result[line.id] = line.currency_id.id
+            else:
+                result[line.id] = line.company_id.currency_id.id
+        return result
+
     def recalculate(self, cr, uid, ids, account_id,
                     debit, credit, currency,
                     context=None):
@@ -315,7 +324,13 @@ class account_move_line(Model):
                             type='float',
                             store=_CURRENCY_INVALIDATE_RULE,
                             arg='amount_currency',
-                            string='Currency Amount',)
+                            string='Currency Amount',),
+        'line_currency':
+            fields.function(_get_line_currency,
+                            type='many2one',
+                            relation='res.currency',
+                            store=_CURRENCY_INVALIDATE_RULE,
+                            string='Proper currency', ),
     }
 
 
@@ -338,6 +353,11 @@ SET currency_debit = (
       CASE WHEN currency_id IS NOT NULL
           THEN amount_currency
           ELSE debit - credit
+      END),
+   line_currency = (
+      CASE WHEN currency_id IS NOT NULL
+          THEN currency_id
+          ELSE %s
       END)
 WHERE id IN %s;
 '''
@@ -365,8 +385,9 @@ class account_fiscalyear_close(TransientModel):
                  ('period_id', '=', period_id)]
         move = search_browse(move_obj, cr, uid, query, context=context)
         ids = tuple(line.id for line in move.line_id)
+        currency_id = data.journal_id.company_id.currency_id.id
         if ids:
-            cr.execute(UPDATE_SQL_QUERY, (ids, ))
+            cr.execute(UPDATE_SQL_QUERY, (currency_id, ids, ))
         return {
             # Go to the view of the generated entry.
             'type': 'ir.actions.act_window',

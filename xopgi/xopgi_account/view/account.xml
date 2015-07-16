@@ -76,6 +76,29 @@
       <field name="model">account.invoice</field>
       <field name="inherit_id" ref="account.invoice_form" />
       <field name="arch" type="xml">
+        <xpath expr="//notebook/page[@string='Other Info']//field[@name='name']"
+               position="replace"/>
+        <xpath expr="//h1" position="attributes">
+          <attribute name="style">
+            float:left;
+          </attribute>
+        </xpath>
+        <xpath expr="//h1" position="after">
+          <div>
+            <label for="name" class="oe_edit_only oe_inline"
+                   attrs="{'invisible':[('state','not in',('draft'))]}"/>
+            <h1>
+              <label string=", "
+                     attrs="{'invisible':[('number','=',False)]}"
+                     class="oe_inline"/>
+              <field name="name" class="oe_inline"/>
+            </h1>
+          </div>
+        </xpath>
+        <field name="origin" position="replace"/>
+        <field name="fiscal_position" position="after">
+          <field name="origin"/>
+        </field>
         <button string="Refund Invoice" position="attributes">
           <attribute name="context">{'invoice_company_id': company_id}</attribute>
         </button>
@@ -85,6 +108,37 @@
         <field name="journal_id" position="attributes">
           <attribute name="widget">False</attribute>
         </field>
+      </field>
+    </record>
+
+    <!--move 'name' field from 'Other Info' page to the invoice number side
+        on supplier invoice view form-->
+    <record id="xopgi_invoice_supplier_form" model="ir.ui.view">
+      <field name="name">xopgi.account.invoice.supplier.form</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account.invoice_supplier_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//h1" position="attributes">
+          <attribute name="class">
+            pull-left
+          </attribute>
+        </xpath>
+        <xpath expr="//notebook/page[@string='Other Info']//field[@name='name']"
+               position="replace"/>
+        <xpath expr="//h1" position="after">
+            <label for="name" class="oe_edit_only oe_inline"
+                   attrs="{'invisible':[('state','not in',('draft'))]}"/>
+            <h1 class="pull-left">
+              <label string=","
+                     attrs="{'invisible':[('number','=',False)]}"
+                     class="oe_inline"/>
+              <!--blank space-->
+              <label string="&#130;"
+                     attrs="{'invisible':[('number','!=',False)]}"
+                     class="oe_inline"/>
+              <field name="name" class="oe_inline"/>
+            </h1>
+        </xpath>
       </field>
     </record>
 

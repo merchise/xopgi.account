@@ -231,8 +231,11 @@
       <field name="model">account.invoice</field>
       <field name="inherit_id" ref="account.view_account_invoice_filter" />
       <field name="arch" type="xml">
+        <field name="number" position="after">
+          <field name="name"/>
+        </field>
         <filter string="Partner" position="before" >
-          <filter string="Name" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+          <filter string="Reference / Description" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
           <filter string="Origin" icon="terp-partner" domain="[]" context="{'group_by':'origin'}"/>
         </filter>
       </field>

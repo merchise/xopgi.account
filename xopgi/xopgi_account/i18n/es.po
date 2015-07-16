@@ -163,6 +163,11 @@ msgid "Origin"
 msgstr "Origen"
 
 #. module: xopgi_account
+#: view:account.invoice:xopgi_account.xopgi_view_account_invoice_filter
+msgid "Reference / Description"
+msgstr "Referencia / Descripción"
+
+#. module: xopgi_account
 #: view:account.invoice:0
 msgid "Refund Invoice"
 msgstr "Reintegrar factura"

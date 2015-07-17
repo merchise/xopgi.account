@@ -153,6 +153,11 @@ msgid "Consolidate"
 msgstr "Consolidate"
 
 #. module: xopgi_account
+#: view:account.invoice:xopgi_account.xopgi_view_account_invoice_filter
+msgid "Reference / Description"
+msgstr "Référence / Description"
+
+#. module: xopgi_account
 #: view:account.invoice:0
 msgid "Refund Invoice"
 msgstr "Avoir"

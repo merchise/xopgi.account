@@ -42,6 +42,11 @@ class AccountConfigSettings(TransientModel):
 
         'module_xopgi_account_report':
             fields.boolean('Add reports for receivables/payables accounts '
-                           'to sales/purchases staff.')
+                           'to sales/purchases staff.'),
 
+        'module_xopgi_invoice_complex_search':
+            fields.boolean('Allow invoice search based on partner tags.'),
+
+        'module_xopgi_account_analytic_enhancement':
+            fields.boolean('Add view data to analytic accounts. ')
     }

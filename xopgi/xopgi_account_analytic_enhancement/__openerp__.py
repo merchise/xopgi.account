@@ -16,8 +16,7 @@
 
     'description': """
     - Adiciona la columna % de margen a los datos de la cuenta analítica.
-    - Adiciona la fecha de inicio de la cuenta analítica si es de contrato o proyecto.
-    - Adiciona la vista de gráfico a las cuentas analíticas.
+    - Adiciona la fecha de caducidad de la cuenta analítica si es de contrato o proyecto.
     """,
 
     'data': [

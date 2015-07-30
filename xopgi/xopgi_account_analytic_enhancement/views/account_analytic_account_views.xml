@@ -8,7 +8,7 @@
                    ref="account.view_account_analytic_account_tree"/>
             <field name="arch" type="xml">
                 <field name="balance" position="after">
-                    <field name="percentage_profit"/>
+                    <field name="percentage_margin"/>
                 </field>
                 <field name="date" position="replace">
                     <field name="date"/>
@@ -16,19 +16,28 @@
             </field>
         </record>
 
-        <!--<record id="account_analytic_account_view_graph" model="ir.ui.view">-->
-            <!--<field name="name">Analytic Accounts</field>-->
-            <!--<field name="model">account.analytic.account</field>-->
-            <!--<field name="arch" type="xml">-->
-                <!--<graph type="pivot">-->
-                    <!--<field name="name"/>-->
-                <!--</graph>-->
-            <!--</field>-->
-        <!--</record>-->
-
-        <!--<record id="account.action_account_analytic_account_form"-->
-                <!--model="ir.actions.act_window">-->
-            <!--<field name="view_mode">tree,form,graph</field>-->
-        <!--</record>-->
+        <record id="view_account_analytic_account_tree" model="ir.ui.view">
+            <field name="name">account.analytic.account.tree</field>
+            <field name="model">account.analytic.account</field>
+            <field name="field_parent">child_complete_ids</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state=='pending';grey:state in ('close','cancelled');blue:type=='view'" string="Analytic account" toolbar="1">
+                    <field name="name" invisible="1"/>
+                    <field name="complete_name"/>
+                    <field name="debit"/>
+                    <field name="credit"/>
+                    <field name="balance"/>
+                    <field name="percentage_margin"/>
+                    <field name="currency_id" groups="base.group_multi_currency"/>
+                    <field name="state" invisible="1"/>
+                    <field name="date" invisible="1"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="partner_id" invisible="1"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="template_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
     </data>
 </openerp>

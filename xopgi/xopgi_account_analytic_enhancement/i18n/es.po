@@ -1,0 +1,26 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* xopgi_account_analytic_enhancement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0.20150602.181038+64f8ce2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-07-29 22:40+0000\n"
+"PO-Revision-Date: 2015-07-29 22:40+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: xopgi_account_analytic_enhancement
+#: model:ir.model,name:xopgi_account_analytic_enhancement.model_account_analytic_account
+msgid "Analytic Account"
+msgstr "Cuenta analítica"
+
+#. module: xopgi_account_analytic_enhancement
+#: field:account.analytic.account,percentage_margin:0
+msgid "Margin %"
+msgstr "Margen %"

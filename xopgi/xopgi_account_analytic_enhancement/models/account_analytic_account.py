@@ -23,7 +23,7 @@ class AccountAnalyticAccount(models.Model):
     @api.one
     @api.depends('debit', 'balance')
     def _compute_commission(self):
-        if self.balance == 0:
+        if self.debit == 0:
             self.percentage_margin = 0
         else:
             self.percentage_margin = self.balance / self.debit * 100

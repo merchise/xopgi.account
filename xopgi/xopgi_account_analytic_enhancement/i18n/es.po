@@ -21,6 +21,22 @@ msgid "Analytic Account"
 msgstr "Cuenta analítica"
 
 #. module: xopgi_account_analytic_enhancement
+#: field:account.analytic.account,percentage_commission:0
+msgid "Commission %"
+msgstr "Comisión %"
+
+#. module: xopgi_account_analytic_enhancement
+#: field:account.analytic.account,commission:0
+msgid "Commission"
+msgstr "Comisión"
+
+#. module: xopgi_account_analytic_enhancement
 #: field:account.analytic.account,percentage_margin:0
 msgid "Margin %"
 msgstr "Margen %"
+
+#. module: xopgi_account_analytic_enhancement
+#: model:ir.actions.act_window,name:xopgi_account_analytic_enhancement.account_analytic_account_operation_action
+#: model:ir.ui.menu,name:xopgi_account_analytic_enhancement.account_analytic_account_action
+msgid "Operations"
+msgstr "Operaciones"

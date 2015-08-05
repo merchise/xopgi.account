@@ -27,6 +27,14 @@
           <div>
             <field name="module_xopgi_account_report" class="oe_inline"/>
             <label for="module_xopgi_account_report"/>
+	  </div>
+	  <div>
+            <field name="module_xopgi_invoice_complex_search" class="oe_inline"/>
+            <label for="module_xopgi_invoice_complex_search"/>
+          </div>
+	  <div>
+            <field name="module_xopgi_account_analytic_enhancement" class="oe_inline"/>
+            <label for="module_xopgi_account_analytic_enhancement"/>
           </div>
         </xpath>
       </field>

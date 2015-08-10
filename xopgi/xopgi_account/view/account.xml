@@ -183,6 +183,7 @@
 	<!-- Include the invoice column -->
         <xpath expr="//tree/field[@name='move_line_id']" position="after" >
           <field name="invoice" readonly="1" />
+	  <field name="invoice_partner" readonly="1"/>
         </xpath>
       </field>
     </record>
@@ -253,6 +254,7 @@
 	<!-- Include the invoice column -->
         <xpath expr="//tree/field[@name='move_line_id']" position="after" >
           <field name="invoice" readonly="1" />
+	  <field name="invoice_partner" readonly="1"/>
         </xpath>
       </field>
     </record>

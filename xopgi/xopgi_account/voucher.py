@@ -30,7 +30,11 @@ class account_voucher_line(Model):
     _columns = {
         'invoice':
             fields.related('move_line_id', 'invoice', 'origin', type='char',
-                           size=64, string='Invoice')
+                           size=64, string='Invoice'),
+        'invoice_partner':
+            fields.related('move_line_id', 'invoice', 'partner_id',
+                           relation='res.partner',
+                           type='many2one', string='Invoice Partner')
     }
 
 
@@ -61,6 +65,7 @@ class account_voucher(Model):
         It also cleans amount assignment cause it's more usable.
 
         '''
+        from xoutil.objects import traverse
         from six.moves import zip
         res = super(account_voucher, self).recompute_voucher_lines(
             cr, uid,
@@ -75,6 +80,20 @@ class account_voucher(Model):
                       if isinstance(vl, dict)]
             ids = [vl['move_line_id'] for vl in vlines]
             for line, mline in zip(vlines, ml.browse(cr, uid, ids)):
-                origin = mline.invoice.origin
-                line['invoice'] = origin or ''
+                invoice_partner = traverse(
+                    mline,
+                    'invoice.partner_id.id',
+                    default=None,
+                    getter=getattr
+                )
+                if invoice_partner:
+                    line['invoice_partner'] = (invoice_partner, 'res.partner')
+                else:
+                    line['invoice_partner'] = None
+                line['invoice'] = traverse(
+                    mline,
+                    'invoice.origin',
+                    default='',
+                    getter=getattr
+                )
         return res

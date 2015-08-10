@@ -173,8 +173,9 @@
 	</xpath>
 	<xpath expr="//field[@name='line_dr_ids']//field[@name='account_id']"
 	       position="attributes">
-	  <!-- The for the debit lines.  Unfortunally a single xpath
-	       expression simply modifies the first node found.
+	  <!-- The same as before for the debit lines.  Unfortunally a single
+	       xpath expression simply modifies the first node found and not
+	       all nodes that match.
 	  -->
 	  <attribute name="groups"/>
 	  <attribute name="readonly">1</attribute>
@@ -182,6 +183,7 @@
 	<!-- Include the invoice column -->
         <xpath expr="//tree/field[@name='move_line_id']" position="after" >
           <field name="invoice" readonly="1" />
+	  <field name="invoice_partner" readonly="1"/>
         </xpath>
       </field>
     </record>
@@ -204,7 +206,7 @@
 	    [('type','in',['bank', 'cash']), ('company_id', '=', company_id)]
 	  </attribute>
 	  <!-- XXX:  Why widget change? -->
-          <attribute name="options">{"no_open":True}</attribute>
+          <attribute name="options">{"no_open": True}</attribute>
           <attribute name="widget">False</attribute>
         </field>
 	<!-- Change the data when the company changes. -->
@@ -252,6 +254,7 @@
 	<!-- Include the invoice column -->
         <xpath expr="//tree/field[@name='move_line_id']" position="after" >
           <field name="invoice" readonly="1" />
+	  <field name="invoice_partner" readonly="1"/>
         </xpath>
       </field>
     </record>

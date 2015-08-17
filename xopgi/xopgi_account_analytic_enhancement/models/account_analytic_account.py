@@ -20,6 +20,14 @@ class AccountAnalyticAccount(models.Model):
         string='Commission', help='Commission related to profit.',
         compute='_compute_commission')
 
+    primary_salesperson_id = fields.Many2one(
+        "res.users", string="Salesperson",
+        help="Primary salesperson in operation",
+        compute="_compute_primary_salesperson", store=True)
+
+    supplier_invoice_id = fields.Many2one('account.invoice',
+                                          ondelete='set null')
+
     @api.one
     @api.depends('debit', 'balance')
     def _compute_commission(self):
@@ -42,3 +50,33 @@ class AccountAnalyticAccount(models.Model):
             self.percentage_commission = 0
 
         self.commission = self.percentage_commission * self.balance / 100
+
+    @api.one
+    @api.depends("type", "line_ids.invoice_id.user_id.name")
+    def _compute_primary_salesperson(self):
+        if self.type != "contract":
+            self.primary_salesperson_id = False
+        else:
+            main_line = self.line_ids.search(
+                [("account_id", "=", self.id),
+                 ("invoice_id.user_id", "!=", False)], limit=1, order="id")
+            if any(main_line):
+                self.primary_salesperson_id = main_line.invoice_id.user_id
+            else:
+                self.primary_salesperson_id = False
+
+    @api.one
+    def has_many_salespeople(self):
+        if self.type != "contract":
+            return False
+        else:
+            lines = self.line_ids.search(
+                [("account_id", "=", self.id),
+                 ("invoice_id.user_id", "!=", False)])
+            if any(lines):
+                salesperson = lines[0].invoice_id.user_id
+                for line in lines[1:]:
+                    if line.invoice_id.user_id != salesperson:
+                        return True
+                return False
+            return False

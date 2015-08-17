@@ -21,21 +21,23 @@
             <field name="model">account.analytic.account</field>
             <field name="field_parent">child_complete_ids</field>
             <field name="arch" type="xml">
-                <tree create="false" edit="false"  default_order='date_start desc'
-                      colors="blue:state=='pending';grey:state in ('close','cancelled');blue:type=='view'"
+                <tree create="false" edit="false"
+                      default_order='date_start desc'
+                      colors="green:supplier_invoice_id!=False;blue:state=='pending';grey:state in ('close','cancelled')"
                       string="Analytic account" toolbar="1">
                     <field name="name" invisible="1"/>
                     <field name="complete_name"/>
-                    <field name="debit"/>
-                    <field name="credit"/>
-                    <field name="balance"/>
+                    <field name="debit" sum="Total Debit"/>
+                    <field name="credit" sum="Total Credit"/>
+                    <field name="balance" sum="Total Balance"/>
                     <field name="percentage_margin"/>
                     <field name="percentage_commission"/>
-                    <field name="commission"/>
+                    <field name="commission" sum="Total Commission"/>
                     <field name="currency_id"
                            groups="base.group_multi_currency"/>
                     <field name="state" invisible="1"/>
                     <field name="date"/>
+                    <field name="primary_salesperson_id"/>
                     <field name="user_id" invisible="1"/>
                     <field name="partner_id" invisible="1"/>
                     <field name="parent_id" invisible="1"/>
@@ -43,18 +45,62 @@
                     <field name="company_id"
                            groups="base.group_multi_company"/>
                     <field name="template_id" invisible="1"/>
+                    <field name="supplier_invoice_id" invisible="1"/>
                 </tree>
             </field>
         </record>
 
+        <record id="account_analytic_account_contract_view_search"
+                model="ir.ui.view">
+            <field name="name">analytic_account.commission</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id"
+                   ref="account_analytic_analysis.view_account_analytic_account_overdue_search"/>
+            <field name="arch" type="xml">
+                <search>
+                    <filter name="commission_paid" string="Com. Invoiced"
+                            domain="[('type', '=', 'contract'), ('supplier_invoice_id', '!=', False)]"/>
+                    <filter name="commission_unpaid" string="Com. Uninvoiced"
+                            domain="[('type', '=', 'contract'), ('supplier_invoice_id', '=', False)]"/>
+                    <filter name="commission_ready" string="Com. Ready"
+                            domain="[('type', '=', 'contract'), ('state', '=', 'close'), ('supplier_invoice_id', '=', False)]"/>
+                </search>
+                <group expand="0" string="Group By" position="inside">
+                    <filter string="Salesperson" domain="[]"
+                            context="{'group_by':'primary_salesperson_id'}"/>
+                </group>
+            </field>
+        </record>
+
+        <record id="account_analytic_account_view_search" model="ir.ui.view">
+            <field name="name">analytic_account.commission</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id"
+                   ref="account.view_account_analytic_account_search"/>
+            <field name="arch" type="xml">
+                <search>
+                    <filter name="commission_paid" string="Com. Invoiced"
+                            domain="[('type', '=', 'contract'), ('supplier_invoice_id', '!=', False)]"/>
+                    <filter name="commission_unpaid" string="Com. Uninvoiced"
+                            domain="[('type', '=', 'contract'), ('supplier_invoice_id', '=', False)]"/>
+                    <filter name="commission_ready" string="Com. Ready"
+                            domain="[('type', '=', 'contract'), ('state', '=', 'close'), ('supplier_invoice_id', '=', False)]"/>
+                </search>
+                <group expand="0" string="Group By" position="inside">
+                    <filter string="Salesperson" domain="[]"
+                            context="{'group_by':'primary_salesperson_id'}"/>
+                </group>
+            </field>
+        </record>
+
         <act_window id="account_analytic_account_operation_action"
-                    name="Operations"
+                    name="Commissions"
                     res_model="account.analytic.account"
                     view_mode="tree"
                     view_id="account_analytic_account_view__tree"
                     domain="[('type', '=', 'contract')]"/>
 
-        <menuitem id="account_analytic_account_action" name="Operations"
+        <menuitem id="account_analytic_account_action" name="Commissions"
                   action="account_analytic_account_operation_action"
                   parent="base.menu_sales"
                   sequence="100"/>

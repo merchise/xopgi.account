@@ -2,24 +2,25 @@
 
 
 {
-    'name': "Account Analytic Enhancement",
+    "name": "Account Analytic Enhancement",
 
-    'summary': "Adorna las vistas de cuentas analíticas",
+    "summary": "Adorna las vistas de cuentas analíticas",
 
-    'version': '1.0',
+    "version": "1.0",
 
-    'depends': ['account'],
+    "depends": ["account", "account_analytic_analysis"],
 
-    'author': "Merchise Autrement",
+    "author": "Merchise Autrement",
 
-    'category': 'Accounting & Finance',
+    "category": "Accounting & Finance",
 
-    'description': """
+    "description": """
     - Adiciona la columna % de margen a los datos de la cuenta analítica.
     - Adiciona la fecha de caducidad de la cuenta analítica si es de contrato o proyecto.
     """,
 
-    'data': [
-        'views/account_analytic_account_views.xml',
+    "data": [
+        "views/account_analytic_account_views.xml",
+        "wizard/salesperson_wizard.xml"
     ],
 }

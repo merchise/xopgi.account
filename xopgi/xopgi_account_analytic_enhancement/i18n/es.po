@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0.20150602.181038+64f8ce2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-29 22:40+0000\n"
-"PO-Revision-Date: 2015-07-29 22:40+0000\n"
+"POT-Creation-Date: 2015-07-29 22:39+0000\n"
+"PO-Revision-Date: 2015-07-29 22:39+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -21,14 +21,91 @@ msgid "Analytic Account"
 msgstr "Cuenta analítica"
 
 #. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
+msgid "Analytic account"
+msgstr "Cuenta analítica"
+
+#. module: xopgi_account_analytic_enhancement
+#: view:xopgi.salesperson_wizard:xopgi_account_analytic_enhancement.primary_salesperson_view_wizard
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_contract_view_search
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view_search
+msgid "Com. Invoiced"
+msgstr "Com. Facturada"
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_contract_view_search
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view_search
+msgid "Com. Ready"
+msgstr "Com. Lista"
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_contract_view_search
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view_search
+msgid "Com. Uninvoiced"
+msgstr "Com. No Facturada"
+
+#. module: xopgi_account_analytic_enhancement
 #: field:account.analytic.account,percentage_commission:0
 msgid "Commission %"
 msgstr "Comisión %"
 
 #. module: xopgi_account_analytic_enhancement
+#: model:ir.actions.act_window,name:xopgi_account_analytic_enhancement.account_analytic_account_operation_action
+#: model:ir.ui.menu,name:xopgi_account_analytic_enhancement.account_analytic_account_action
 #: field:account.analytic.account,commission:0
 msgid "Commission"
 msgstr "Comisión"
+
+#. module: xopgi_account_analytic_enhancement
+#: model:ir.model,name:xopgi_account_analytic_enhancement.model_xopgi_salesperson_wizard
+msgid "Create supplier invoice in form of commission"
+msgstr "Crear factura a proveedor en forma de comisión"
+
+#. module: xopgi_account_analytic_enhancement
+#: field:xopgi.salesperson_wizard,create_uid:0
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: xopgi_account_analytic_enhancement
+#: field:xopgi.salesperson_wizard,create_date:0
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: xopgi_account_analytic_enhancement
+#: view:xopgi.salesperson_wizard:xopgi_account_analytic_enhancement.primary_salesperson_view_wizard
+msgid "Generate"
+msgstr "Generar"
+
+#. module: xopgi_account_analytic_enhancement
+#: model:ir.actions.act_window,name:xopgi_account_analytic_enhancement.primary_salesperson_wizard_action
+#: view:xopgi.salesperson_wizard:xopgi_account_analytic_enhancement.primary_salesperson_view_wizard
+msgid "Generate Supplier Invoice"
+msgstr "Generar Factura de Proveedor"
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_contract_view_search
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view_search
+msgid "Group By"
+msgstr "Agrupar por"
+
+#. module: xopgi_account_analytic_enhancement
+#: field:xopgi.salesperson_wizard,id:0
+msgid "ID"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: field:xopgi.salesperson_wizard,write_uid:0
+msgid "Last Updated by"
+msgstr "Última actualización por"
+
+#. module: xopgi_account_analytic_enhancement
+#: field:xopgi.salesperson_wizard,write_date:0
+msgid "Last Updated on"
+msgstr "Última actualización el"
 
 #. module: xopgi_account_analytic_enhancement
 #: field:account.analytic.account,percentage_margin:0
@@ -36,7 +113,44 @@ msgid "Margin %"
 msgstr "Margen %"
 
 #. module: xopgi_account_analytic_enhancement
-#: model:ir.actions.act_window,name:xopgi_account_analytic_enhancement.account_analytic_account_operation_action
-#: model:ir.ui.menu,name:xopgi_account_analytic_enhancement.account_analytic_account_action
+#: field:xopgi.salesperson_wizard,analytic_account_ids:0
 msgid "Operations"
 msgstr "Operaciones"
+
+#. module: xopgi_account_analytic_enhancement
+#: help:account.analytic.account,primary_salesperson_id:0
+msgid "Primary salesperson in operation"
+msgstr "Comercial principal en la operación"
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_contract_view_search
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view_search
+#: field:account.analytic.account,primary_salesperson_id:0
+#: field:xopgi.salesperson_wizard,primary_salesperson_id:0
+msgid "Salesperson"
+msgstr "Comercial"
+
+#. module: xopgi_account_analytic_enhancement
+#: field:account.analytic.account,supplier_invoice_id:0
+msgid "Supplier invoice id"
+msgstr "Factura proveedor id"
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
+msgid "Total Balance"
+msgstr "Balance Total"
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
+msgid "Total Commission"
+msgstr "Comisión Total"
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
+msgid "Total Credit"
+msgstr "Crédito Total"
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
+msgid "Total Debit"
+msgstr "Débito Total"

@@ -21,13 +21,90 @@ msgid "Analytic Account"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
+msgid "Analytic account"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: view:xopgi.salesperson_wizard:xopgi_account_analytic_enhancement.primary_salesperson_view_wizard
+msgid "Cancel"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_contract_view_search
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view_search
+msgid "Com. Invoiced"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_contract_view_search
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view_search
+msgid "Com. Ready"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_contract_view_search
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view_search
+msgid "Com. Uninvoiced"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
 #: field:account.analytic.account,percentage_commission:0
 msgid "Commission %"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
+#: model:ir.actions.act_window,name:xopgi_account_analytic_enhancement.account_analytic_account_operation_action
+#: model:ir.ui.menu,name:xopgi_account_analytic_enhancement.account_analytic_account_action
 #: field:account.analytic.account,commission:0
 msgid "Commission"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: model:ir.model,name:xopgi_account_analytic_enhancement.model_xopgi_salesperson_wizard
+msgid "Create supplier invoice in form of commission"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: field:xopgi.salesperson_wizard,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: field:xopgi.salesperson_wizard,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: view:xopgi.salesperson_wizard:xopgi_account_analytic_enhancement.primary_salesperson_view_wizard
+msgid "Generate"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: model:ir.actions.act_window,name:xopgi_account_analytic_enhancement.primary_salesperson_wizard_action
+#: view:xopgi.salesperson_wizard:xopgi_account_analytic_enhancement.primary_salesperson_view_wizard
+msgid "Generate Supplier Invoice"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_contract_view_search
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view_search
+msgid "Group By"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: field:xopgi.salesperson_wizard,id:0
+msgid "ID"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: field:xopgi.salesperson_wizard,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: field:xopgi.salesperson_wizard,write_date:0
+msgid "Last Updated on"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
@@ -36,8 +113,44 @@ msgid "Margin %"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
-#: model:ir.actions.act_window,name:xopgi_account_analytic_enhancement.account_analytic_account_operation_action
-#: model:ir.ui.menu,name:xopgi_account_analytic_enhancement.account_analytic_account_action
+#: field:xopgi.salesperson_wizard,analytic_account_ids:0
 msgid "Operations"
 msgstr ""
 
+#. module: xopgi_account_analytic_enhancement
+#: help:account.analytic.account,primary_salesperson_id:0
+msgid "Primary salesperson in operation"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_contract_view_search
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view_search
+#: field:account.analytic.account,primary_salesperson_id:0
+#: field:xopgi.salesperson_wizard,primary_salesperson_id:0
+msgid "Salesperson"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: field:account.analytic.account,supplier_invoice_id:0
+msgid "Supplier invoice id"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
+msgid "Total Balance"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
+msgid "Total Commission"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
+msgid "Total Credit"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
+msgid "Total Debit"
+msgstr ""

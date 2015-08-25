@@ -12,5 +12,21 @@
 	</field>
       </field>
     </record>
+
+    <record id="reconcile_partner_filters" model="ir.ui.view">
+      <field name="name">xopgi.account_reconcile.partner_filters</field>
+      <field name="model">account.move.line</field>
+      <field name="inherit_id"
+	     ref="account.view_account_move_line_filter"/>
+      <field name="arch" type="xml">
+	<xpath expr="//search/group" position="before">
+	  <filter string="Customers"
+		  domain="[('partner_id.customer', '=', True)]"/>
+	  <filter string="Suppliers"
+		  domain="[('partner_id.supplier', '=', True)]"/>
+	</xpath>
+      </field>
+    </record>
+
   </data>
 </openerp>

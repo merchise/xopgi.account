@@ -1,0 +1,134 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* xopgi_unrealized_gl
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-08-31 18:53+0000\n"
+"PO-Revision-Date: 2015-08-31 18:53+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: xopgi_unrealized_gl
+#: model:ir.model,name:xopgi_unrealized_gl.model_account_move
+msgid "Account Entry"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: model:ir.model,name:xopgi_unrealized_gl.model_account_period
+msgid "Account period"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: view:xopgi.unrealized_gl_wizard:xopgi_unrealized_gl.unrealized_gl_view_wizard
+msgid "Cancel"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:xopgi.unrealized_gl_wizard,close_date:0
+msgid "Close Date"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:xopgi.unrealized_gl_wizard,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:xopgi.unrealized_gl_wizard,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:xopgi.unrealized_gl_wizard,currency_id:0
+msgid "Currency"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:xopgi.unrealized_gl_wizard,currency_rate:0
+msgid "Currency Rate"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:xopgi.unrealized_gl_wizard,gain_account_id:0
+msgid "Gain Account"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: view:xopgi.unrealized_gl_wizard:xopgi_unrealized_gl.unrealized_gl_view_wizard
+msgid "Generate"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:xopgi.unrealized_gl_wizard,id:0
+msgid "ID"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:xopgi.unrealized_gl_wizard,journal_id:0
+msgid "Journal"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:xopgi.unrealized_gl_wizard,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:xopgi.unrealized_gl_wizard,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:xopgi.unrealized_gl_wizard,loss_account_id:0
+msgid "Loss Account"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:account.move,move_reversal_id:0
+msgid "Reversal Entry"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:account.move,to_be_reversed:0
+msgid "To Be Reversed"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: help:account.move,to_be_reversed:0
+msgid "True if entry has to be reversed at the end of period."
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: model:ir.actions.act_window,name:xopgi_unrealized_gl.unrealized_gl_action
+#: model:ir.ui.menu,name:xopgi_unrealized_gl.menu_wizard_fy_close
+#: view:xopgi.unrealized_gl_wizard:xopgi_unrealized_gl.unrealized_gl_view_wizard
+msgid "Unrealized Gain - Loss"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:account.config.settings,ugl_journal_id:0
+msgid "Unrealized gain & loss journal"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:account.config.settings,ugl_gain_account_id:0
+msgid "Unrealized gain account"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: field:account.config.settings,ugl_loss_account_id:0
+msgid "Unrealized loss account"
+msgstr ""
+
+#. module: xopgi_unrealized_gl
+#: view:xopgi.unrealized_gl_wizard:xopgi_unrealized_gl.unrealized_gl_view_wizard
+msgid "or"
+msgstr ""
+

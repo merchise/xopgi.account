@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_xopgi_unrealized_gl_xopgi_unrealized_gl,xopgi_unrealized_gl.xopgi_unrealized_gl,model_xopgi_unrealized_gl_xopgi_unrealized_gl,,1,0,0,0

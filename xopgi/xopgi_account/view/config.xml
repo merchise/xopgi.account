@@ -1,43 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-  <data>
-    <record id="account_config_settings_extension" model="ir.ui.view">
-      <field name="name">xopgi.account settings</field>
-      <field name="model">account.config.settings</field>
-      <field name="inherit_id" ref="account.view_account_config_settings"/>
-      <field name="arch" type="xml">
-        <xpath expr="//div[preceding-sibling::label[position()=1 and @string='Features']]"
-               position="inside">
-          <div>
-            <field name="module_xopgi_invisible_tax" class="oe_inline"/>
-            <label for="module_xopgi_invisible_tax"/>
-          </div>
-          <div>
-            <field name="module_xopgi_invisible_conciliation" class="oe_inline"/>
-            <label for="module_xopgi_invisible_conciliation"/>
-          </div>
-          <div>
-            <field name="module_xopgi_proper_currency" class="oe_inline"/>
-            <label for="module_xopgi_proper_currency"/>
-          </div>
-          <div>
-            <field name="module_xopgi_holdings" class="oe_inline"/>
-            <label for="module_xopgi_holdings"/>
-          </div>
-          <div>
-            <field name="module_xopgi_account_report" class="oe_inline"/>
-            <label for="module_xopgi_account_report"/>
-	  </div>
-	  <div>
-            <field name="module_xopgi_invoice_complex_search" class="oe_inline"/>
-            <label for="module_xopgi_invoice_complex_search"/>
-          </div>
-	  <div>
-            <field name="module_xopgi_account_analytic_enhancement" class="oe_inline"/>
-            <label for="module_xopgi_account_analytic_enhancement"/>
-          </div>
-        </xpath>
-      </field>
-    </record>
-  </data>
+    <data>
+        <record id="account_config_settings_extension" model="ir.ui.view">
+            <field name="name">xopgi.account settings</field>
+            <field name="model">account.config.settings</field>
+            <field name="inherit_id"
+                   ref="account.view_account_config_settings"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[preceding-sibling::label[position()=1 and @string='Features']]"
+                       position="inside">
+                    <div>
+                        <field name="module_xopgi_invisible_tax"
+                               class="oe_inline"/>
+                        <label for="module_xopgi_invisible_tax"/>
+                    </div>
+                    <div>
+                        <field name="module_xopgi_invisible_conciliation"
+                               class="oe_inline"/>
+                        <label for="module_xopgi_invisible_conciliation"/>
+                    </div>
+                    <div>
+                        <field name="module_xopgi_proper_currency"
+                               class="oe_inline"/>
+                        <label for="module_xopgi_proper_currency"/>
+                    </div>
+                    <div>
+                        <field name="module_xopgi_holdings" class="oe_inline"/>
+                        <label for="module_xopgi_holdings"/>
+                    </div>
+                    <div>
+                        <field name="module_xopgi_account_report"
+                               class="oe_inline"/>
+                        <label for="module_xopgi_account_report"/>
+                    </div>
+                    <div>
+                        <field name="module_xopgi_invoice_complex_search"
+                               class="oe_inline"/>
+                        <label for="module_xopgi_invoice_complex_search"/>
+                    </div>
+                    <div>
+                        <field name="module_xopgi_account_analytic_enhancement"
+                               class="oe_inline"/>
+                        <label for="module_xopgi_account_analytic_enhancement"/>
+                    </div>
+                    <div>
+                        <field name="module_xopgi_operations_performance"
+                               class="oe_inline"/>
+                        <label for="module_xopgi_operations_performance"/>
+                    </div>
+                    <div>
+                        <field name="module_xopgi_unrealized_gl"
+                               class="oe_inline"/>
+                        <label for="module_xopgi_unrealized_gl"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
 </openerp>

@@ -119,7 +119,7 @@ class account_move_line(Model):
     '''Fixes to account move lines.
 
     '''
-    _name = get_modelname(base_move_line.account_move_line)
+    _name = this = get_modelname(base_move_line.account_move_line)
     _inherit = _name
 
     def default_get(self, cr, uid, fields, context=None):
@@ -296,10 +296,32 @@ class account_move_line(Model):
             # nothing.
             return {}
 
+    # Change whenever the debit or credit in proper currency change.
+    _PROPER_AMOUNT_INVALIDATE_RULE = {
+        this: (
+            store_identity,
+            ['currency_debit', 'currency_credit'],
+            10
+        )
+    }
+
+    # Change whenever either currency, credit, debit or the amount currency
+    # change.
     _CURRENCY_INVALIDATE_RULE = {
-        _name: (store_identity,
-                ['credit', 'debit', 'amount_currency', 'currency_id'],
-                10)
+        this: (
+            store_identity,
+            ['credit', 'debit', 'amount_currency', 'currency_id'],
+            10  # TODO:  Find out what does 10 mean and make it a name const.
+        )
+    }
+
+    # Change whenever the currency of the line changes.
+    _CURRENCY_ONLY_INVALIDATE_RULE = {
+        this: (
+            store_identity,
+            ['currency_id'],
+            10
+        )
     }
 
     _columns = {
@@ -322,14 +344,14 @@ class account_move_line(Model):
         'line_currency_amount':
             fields.function(_get_line_currency_amount,
                             type='float',
-                            store=_CURRENCY_INVALIDATE_RULE,
+                            store=_PROPER_AMOUNT_INVALIDATE_RULE,
                             arg='amount_currency',
                             string='Currency Amount',),
         'line_currency':
             fields.function(_get_line_currency,
                             type='many2one',
                             relation='res.currency',
-                            store=_CURRENCY_INVALIDATE_RULE,
+                            store=_CURRENCY_ONLY_INVALIDATE_RULE,
                             string='Proper currency', ),
     }
 

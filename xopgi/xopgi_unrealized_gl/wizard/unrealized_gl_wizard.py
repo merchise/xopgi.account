@@ -68,10 +68,15 @@ class UnrealizedGLWizard(models.TransientModel):
     @api.onchange("close_date", "currency_id")
     def _onchange_close_date(self):
         if any(self.currency_id):
-            self.currency_rate = self.currency_id.rate_ids.search(
+            foreign_currency_rate = self.currency_id.rate_ids.search(
                 [("currency_id", "=", self.currency_id.id),
                  ("name", "<=", self.close_date)], limit=1,
                 order="name desc").rate
+            company_currency_rate = self.currency_id.rate_ids.search(
+                [("currency_id", "=", self.env.user.company_id.currency_id.id),
+                 ("name", "<=", self.close_date)], limit=1,
+                order="name desc").rate
+            self.currency_rate = foreign_currency_rate / company_currency_rate
 
     @api.multi
     def generate(self):

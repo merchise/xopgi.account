@@ -48,10 +48,10 @@ class AccountConfigSettings(TransientModel):
             fields.boolean('Allow invoice search based on partner tags.'),
 
         'module_xopgi_account_analytic_enhancement':
-            fields.boolean('Add view data to analytic accounts.')
+            fields.boolean('Add view data to analytic accounts.'),
 
         'module_xopgi_operations_performance':
-            fields.boolean('Show reports about operations performance.')
+            fields.boolean('Show reports about operations performance.'),
 
         'module_xopgi_unrealized_gl':
             fields.boolean('Manage unrealized gain & loss.')

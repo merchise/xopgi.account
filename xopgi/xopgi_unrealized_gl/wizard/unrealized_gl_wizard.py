@@ -26,19 +26,13 @@ class UnrealizedGLWizard(models.TransientModel):
                                                limit=1)
 
     def _get_journal(self):
-        return self.env["account.config.settings"].search(
-            [("company_id", "=", self.env.user.company_id.id)],
-            limit=1).ugl_journal_id
+        return self.env.user.company_id.ugl_journal_id
 
     def _get_gain_account(self):
-        return self.env["account.config.settings"].search(
-            [("company_id", "=", self.env.user.company_id.id)],
-            limit=1).ugl_gain_account_id
+        return self.env.user.company_id.ugl_gain_account_id
 
     def _get_loss_account(self):
-        return self.env["account.config.settings"].search(
-            [("company_id", "=", self.env.user.company_id.id)],
-            limit=1).ugl_loss_account_id
+        return self.env.user.company_id.ugl_loss_account_id
 
     close_date = fields.Date(string="Close Date", required=True,
                              default=_get_close_date)
@@ -48,7 +42,7 @@ class UnrealizedGLWizard(models.TransientModel):
                                   domain=_get_valid_currencies)
 
     currency_rate = fields.Float(string="Currency Rate", required=True,
-                                 digits=(6, 6))
+                                 digits=(15, 9))
 
     journal_id = fields.Many2one("account.journal", string="Journal",
                                  required=True,
@@ -103,8 +97,7 @@ class UnrealizedGLWizard(models.TransientModel):
                 ugl = self.get_ugl_data(account)
             move = self.env["account.move"].create(
                 {"name": "UGL-" + self.close_date,
-                 # "company_id": self.env.user.company_id.id,
-                 "journal_id": self.journal_id.id,  # "state": "draft",
+                 "journal_id": self.journal_id.id,
                  "period_id": period, "date": self.close_date,
                  "to_be_reversed": True})
             if ugl == 0:

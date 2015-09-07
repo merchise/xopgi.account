@@ -20,6 +20,7 @@
     """,
 
     "data": [
+        "data/salesperson_wizard_data.xml",
         "views/account_analytic_account_views.xml",
         "wizard/salesperson_wizard.xml"
     ],

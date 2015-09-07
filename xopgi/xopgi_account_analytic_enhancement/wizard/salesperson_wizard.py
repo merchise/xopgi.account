@@ -32,11 +32,47 @@ class PrimaryInstructorWizard(models.TransientModel):
     def generate_supplier_invoice(self):
         partner = self.primary_salesperson_id.partner_id
         account_id = partner.property_account_payable.id
+        self._supplier_invoice_generator(partner, account_id,
+                                         self.analytic_account_ids)
+
+    def generate_supplier_invoice_cron(self, cr, uid):
+        with api.Environment.manage():
+            self.env = api.Environment(cr, uid, {})
+            commission_ready = self.env["account.analytic.account"].search(
+                [('type', '=', 'contract'), ('state', '=', 'close'),
+                 ('supplier_invoice_id', '=', False)])
+            salesperson_commissions = {}
+            for commission in commission_ready:
+                salesperson = commission.primary_salesperson_id
+                if salesperson:
+                    sale_partner = salesperson.partner_id
+                    if sale_partner.id not in salesperson_commissions:
+                        salesperson_commissions[sale_partner.id] = []
+                    salesperson_commissions[sale_partner.id].append(commission)
+            for salesperson_key in salesperson_commissions:
+                partner = self.env["res.partner"].browse([salesperson_key])
+                account_id = partner.property_account_payable.id
+                self._supplier_invoice_generator(partner, account_id,
+                                                 salesperson_commissions[
+                                                     salesperson_key])
+            del self.env
+
+    def _supplier_invoice_generator(self, partner, account_id,
+                                    analytic_account_ids):
         supplier_invoice = self.env["account.invoice"].sudo().create(
             {"partner_id": partner.id,
              "account_id": account_id,
              "type": "in_invoice"})
-        for analytic_account_id in self.analytic_account_ids:
+        supplier_invoice.message_follower_ids |= self.env[
+            "res.partner"].browse([partner.id])
+        employees = self.env["hr.employee"].search(
+            [("user_id.partner_id", "=", partner.id)])
+        for employee in employees:
+            if employee.parent_id:
+                manager = employee.parent_id.user_id.partner_id
+                if any(manager):
+                    supplier_invoice.message_follower_ids |= manager
+        for analytic_account_id in analytic_account_ids:
             self.env["account.invoice.line"].sudo().create(
                 {"invoice_id": supplier_invoice.id,
                  "quantity": 1,

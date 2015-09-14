@@ -18,10 +18,14 @@
 
     "version": "1.0",
 
-    "depends": ["base", "account", "sale", "crm"],
+    "depends": ["base", "account", "sale", "crm", "purchase_requisition",
+                "xhg_autrement_project_dossier"],
 
     "data": [
-        "views/operations_performance_views.xml"
+        "security/ir.model.access.csv",
+        "views/operations_performance_views.xml",
+        "workflow/sale_order_workflow.xml",
+        "workflow/purchase_order_workflow.xml"
     ],
 
     "demo": [],

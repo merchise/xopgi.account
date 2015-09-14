@@ -1,6 +1,6 @@
 <openerp>
     <data>
-        <record id="perations_performance_reports_view_graph"
+        <record id="operations_performance_reports_view_graph"
                 model="ir.ui.view">
             <field name="name">
                 xopgi_operations_performance.operations_performance_report.graph
@@ -10,12 +10,14 @@
                 <graph string="Operations Performance Statistics" type="pivot">
                     <field name="lead_id" type="row"/>
                     <field name="response_time" type="measure"/>
+                    <field name="proposal_time" type="measure"/>
+                    <field name="negotiation_time" type="measure"/>
+                    <field name="customer_confirm_time" type="measure"/>
                     <field name="invoice_time" type="measure"/>
                 </graph>
             </field>
         </record>
-
-        <record id="account_analytic_account_view__tree" model="ir.ui.view">
+        <record id="operations_performance_reports_view_tree" model="ir.ui.view">
             <field name="name">xopgi_operations_performance.operations_performance_report.tree</field>
             <field name="model">xopgi_operations_performance.opperf_report</field>
             <field name="arch" type="xml">
@@ -24,7 +26,80 @@
                       string="Operations Performance">
                     <field name="lead_id"/>
                     <field name="response_time"/>
+                    <field name="proposal_time"/>
+                    <field name="negotiation_time"/>
+                    <field name="customer_confirm_time"/>
                     <field name="invoice_time"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="operations_result_reports_view_graph"
+                model="ir.ui.view">
+            <field name="name">
+                xopgi_operations_performance.operations_results_report.graph
+            </field>
+            <field name="model">xopgi_operations_performance.opresult_report</field>
+            <field name="arch" type="xml">
+                <graph string="Operations Results" type="pivot">
+                    <field name="analytic_id" type="row"/>
+                    <field name="debit" type="measure"/>
+                    <field name="credit" type="measure"/>
+                    <field name="balance" type="measure"/>
+                    <field name="margin_percentage" type="measure"/>
+                    <field name="pax" type="measure"/>
+                    <field name="margin_by_pax" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        <record id="operations_result_reports_view_tree" model="ir.ui.view">
+            <field name="name">xopgi_operations_performance.operations_results_report.graph.tree</field>
+            <field name="model">xopgi_operations_performance.opresult_report</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false"
+                      default_order='id desc'
+                      string="Operations Performance">
+                    <field name="analytic_id"/>
+                    <field name="code"/>
+                    <field name="debit"/>
+                    <field name="credit"/>
+                    <field name="balance"/>
+                    <field name="margin_percentage"/>
+                    <field name="pax"/>
+                    <field name="margin_by_pax"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="coordination_performance_reports_view_graph"
+                model="ir.ui.view">
+            <field name="name">
+                xopgi_operations_performance.coordination_performance_report.graph
+            </field>
+            <field name="model">xopgi_operations_performance.coordperf_report</field>
+            <field name="arch" type="xml">
+                <graph string="Coordination Performance Statistics" type="pivot">
+                    <field name="purchase_order_id" type="row"/>
+                    <field name="planification_time" type="measure"/>
+                    <field name="reserve_send_time" type="measure"/>
+                    <field name="supplier_response_time" type="measure"/>
+                    <field name="purchase_time" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        <record id="coordination_performance_reports_view_tree" model="ir.ui.view">
+            <field name="name">xopgi_operations_performance.coordination_performance_report.tree</field>
+            <field name="model">xopgi_operations_performance.coordperf_report</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false"
+                      default_order='id desc'
+                      string="Coordination Performance">
+                    <field name="purchase_order_id"/>
+                    <field name="planification_time"/>
+                    <field name="reserve_send_time"/>
+                    <field name="supplier_response_time"/>
+                    <field name="purchase_time"/>
                 </tree>
             </field>
         </record>
@@ -36,11 +111,30 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,graph</field>
         </record>
+        <record id="operations_result_report_action"
+                model="ir.actions.act_window">
+            <field name="name">Operations Results</field>
+            <field name="res_model">xopgi_operations_performance.opresult_report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,graph</field>
+        </record>
+        <record id="coordination_performance_report_action"
+                model="ir.actions.act_window">
+            <field name="name">Coordination Analysis</field>
+            <field name="res_model">xopgi_operations_performance.coordperf_report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,graph</field>
+        </record>
 
-        <!--<menuitem id="operations_report_menu" name="Operations"-->
-                  <!--parent="account.menu_finance_reports" sequence="150"/>-->
+        <menuitem id="operations_menu" name="Operations" parent="base.menu_reporting"/>
         <menuitem id="operations_performance_report_menu"
                   action="operations_performance_report_action"
-                  parent="base.next_id_64" sequence="100"/>
+                  parent="operations_menu"/>
+        <menuitem id="operations_performance_result_report_menu"
+                  action="operations_result_report_action"
+                  parent="operations_menu"/>
+        <menuitem id="operations_performance_coordination_report_menu"
+                  action="coordination_performance_report_action"
+                  parent="operations_menu"/>
     </data>
 </openerp>

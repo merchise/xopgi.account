@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="sale.act_sent" model="workflow.activity">
+            <field name="sale.wkf_id" ref="sale.wkf_sale"/>
+            <field name="name">sent</field>
+            <field name="kind">function</field>
+            <field name="action">action_sent_mail()</field>
+        </record>
+    </data>
+</openerp>

@@ -10,20 +10,23 @@ class OperationPerformanceReport(models.Model):
     _auto = False
 
     lead_id = fields.Many2one("crm.lead", "Opportunity")
+    partner_id = fields.Many2one("res.partner", "Customer")
+    manager_id = fields.Many2one("res.users", "Account Manager")
+    user_id = fields.Many2one("res.users", string="Salesperson")
     response_time = fields.Integer(
-        "Response Time",
+        "Response Time", group_operator="avg",
         help="Time between opportunity creation and first Quotation")
     proposal_time = fields.Integer(
-        "Proposal Time",
+        "Proposal Time", group_operator="avg",
         help="Time between opportunity creation and first Quotation sent")
     negotiation_time = fields.Integer(
-        "Negotiation Time",
+        "Negotiation Time", group_operator="avg",
         help="Time between Quotation sent and first Quotation confirm")
     customer_confirm_time = fields.Integer(
-        "Customer Time",
+        "Customer Time", group_operator="avg",
         help="Time between opportunity creation and first Quotation confirm")
     invoice_time = fields.Integer(
-        "Invoice Time",
+        "Invoice Time", group_operator="avg",
         help="Time between opportunity creation and first Invoice")
 
     def init(self, cr):
@@ -35,6 +38,9 @@ class OperationPerformanceReport(models.Model):
             SELECT
              crm_lead.id,
              crm_lead.id AS lead_id,
+             MIN(account_analytic_account.manager_id) AS manager_id,
+             crm_lead.partner_id,
+             crm_lead.user_id,
              CAST(DATE_PART('day', MIN(sale_order.date_order - crm_lead.create_date)) AS INTEGER) AS response_time,
              CAST(DATE_PART('day', MIN(sale_order.send_date - crm_lead.create_date)) AS INTEGER) AS proposal_time,
              CAST(DATE_PART('day', MIN(sale_order.date_confirm - sale_order.send_date)) AS INTEGER) AS negotiation_time,
@@ -54,6 +60,10 @@ class OperationPerformanceReport(models.Model):
              public.account_invoice
             ON
              account_invoice.origin = sale_order.name
+            LEFT OUTER JOIN
+             public.account_analytic_account
+            ON
+             sale_order.project_id = account_analytic_account.id
             GROUP BY
              crm_lead.id
             ORDER BY
@@ -67,8 +77,11 @@ class OperationResultReport(models.Model):
     _auto = False
 
     analytic_id = fields.Many2one("account.analytic.account",
-                                          "Operation")
+                                  "Operation")
     code = fields.Char("Reference")
+    partner_id = fields.Many2one("res.partner", "Customer")
+    manager_id = fields.Many2one("res.users", "Account Manager")
+    primary_salesperson_id = fields.Many2one("res.users", string="Salesperson")
     debit = fields.Float("Debit")
     credit = fields.Float("Credit")
     balance = fields.Float("Balance")
@@ -88,6 +101,9 @@ class OperationResultReport(models.Model):
               x.id AS analytic_id,
               x.name,
               x.code,
+              x.partner_id,
+              x.manager_id,
+              x.primary_salesperson_id,
               x.debit,
               x.credit,
               x.balance,
@@ -110,6 +126,9 @@ class OperationResultReport(models.Model):
               a.id,
               a.name,
               a.code,
+              a.partner_id,
+              a.manager_id,
+              a.primary_salesperson_id,
               a.date,
               a.pax,
               SUM(
@@ -142,17 +161,22 @@ class CoordinationPerformanceReport(models.Model):
     _auto = False
 
     purchase_order_id = fields.Many2one("purchase.order", "Purchase Order")
+    user_id = fields.Many2one("res.users", "Responsible")
+    partner_id = fields.Many2one("res.partner", "Supplier")
+    account_analytic_id = fields.Many2one("account.analytic.account",
+                                          "Dossier")
+    manager_id = fields.Many2one("res.users", "Account Manager")
     planification_time = fields.Integer(
-        "Planification Time",
+        "Planification Time", group_operator="avg",
         help="Time between call for bids creation and first proccessing")
     reserve_send_time = fields.Integer(
-        "Reserve Send Time",
+        "Reserve Send Time", group_operator="avg",
         help="Time between PO creation and PO send")
     supplier_response_time = fields.Integer(
-        "Supplier Response Time",
+        "Supplier Response Time", group_operator="avg",
         help="Time between PO send and PO bid received")
     purchase_time = fields.Integer(
-        "Purchase Time",
+        "Purchase Time", group_operator="avg",
         help="Time between PO creation and confirmation")
 
     def init(self, cr):
@@ -164,6 +188,10 @@ class CoordinationPerformanceReport(models.Model):
             SELECT
               purchase_order.id,
               purchase_order.id AS purchase_order_id,
+              purchase_requisition.user_id,
+              purchase_order.partner_id,
+              purchase_requisition.account_analytic_id,
+              account_analytic_account.manager_id,
               CAST(DATE_PART('day', purchase_requisition.call_date - purchase_requisition.create_date) AS INTEGER) AS planification_time,
               CAST(DATE_PART('day', purchase_order.send_date - purchase_order.create_date) AS INTEGER) AS reserve_send_time,
               CAST(DATE_PART('day', purchase_order.bid_date - purchase_order.send_date) AS INTEGER) AS supplier_response_time,
@@ -174,6 +202,10 @@ class CoordinationPerformanceReport(models.Model):
               public.purchase_requisition
             ON
               purchase_order.requisition_id = purchase_requisition.id
+            LEFT OUTER JOIN
+              public.account_analytic_account
+            ON
+              purchase_requisition.account_analytic_id = account_analytic_account.id
             WHERE
               purchase_order.state <> 'cancel'
             ORDER BY

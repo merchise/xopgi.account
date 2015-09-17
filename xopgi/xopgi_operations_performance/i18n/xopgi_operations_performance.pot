@@ -6,14 +6,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-12 00:00+0000\n"
-"PO-Revision-Date: 2015-09-12 00:00+0000\n"
+"POT-Creation-Date: 2015-09-16 06:13+0000\n"
+"PO-Revision-Date: 2015-09-16 06:13+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.coordperf_report:xopgi_operations_performance.coordination_performance_reports_view_search
+#: field:xopgi_operations_performance.coordperf_report,manager_id:0
+#: view:xopgi_operations_performance.opperf_report:xopgi_operations_performance.operations_performance_reports_view_search
+#: field:xopgi_operations_performance.opperf_report,manager_id:0
+#: view:xopgi_operations_performance.opresult_report:xopgi_operations_performance.result_performance_reports_view_search
+#: field:xopgi_operations_performance.opresult_report,manager_id:0
+msgid "Account Manager"
+msgstr ""
 
 #. module: xopgi_operations_performance
 #: model:ir.model,name:xopgi_operations_performance.model_account_analytic_account
@@ -59,6 +69,14 @@ msgid "Credit"
 msgstr ""
 
 #. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.opperf_report:xopgi_operations_performance.operations_performance_reports_view_search
+#: field:xopgi_operations_performance.opperf_report,partner_id:0
+#: view:xopgi_operations_performance.opresult_report:xopgi_operations_performance.result_performance_reports_view_search
+#: field:xopgi_operations_performance.opresult_report,partner_id:0
+msgid "Customer"
+msgstr ""
+
+#. module: xopgi_operations_performance
 #: field:xopgi_operations_performance.opperf_report,customer_confirm_time:0
 msgid "Customer Time"
 msgstr ""
@@ -69,8 +87,21 @@ msgid "Debit"
 msgstr ""
 
 #. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.coordperf_report:xopgi_operations_performance.coordination_performance_reports_view_search
+#: field:xopgi_operations_performance.coordperf_report,account_analytic_id:0
+msgid "Dossier"
+msgstr ""
+
+#. module: xopgi_operations_performance
 #: field:xopgi_operations_performance.opresult_report,date:0
 msgid "Expiration Date"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.coordperf_report:xopgi_operations_performance.coordination_performance_reports_view_search
+#: view:xopgi_operations_performance.opperf_report:xopgi_operations_performance.operations_performance_reports_view_search
+#: view:xopgi_operations_performance.opresult_report:xopgi_operations_performance.result_performance_reports_view_search
+msgid "Group By"
 msgstr ""
 
 #. module: xopgi_operations_performance
@@ -207,14 +238,34 @@ msgid "Response Time"
 msgstr ""
 
 #. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.coordperf_report:xopgi_operations_performance.coordination_performance_reports_view_search
+#: field:xopgi_operations_performance.coordperf_report,user_id:0
+msgid "Responsible"
+msgstr ""
+
+#. module: xopgi_operations_performance
 #: model:ir.model,name:xopgi_operations_performance.model_sale_order
 msgid "Sales Order"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.opperf_report:xopgi_operations_performance.operations_performance_reports_view_search
+#: field:xopgi_operations_performance.opperf_report,user_id:0
+#: view:xopgi_operations_performance.opresult_report:xopgi_operations_performance.result_performance_reports_view_search
+#: field:xopgi_operations_performance.opresult_report,primary_salesperson_id:0
+msgid "Salesperson"
 msgstr ""
 
 #. module: xopgi_operations_performance
 #: field:purchase.order,send_date:0
 #: field:sale.order,send_date:0
 msgid "Send Date"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.coordperf_report:xopgi_operations_performance.coordination_performance_reports_view_search
+#: field:xopgi_operations_performance.coordperf_report,partner_id:0
+msgid "Supplier"
 msgstr ""
 
 #. module: xopgi_operations_performance

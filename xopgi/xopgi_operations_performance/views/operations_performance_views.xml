@@ -17,6 +17,22 @@
                 </graph>
             </field>
         </record>
+        <record id="operations_performance_reports_view_search" model="ir.ui.view">
+            <field name="name">xopgi_operations_performance.operations_performance_report.search</field>
+            <field name="model">xopgi_operations_performance.opperf_report</field>
+            <field name="arch" type="xml">
+                <search>
+                    <group string="Group By">
+                        <filter name="by_customer" string="Customer"
+                                context="{'group_by': 'partner_id'}"/>
+                        <filter name="by_manager" string="Account Manager"
+                                context="{'group_by': 'manager_id'}"/>
+                        <filter name="by_salesperson" string="Salesperson"
+                                context="{'group_by': 'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
         <record id="operations_performance_reports_view_tree" model="ir.ui.view">
             <field name="name">xopgi_operations_performance.operations_performance_report.tree</field>
             <field name="model">xopgi_operations_performance.opperf_report</field>
@@ -50,6 +66,22 @@
                     <field name="pax" type="measure"/>
                     <field name="margin_by_pax" type="measure"/>
                 </graph>
+            </field>
+        </record>
+        <record id="result_performance_reports_view_search" model="ir.ui.view">
+            <field name="name">xopgi_operations_performance.result_performance_report.search</field>
+            <field name="model">xopgi_operations_performance.opresult_report</field>
+            <field name="arch" type="xml">
+                <search>
+                    <group string="Group By">
+                        <filter name="by_customer" string="Customer"
+                                context="{'group_by': 'partner_id'}"/>
+                        <filter name="by_manager" string="Account Manager"
+                                context="{'group_by': 'manager_id'}"/>
+                        <filter name="by_salesperson" string="Salesperson"
+                                context="{'group_by': 'primary_salesperson_id'}"/>
+                    </group>
+                </search>
             </field>
         </record>
         <record id="operations_result_reports_view_tree" model="ir.ui.view">
@@ -86,6 +118,27 @@
                     <field name="supplier_response_time" type="measure"/>
                     <field name="purchase_time" type="measure"/>
                 </graph>
+            </field>
+        </record>
+        <record id="coordination_performance_reports_view_search" model="ir.ui.view">
+            <field name="name">xopgi_operations_performance.coordination_performance_report.search</field>
+            <field name="model">xopgi_operations_performance.coordperf_report</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="user_id"/>
+                    <field name="manager_id"/>
+                    <field name="partner_id"/>
+                    <group string="Group By">
+                        <filter name="by_responsible" string="Responsible"
+                                context="{'group_by': 'user_id'}"/>
+                        <filter name="by_dossier" string="Dossier"
+                                context="{'group_by': 'account_analytic_id'}"/>
+                        <filter name="by_manager" string="Account Manager"
+                                context="{'group_by': 'manager_id'}"/>
+                        <filter name="by_supplier" string="Supplier"
+                                context="{'group_by': 'partner_id'}"/>
+                    </group>
+                </search>
             </field>
         </record>
         <record id="coordination_performance_reports_view_tree" model="ir.ui.view">
@@ -129,12 +182,12 @@
         <menuitem id="operations_menu" name="Operations" parent="base.menu_reporting"/>
         <menuitem id="operations_performance_report_menu"
                   action="operations_performance_report_action"
-                  parent="operations_menu"/>
+                  parent="operations_menu" sequence="10"/>
         <menuitem id="operations_performance_result_report_menu"
                   action="operations_result_report_action"
-                  parent="operations_menu"/>
+                  parent="operations_menu" sequence="20"/>
         <menuitem id="operations_performance_coordination_report_menu"
                   action="coordination_performance_report_action"
-                  parent="operations_menu"/>
+                  parent="operations_menu" sequence="30"/>
     </data>
 </openerp>

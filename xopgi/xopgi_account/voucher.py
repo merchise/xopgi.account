@@ -96,4 +96,10 @@ class account_voucher(Model):
                     default='',
                     getter=getattr
                 )
+        for item in res["value"]["line_dr_ids"]:
+            item["amount"] = 0.00
+            item["reconcile"] = False
+        for item in res["value"]["line_cr_ids"]:
+            item["amount"] = 0.00
+            item["reconcile"] = False
         return res

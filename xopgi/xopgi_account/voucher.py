@@ -96,6 +96,4 @@ class account_voucher(Model):
                     default='',
                     getter=getattr
                 )
-                line["amount"] = 0.00
-                line["reconcile"] = False
         return res

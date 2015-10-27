@@ -7,11 +7,26 @@
             <field name="arch" type="xml">
                 <form string="Invoices to pay">
                     <group>
-                        <field name="partner_id"/>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="amount" class="oe_inline"
+                                   widget="monetary"
+                                   options="{&quot;currency_field&quot;: &quot;currency_id&quot;}"/>
+                            <field name="journal_id"
+                                   domain="[('type','in',['bank', 'cash'])]"
+                                   widget="selection"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="reference"
+                                   placeholder="e.g. 003/10"/>
+                        </group>
                     </group>
                     <separator string="Invoices"/>
                     <field name="invoice_ids"/>
                     <footer>
+                        <button name="quick_payment" type="object"
+                                string="Quick payment" class="oe_highlight"/>
                         <button name="prepare_payment" type="object"
                                 string="Prepare payment" class="oe_highlight"/>
                         or

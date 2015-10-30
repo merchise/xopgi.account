@@ -18,11 +18,17 @@ class AccountVoucher(models.Model):
             for line_dr_id in result["value"]["line_dr_ids"][:]:
                 if line_dr_id["move_line_id"] not in context_line_dr_ids:
                     result["value"]["line_dr_ids"].remove(line_dr_id)
+                elif "flag_reconcile" in context and context["flag_reconcile"]:
+                    line_dr_id["amount"] = line_dr_id["amount_unreconciled"]
+                    line_dr_id["reconcile"] = True
 
         if "line_cr_ids" in context and any(context["line_cr_ids"]):
             context_line_cr_ids = context["line_cr_ids"]
             for line_cr_id in result["value"]["line_cr_ids"][:]:
                 if line_cr_id["move_line_id"] not in context_line_cr_ids:
                     result["value"]["line_cr_ids"].remove(line_cr_id)
+                elif "flag_reconcile" in context and context["flag_reconcile"]:
+                    line_cr_id["amount"] = line_cr_id["amount_unreconciled"]
+                    line_cr_id["reconcile"] = True
 
         return result

@@ -41,27 +41,20 @@ class VoucherWizard(models.TransientModel):
         return fields.Date.context_today(self)
 
     type = fields.Char("Type", compute="_compute_invoice_dependencies")
-
     partner_id = fields.Many2one("res.partner", string="Partner",
                                  required=True, readonly=True,
                                  compute="_compute_invoice_dependencies")
-
     invoice_ids = fields.Many2many("account.invoice",
                                    string="Invoices", required=True,
                                    default=_default_invoices, readonly=True)
-
     move_line_ids = fields.Many2many("account.move.line",
                                      compute="_compute_invoice_dependencies")
-
     amount = fields.Float("Amount", readonly=True)
-
     journal_id = fields.Many2one("account.journal", string="Payment Method",
                                  required=True, default=_default_journal,
                                  domain=[('type', 'in', ['bank', 'cash'])])
-
     date = fields.Date('Date', default=_default_date,
                        help="Effective date for accounting entries")
-
     reference = fields.Char('Ref #', help="Transaction reference number.")
 
     @api.one
@@ -82,7 +75,7 @@ class VoucherWizard(models.TransientModel):
 
     @api.multi
     def quick_payment(self):
-        # For some reason self.amount change to 0.00 so is necessary
+        # FIXME: For some reason self.amount change to 0.00 so is necessary
         # recalulate it. Keep searching for reason and solution :(
         voucher_lines = self._recompute_voucher_lines()
         amount = self._calculate_amount(voucher_lines)
@@ -124,9 +117,9 @@ class VoucherWizard(models.TransientModel):
             "type": "ir.actions.act_window",
             "res_model": "account.voucher",
             "context": {"partner_id": self.partner_id.id,
-                        # For some reason self.amount change to 0.00 so is
-                        # necessary recalulate it. Keep searching for reason
-                        # and solution :(
+                        # FIXME: For some reason self.amount change to 0.00 so
+                        # is necessary recalulate it. Keep searching for
+                        # reason and solution :(
                         "amount": self._calculate_amount(
                             self._recompute_voucher_lines()),
                         "journal_id": self.journal_id.id, "date": self.date,
@@ -134,7 +127,6 @@ class VoucherWizard(models.TransientModel):
                         "type": self._get_operation_type(),
                         "flag_reconcile": True}
         }
-
         if self.type == 'in_invoice':
             form_external_id = "account_voucher.view_vendor_payment_form"
             action["context"]["line_dr_ids"] = [move.id for move in
@@ -143,7 +135,6 @@ class VoucherWizard(models.TransientModel):
             form_external_id = "account_voucher.view_vendor_receipt_form"
             action["context"]["line_cr_ids"] = [move.id for move in
                                                 self.move_line_ids]
-
         action["views"] = [[self.env.ref(form_external_id).id, "form"]]
         return action
 

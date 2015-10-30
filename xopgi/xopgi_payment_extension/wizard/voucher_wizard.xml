@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-    <data>
-        <record id="voucher_view_wizard" model="ir.ui.view">
-            <field name="name">voucher.wizard.form</field>
-            <field name="model">xopgi_payment_extension.voucher_wizard</field>
-            <field name="arch" type="xml">
-                <form string="Invoices to pay">
-                    <group>
-                        <group>
-                            <field name="partner_id"/>
-                            <field name="amount" class="oe_inline"
-                                   widget="monetary"
-                                   options="{&quot;currency_field&quot;: &quot;currency_id&quot;}"/>
-                            <field name="journal_id"
-                                   domain="[('type','in',['bank', 'cash'])]"
-                                   widget="selection"/>
-                        </group>
-                        <group>
-                            <field name="date"/>
-                            <field name="reference"
-                                   placeholder="e.g. 003/10"/>
-                        </group>
-                    </group>
-                    <separator string="Invoices"/>
-                    <field name="invoice_ids"/>
-                    <footer>
-                        <button name="quick_payment" type="object"
-                                string="Quick payment" class="oe_highlight"/>
-                        <button name="prepare_payment" type="object"
-                                string="Prepare payment" class="oe_highlight"/>
-                        or
-                        <button special="cancel" string="Cancel"/>
-                    </footer>
-                </form>
-            </field>
-        </record>
+  <data>
+    <record id="voucher_view_wizard" model="ir.ui.view">
+      <field name="name">voucher.wizard.form</field>
+      <field name="model">xopgi_payment_extension.voucher_wizard</field>
+      <field name="arch" type="xml">
+        <form string="Invoices to pay">
+          <group>
+            <group>
+              <field name="partner_id"/>
+              <field name="amount" class="oe_inline"
+                     widget="monetary"
+                     options="{&quot;currency_field&quot;: &quot;currency_id&quot;}"/>
+              <field name="journal_id"
+                     domain="[('type','in',['bank', 'cash'])]"
+                     widget="selection"/>
+            </group>
+            <group>
+              <field name="date"/>
+              <field name="reference"
+                     placeholder="e.g. 003/10"/>
+            </group>
+          </group>
+          <separator string="Invoices"/>
+          <field name="invoice_ids"/>
+          <footer>
+            <button name="quick_payment" type="object"
+                    string="Quick payment" class="oe_highlight"/>
+            <button name="prepare_payment" type="object"
+                    string="Prepare payment" class="oe_highlight"/>
+            or
+            <button special="cancel" string="Cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
 
-        <act_window id="course_wizard_action"
-                    name="Generate Payment"
-                    src_model="account.invoice"
-                    res_model="xopgi_payment_extension.voucher_wizard"
-                    view_mode="form"
-                    target="new"
-                    key2="client_action_multi"/>
-    </data>
+    <act_window id="course_wizard_action"
+                name="Generate Payment"
+                src_model="account.invoice"
+                res_model="xopgi_payment_extension.voucher_wizard"
+                view_mode="form"
+                target="new"
+                key2="client_action_multi"/>
+  </data>
 </openerp>

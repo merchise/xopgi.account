@@ -1,5 +1,26 @@
 <openerp>
     <data>
+        <record id="operations_performance_reports_view_form"
+                model="ir.ui.view">
+            <field name="name">
+                xopgi_operations_performance.operations_performance_report.form
+            </field>
+            <field name="model">xopgi_operations_performance.opperf_report</field>
+            <field name="arch" type="xml">
+                <form string="Operation Statistic">
+                    <sheet>
+                        <group>
+                            <field name="lead_id"/>
+                            <field name="response_time"/>
+                            <field name="proposal_time"/>
+                            <field name="negotiation_time"/>
+                            <field name="customer_confirm_time"/>
+                            <field name="invoice_time"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
         <record id="operations_performance_reports_view_graph"
                 model="ir.ui.view">
             <field name="name">
@@ -22,6 +43,9 @@
             <field name="model">xopgi_operations_performance.opperf_report</field>
             <field name="arch" type="xml">
                 <search>
+                    <field name="partner_id"/>
+                    <field name="manager_id"/>
+                    <field name="user_id"/>
                     <group string="Group By">
                         <filter name="by_customer" string="Customer"
                                 context="{'group_by': 'partner_id'}"/>
@@ -73,6 +97,9 @@
             <field name="model">xopgi_operations_performance.opresult_report</field>
             <field name="arch" type="xml">
                 <search>
+                    <field name="partner_id"/>
+                    <field name="manager_id"/>
+                    <field name="primary_salesperson_id"/>
                     <group string="Group By">
                         <filter name="by_customer" string="Customer"
                                 context="{'group_by': 'partner_id'}"/>
@@ -104,6 +131,26 @@
             </field>
         </record>
 
+        <record id="coordination_performance_reports_view_form"
+                model="ir.ui.view">
+            <field name="name">
+                xopgi_operations_performance.coordination_performance_report.form
+            </field>
+            <field name="model">xopgi_operations_performance.coordperf_report</field>
+            <field name="arch" type="xml">
+                <form string="Coordination Statistic">
+                    <sheet>
+                        <group>
+                            <field name="purchase_order_id"/>
+                            <field name="planification_time"/>
+                            <field name="reserve_send_time"/>
+                            <field name="supplier_response_time"/>
+                            <field name="purchase_time"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
         <record id="coordination_performance_reports_view_graph"
                 model="ir.ui.view">
             <field name="name">
@@ -126,6 +173,7 @@
             <field name="arch" type="xml">
                 <search>
                     <field name="user_id"/>
+                    <field name="account_analytic_id"/>
                     <field name="manager_id"/>
                     <field name="partner_id"/>
                     <group string="Group By">
@@ -162,7 +210,7 @@
             <field name="name">Operations Analysis</field>
             <field name="res_model">xopgi_operations_performance.opperf_report</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,graph</field>
+            <field name="view_mode">tree,form,graph</field>
         </record>
         <record id="operations_result_report_action"
                 model="ir.actions.act_window">
@@ -176,7 +224,8 @@
             <field name="name">Coordination Analysis</field>
             <field name="res_model">xopgi_operations_performance.coordperf_report</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,graph</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="context" eval="{'search_default_by_supplier': 1}"/>
         </record>
 
         <menuitem id="operations_menu" name="Operations" parent="base.menu_reporting"/>

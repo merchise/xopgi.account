@@ -54,5 +54,8 @@ class AccountConfigSettings(TransientModel):
             fields.boolean('Show reports about operations performance.'),
 
         'module_xopgi_unrealized_gl':
-            fields.boolean('Manage unrealized gain & loss.')
+            fields.boolean('Manage unrealized gain & loss.'),
+
+        'module_xopgi_payment_extension':
+            fields.boolean('Set payments enhancements.')
     }

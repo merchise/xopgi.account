@@ -1,0 +1,123 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* xopgi_payment_extension
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-27 07:43+0000\n"
+"PO-Revision-Date: 2015-10-27 07:43+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: xopgi_payment_extension
+#: model:ir.model,name:xopgi_payment_extension.model_account_voucher
+msgid "Accounting Voucher"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: field:xopgi_payment_extension.voucher_wizard,amount:0
+msgid "Amount"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: view:xopgi_payment_extension.voucher_wizard:xopgi_payment_extension.voucher_view_wizard
+msgid "Cancel"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: field:xopgi_payment_extension.voucher_wizard,create_uid:0
+msgid "Created by"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: field:xopgi_payment_extension.voucher_wizard,create_date:0
+msgid "Created on"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: field:xopgi_payment_extension.voucher_wizard,date:0
+msgid "Date"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: help:xopgi_payment_extension.voucher_wizard,date:0
+msgid "Effective date for accounting entries"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: model:ir.actions.act_window,name:xopgi_payment_extension.course_wizard_action
+msgid "Generate Payment"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: field:xopgi_payment_extension.voucher_wizard,id:0
+msgid "ID"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: view:xopgi_payment_extension.voucher_wizard:xopgi_payment_extension.voucher_view_wizard
+#: field:xopgi_payment_extension.voucher_wizard,invoice_ids:0
+msgid "Invoices"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: view:xopgi_payment_extension.voucher_wizard:xopgi_payment_extension.voucher_view_wizard
+msgid "Invoices to pay"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: field:xopgi_payment_extension.voucher_wizard,write_uid:0
+msgid "Last Updated by"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: field:xopgi_payment_extension.voucher_wizard,write_date:0
+msgid "Last Updated on"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: field:xopgi_payment_extension.voucher_wizard,partner_id:0
+msgid "Partner"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: field:xopgi_payment_extension.voucher_wizard,journal_id:0
+msgid "Payment Method"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: view:xopgi_payment_extension.voucher_wizard:xopgi_payment_extension.voucher_view_wizard
+msgid "Prepare payment"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: view:xopgi_payment_extension.voucher_wizard:xopgi_payment_extension.voucher_view_wizard
+msgid "Quick payment"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: field:xopgi_payment_extension.voucher_wizard,reference:0
+msgid "Ref #"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: help:xopgi_payment_extension.voucher_wizard,reference:0
+msgid "Transaction reference number."
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: view:xopgi_payment_extension.voucher_wizard:xopgi_payment_extension.voucher_view_wizard
+msgid "e.g. 003/10"
+msgstr ""
+
+#. module: xopgi_payment_extension
+#: view:xopgi_payment_extension.voucher_wizard:xopgi_payment_extension.voucher_view_wizard
+msgid "or"
+msgstr ""
+

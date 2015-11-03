@@ -27,8 +27,8 @@
           <footer>
             <button name="quick_payment" type="object"
                     string="Quick payment" class="oe_highlight"/>
-            <button name="prepare_payment" type="object"
-                    string="Prepare payment" class="oe_highlight"/>
+            <!-- <button name="prepare_payment" type="object" -->
+            <!--         string="Prepare payment" class="oe_highlight"/> -->
             or
             <button special="cancel" string="Cancel"/>
           </footer>

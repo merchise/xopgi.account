@@ -49,10 +49,8 @@ class AccountPeriod(models.Model):
 
     def get_period_by_date(self, date):
         # Work around to avoid bug on opening period
-        last_period_date = (datetime.date(datetime.MINYEAR,
-                                          (date.month + 1) % 12,
-                                          1) - datetime.timedelta(
+        last_period_date = (datetime.date(
+            datetime.MINYEAR + 1, date.month % 12 + 1, 1) - datetime.timedelta(
             days=2)).replace(year=date.year)
-
         return self.search([("date_stop", ">", last_period_date), (
             "date_start", "<", last_period_date)], limit=1)

@@ -12,11 +12,11 @@
 #
 # Created on 2015-10-30
 
+
 from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
-
-
+import datetime
 from openerp import models, fields, api
 
 
@@ -49,13 +49,15 @@ class VoucherWizard(models.TransientModel):
                                    default=_default_invoices, readonly=True)
     move_line_ids = fields.Many2many("account.move.line",
                                      compute="_compute_invoice_dependencies")
-    amount = fields.Float("Amount", readonly=True)
+    amount = fields.Float("Amount", required=True, readonly=True,
+                          compute="_compute_amount")
     journal_id = fields.Many2one("account.journal", string="Payment Method",
                                  required=True, default=_default_journal,
                                  domain=[('type', 'in', ['bank', 'cash'])])
     date = fields.Date('Date', default=_default_date,
                        help="Effective date for accounting entries")
     reference = fields.Char('Ref #', help="Transaction reference number.")
+    name = fields.Char('Memo')
 
     @api.one
     @api.depends("invoice_ids")
@@ -68,18 +70,16 @@ class VoucherWizard(models.TransientModel):
             self.partner_id = False
             self.type = False
 
-    @api.onchange("journal_id", "invoice_ids", "type")
-    def _onchange_journal_or_invoice_or_type(self):
+    @api.one
+    @api.depends("journal_id", "move_line_ids", "type", "date")
+    def _compute_amount(self):
         voucher_lines = self._recompute_voucher_lines()
         self.amount = self._calculate_amount(voucher_lines)
 
     @api.multi
     def quick_payment(self):
-        # FIXME: For some reason self.amount change to 0.00 so is necessary
-        # recalulate it. Keep searching for reason and solution :(
         voucher_lines = self._recompute_voucher_lines()
-        amount = self._calculate_amount(voucher_lines)
-        context = {"partner_id": self.partner_id.id, "amount": amount,
+        context = {"partner_id": self.partner_id.id, "amount": self.amount,
                    "journal_id": self.journal_id.id, "date": self.date,
                    "reference": self.reference,
                    "type": self._get_operation_type(),
@@ -95,6 +95,10 @@ class VoucherWizard(models.TransientModel):
         voucher_change["value"]["amount"] = context["amount"]
         voucher_change["value"]["journal_id"] = context["journal_id"]
         voucher_change["value"]["type"] = context["type"]
+        voucher_change["value"]["date"] = self.date
+        voucher_change["value"]["period_id"] = self._get_period()
+        voucher_change["value"]["reference"] = self.reference
+        voucher_change["value"]["name"] = self.name
         voucher = self.env["account.voucher"].create(voucher_change["value"])
         if self.type == 'in_invoice':
             for line_dr_id in voucher_lines:
@@ -117,11 +121,7 @@ class VoucherWizard(models.TransientModel):
             "type": "ir.actions.act_window",
             "res_model": "account.voucher",
             "context": {"partner_id": self.partner_id.id,
-                        # FIXME: For some reason self.amount change to 0.00 so
-                        # is necessary recalulate it. Keep searching for
-                        # reason and solution :(
-                        "amount": self._calculate_amount(
-                            self._recompute_voucher_lines()),
+                        "amount": self.amount,
                         "journal_id": self.journal_id.id, "date": self.date,
                         "reference": self.reference,
                         "type": self._get_operation_type(),
@@ -160,7 +160,9 @@ class VoucherWizard(models.TransientModel):
             currency_id = self._get_currency()
             voucher_data = {"journal_id": self.journal_id.id}
             context = {
-                "move_line_ids": [move.id for move in self.move_line_ids]}
+                "move_line_ids": [move.id for move in self.move_line_ids],
+                "date": self.date
+            }
             voucher = self.env["account.voucher"].with_context(context).new(
                 voucher_data)
             voucher_lines = voucher.recompute_voucher_lines(
@@ -188,4 +190,17 @@ class VoucherWizard(models.TransientModel):
         return self.journal_id.company_id.currency_id.id
 
     def _calculate_amount(self, voucher_lines):
+        if not voucher_lines:
+            return 0.0
         return sum([line["amount_unreconciled"] for line in voucher_lines])
+
+    def _get_period(self):
+        # Work around to avoid bug on opening period
+        date = fields.Date.from_string(self.date)
+        last_period_date = (datetime.date(
+            datetime.MINYEAR + 1, date.month % 12 + 1, 1) - datetime.timedelta(
+            days=2)).replace(year=date.year)
+
+        return self.env["account.period"].search(
+            [("date_stop", ">", last_period_date), (
+                "date_start", "<", last_period_date)], limit=1).id

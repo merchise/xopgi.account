@@ -81,5 +81,5 @@ class PrimaryInstructorWizard(models.TransientModel):
                  "price_unit": analytic_account_id.commission})
             analytic_account_id.supplier_invoice_id = supplier_invoice.id
             if analytic_account_id.has_many_salespeople():
-                logging.warning("More than one salesperson in operation: " +
+                logging.warning("More than one salesperson in operation: %s",
                                 analytic_account_id.complete_name)

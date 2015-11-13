@@ -18,7 +18,7 @@
 
     'data': [
         # 'security/ir.model.access.csv',
-        "views/account_invoice.xml",
+        "views/account_voucher_views.xml",
         "wizard/voucher_wizard.xml"
     ],
 }

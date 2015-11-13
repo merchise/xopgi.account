@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-    <data>
-        <record id="account_invoice_view_search" model="ir.ui.view">
-            <field name="name">account.invoice.search</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id"
-                   ref="account.view_account_invoice_filter"/>
-            <field name="arch" type="xml">
-                <group expand="0" string="Group By">
-                    <filter string="Currency" domain="[]"
-                            context="{'group_by':'currency_id'}"/>
-                </group>
-            </field>
-        </record>
-    </data>
+  <data>
+    <!--*** Commented because there is an existing module with this filter ***-->
+    <!--<record id="account_invoice_view_search" model="ir.ui.view">-->
+      <!--<field name="name">account.invoice.search</field>-->
+      <!--<field name="model">account.invoice</field>-->
+      <!--<field name="inherit_id"-->
+             <!--ref="account.view_account_invoice_filter"/>-->
+      <!--<field name="arch" type="xml">-->
+        <!--<group expand="0" string="Group By">-->
+          <!--<filter string="Currency" domain="[]"-->
+                  <!--context="{'group_by':'currency_id'}"/>-->
+        <!--</group>-->
+      <!--</field>-->
+    <!--</record>-->
+  </data>
 </openerp>

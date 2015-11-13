@@ -18,8 +18,7 @@
 
     'data': [
         # 'security/ir.model.access.csv',
-        # "views/account_invoice.xml",-> Commented because there is an existing
-        # module with this filter
+        "views/account_voucher_views.xml",
         "wizard/voucher_wizard.xml"
     ],
 }

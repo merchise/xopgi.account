@@ -30,11 +30,12 @@ class VoucherWizard(models.TransientModel):
     def _default_invoices(self):
         invoices = self.env["account.invoice"].browse(
             self._context.get("active_ids"))
-        main_partner = invoices[0].partner_id
+        main_partner = self._get_real_partner(invoices[0].partner_id)
         main_type = invoices[0].type
         invoices = invoices & invoices.search(
-            [("state", "=", "open"), ("partner_id", "=", main_partner.id),
-             ("type", "=", main_type)])
+            [("state", "=", "open"), ("type", "=", main_type),
+             "|", ("partner_id", "=", main_partner.id),
+             ("partner_id.parent_id.id", "=", main_partner.id)])
         return invoices
 
     def _default_date(self):
@@ -63,7 +64,8 @@ class VoucherWizard(models.TransientModel):
     @api.depends("invoice_ids")
     def _compute_invoice_dependencies(self):
         if any(self.invoice_ids):
-            self.partner_id = self.invoice_ids[0].partner_id.id
+            self.partner_id = self._get_real_partner(
+                self.invoice_ids[0].partner_id).id
             self.type = self.invoice_ids[0].type
             self.move_line_ids = self._get_move_lines()
         else:
@@ -125,7 +127,9 @@ class VoucherWizard(models.TransientModel):
                         "journal_id": self.journal_id.id, "date": self.date,
                         "reference": self.reference,
                         "type": self._get_operation_type(),
-                        "flag_reconcile": True}
+                        "period_id": self._get_period(),
+                        "name": self.name,
+                        "from_wizard": True}
         }
         if self.type == 'in_invoice':
             form_external_id = "account_voucher.view_vendor_payment_form"
@@ -204,3 +208,8 @@ class VoucherWizard(models.TransientModel):
         return self.env["account.period"].search(
             [("date_stop", ">", last_period_date), (
                 "date_start", "<", last_period_date)], limit=1).id
+
+    def _get_real_partner(self, basePartner):
+        if not basePartner.is_company and basePartner.parent_id is not False:
+            return basePartner.parent_id
+        return basePartner

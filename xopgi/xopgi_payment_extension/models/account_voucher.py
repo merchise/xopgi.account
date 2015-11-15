@@ -1,4 +1,17 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+# ---------------------------------------------------------------------
+# account_voucher.py
+# ---------------------------------------------------------------------
+# Copyright (c) 2015 Merchise Autrement and Contributors
+# All rights reserved.
+#
+# This is free software; you can redistribute it and/or modify it under the
+# terms of the LICENCE attached (see LICENCE file) in the distribution
+# package.
+#
+# Created on 13/11/15
+
 
 from openerp import models
 
@@ -30,10 +43,10 @@ class AccountVoucher(models.Model):
                 elif "from_wizard" in context and context["from_wizard"]:
                     line_cr_id["amount"] = line_cr_id["amount_unreconciled"]
                     line_cr_id["reconcile"] = True
-
-        result['value']['writeoff_amount'] = self._compute_writeoff_amount(
-            cr, uid, result['value']['line_dr_ids'],
-            result['value']['line_cr_ids'], price, ttype)
+        if "from_wizard" in context and context["from_wizard"]:
+            result['value']['writeoff_amount'] = self._compute_writeoff_amount(
+                cr, uid, result['value']['line_dr_ids'],
+                result['value']['line_cr_ids'], price, ttype)
 
         return result
 

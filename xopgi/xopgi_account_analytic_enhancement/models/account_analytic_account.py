@@ -32,18 +32,27 @@ class AccountAnalyticAccount(models.Model):
     @api.depends('debit', 'balance')
     def _compute_commission(self):
         if self.debit == 0:
+            # when there are no invoices, no margin is possible.  This is most
+            # likely an error or that the account hasn't being properly used.
             self.percentage_margin = 0
         else:
             self.percentage_margin = self.balance / self.debit * 100
-        percentage_abs = math.fabs(self.percentage_margin / 100.0)
-        if percentage_abs >= 0.15:
-            factor = percentage_abs * 2
+        percentage = self.percentage_margin / 100.0
+        # TODO: Change this to rules configurable from the UI.  If not rules,
+        # at least a way to tune the parameters.
+        if percentage >= 0.15:
+            factor = percentage * 2
             if math.floor(factor) < 1:
                 if self.debit <= 4000:
                     factor += 0.2
             else:
                 factor = 1
             self.percentage_commission = factor * 5
+        elif percentage < 0:
+            # The commission of a very bad sale (where costs out-weighted
+            # sales) remains the same.  This is mostly informative: how much
+            # did the company lose with this sale?
+            self.percentage_commission = -percentage
         else:
             self.percentage_commission = 0
         self.commission = self.percentage_commission * self.balance / 100

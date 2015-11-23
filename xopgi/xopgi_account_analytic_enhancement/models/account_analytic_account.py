@@ -31,19 +31,19 @@ class AccountAnalyticAccount(models.Model):
     @api.one
     @api.depends('debit', 'balance')
     def _compute_commission(self):
-        if self.debit == 0:
-            # when there are no invoices, no margin is possible.  This is most
-            # likely an error or that the account hasn't being properly used.
-            self.percentage_margin = 0
-        else:
-            self.percentage_margin = self.balance / self.debit * 100
-        percentage = self.percentage_margin / 100.0
-        # TODO: Change this to rules configurable from the UI.  If not rules,
-        # at least a way to tune the parameters.
+        # XXX: Technically debit != invoiced, since purchase refunds increase
+        # debit.  Nevertheless we can't ignore that.
+        invoiced, balance = self.debit, self.balance
+        percentage = balance/invoiced if invoiced > 0 else 0  # 0 invoice -> 0%
+        self.percentage_margin = percentage * 100
+        # TODO: Change this to rules configurable from the UI.  Otherwise this
+        # is not general enough to be at the xopgi level (xopgi means
+        # applicable to every kind of enterprise, not just 'autrements' much
+        # less CA itself).  Even CA may change it's method in the future.
         if percentage >= 0.15:
             factor = percentage * 2
             if math.floor(factor) < 1:
-                if self.debit <= 4000:
+                if invoiced <= 4000:
                     factor += 0.2
             else:
                 factor = 1
@@ -55,7 +55,7 @@ class AccountAnalyticAccount(models.Model):
             self.percentage_commission = -percentage
         else:
             self.percentage_commission = 0
-        self.commission = self.percentage_commission * self.balance / 100
+        self.commission = self.percentage_commission * balance / 100
 
     @api.one
     @api.depends("type", "line_ids.invoice_id.user_id.name")

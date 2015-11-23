@@ -35,11 +35,9 @@ class AccountAnalyticAccount(models.Model):
             self.percentage_margin = 0
         else:
             self.percentage_margin = self.balance / self.debit * 100
-
         percentage_abs = math.fabs(self.percentage_margin / 100.0)
-
         if percentage_abs >= 0.15:
-            factor = percentage_abs / 0.5
+            factor = percentage_abs * 2
             if math.floor(factor) < 1:
                 if self.debit <= 4000:
                     factor += 0.2
@@ -48,7 +46,6 @@ class AccountAnalyticAccount(models.Model):
             self.percentage_commission = factor * 5
         else:
             self.percentage_commission = 0
-
         self.commission = self.percentage_commission * self.balance / 100
 
     @api.one

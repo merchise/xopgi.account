@@ -97,8 +97,8 @@
              ref="account_analytic_analysis.view_account_analytic_account_overdue_search"/>
       <field name="arch" type="xml">
         <field name="parent_id" position="after">
-            <field name="primary_salesperson_id"/>
-          </field>
+          <field name="primary_salesperson_id"/>
+        </field>
         <search string="Contracts">
           <filter name="commission_paid" string="Com. Invoiced"
                   domain="[('type', '=', 'contract'), ('supplier_invoice_id', '!=', False)]"/>

@@ -72,6 +72,7 @@ class AccountAnalyticAccount(models.Model):
                 else:
                     record.primary_salesperson_id = False
 
+    # TODO: This can be embedded in _compute_primary_salesperson.
     @api.one
     def has_many_salespeople(self):
         if self.type != "contract":

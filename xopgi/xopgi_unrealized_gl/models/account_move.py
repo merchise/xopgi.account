@@ -14,6 +14,7 @@ class AccountMove(models.Model):
     move_reversal_id = fields.Many2one('account.move', string='Reversal Entry',
                                        ondelete='set null', readonly=True)
 
+    # TODO:  Why do we need api.one?
     @api.one
     def reverse_and_reconcile_move(self, date):
         Reconcile = self.env["account.move.reconcile"]

@@ -16,20 +16,19 @@ class AccountMove(models.Model):
 
     @api.one
     def reverse_and_reconcile_move(self, date):
+        Reconcile = self.env["account.move.reconcile"]
         period = self.env["account.period"].get_period_by_date(date)
-
         reverse_move = self.copy(
             {"period_id": period.id, "date": date, "move_reversal_id": self.id,
              "name": "REV " + self.name, "to_be_reversed": False})
         for line in reverse_move.line_id:
-            reconcile = self.env["account.move.reconcile"].create(
+            reconcile = Reconcile.create(
                 {"opening_reconciliation": False, "type": "manual"})
             credit = line.credit
             debit = line.debit
             line.write({"credit": debit, "debit": credit, "date": date,
                         "reconcile_ref": reconcile.name,
                         "reconcile_id": reconcile.id})
-
             line_to_reconcile = self.line_id.search(
                 [("move_id", "=", self.id),
                  ("account_id", "=", line.account_id.id),
@@ -37,11 +36,9 @@ class AccountMove(models.Model):
                  ("reconcile_id", "=", False)], limit=1)
             line_to_reconcile.write({"reconcile_ref": reconcile.name,
                                      "reconcile_id": reconcile.id})
-
         self.write(
             {"to_be_reversed": False, "move_reversal_id": reverse_move.id})
-
-        return reverse_move;
+        return reverse_move
 
 
 class AccountPeriod(models.Model):

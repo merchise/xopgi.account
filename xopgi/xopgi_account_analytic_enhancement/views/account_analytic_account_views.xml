@@ -16,6 +16,30 @@
       </field>
     </record>
 
+    <record id="view_account_analytic_account_form" model="ir.ui.view">
+      <field name="name">analytic.analytic.account.form</field>
+      <field name="model">account.analytic.account</field>
+      <field name="inherit_id"
+             ref="analytic.view_account_analytic_account_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//notebook" position="inside">
+          <page string="Commission" groups="base.group_sale_manager">
+            <group>
+              <group>
+                <field name='required_margin' />
+                <field name='max_margin' />
+              </group>
+              <group>
+                <field name='min_commission_margin' />
+                <field name='max_commission_margin' />
+              </group>
+            </group>
+          </page>
+        </xpath>
+      </field>
+    </record>
+
+
     <record id="account_analytic_account_view__tree" model="ir.ui.view">
       <field name="name">account.analytic.account.tree</field>
       <field name="model">account.analytic.account</field>

@@ -23,6 +23,11 @@ from openerp.exceptions import ValidationError
 
 # TODO:  Improve performance.
 #
+# After a single profiling session on a worker.  We see that most of the time
+# is being spent executing queries to the DB (~10s) in 1706 calls, each call
+# taking about 0.0059s.  So the thing is trying to make less calls.  But
+# that's out of scope for now.
+#
 # Computed fields are a big performance hog in Odoo.  I haven't found any good
 # documentation on the topic about how the `store` option actually works: It
 # seems there's no good detection of the 'need for invalidating' the value.

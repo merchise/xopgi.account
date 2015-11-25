@@ -21,6 +21,34 @@ from xoutil import Unset
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
 
+# TODO:  Improve performance.
+#
+# Computed fields are a big performance hog in Odoo.  I haven't found any good
+# documentation on the topic about how the `store` option actually works: It
+# seems there's no good detection of the 'need for invalidating' the value.
+# Cache invalidation is a hard problem.
+#
+# There are several fields I need to cache for this to be efficient:
+#
+# - The 4 parameters applicable to each account.  They need to be invalidated
+#   whenever any account in the path upwards from the account to the one that
+#   provided current value changes one of those parameters.
+#
+# - The result of margin, commission and the like: They need to invalidated
+#   when the balance and/or debit and any of the 4 parameters changes.  This
+#   is kind of a chain reaction.  Since balance, debit and credit are also
+#   computed (and non-stored) fields.  They change when any journal item
+#   (account.move.line) currently attached to the analytic account changes, is
+#   deleted or removed from the account or is attached to the account.
+#
+# We need an efficient signal/reaction algorithm for this to work.  If we cast
+# it in terms of production rules, its rules will always be of the type::
+#
+#     invalidate(*fields) when <conditions>
+#
+# The conditions may take several forms I'm yet to discover.
+#
+
 
 def _get_from_branch(field_name, default=Unset):
     '''Return a function that will traverse the account's ancestry branch

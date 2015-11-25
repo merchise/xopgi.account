@@ -22,6 +22,39 @@ from openerp import api, fields, models
 from openerp.exceptions import ValidationError
 
 
+def _get_from_branch(field_name, default=Unset):
+    '''Return a function that will traverse the account's ancestry branch
+    looking for the first node in which `field_name` has a non-null value.
+
+    '''
+    def _get(record):
+        res = Unset
+        # XXX: Don't test for res is Unset cause we need to traverse the
+        # branch when the value is 0
+        while not res and record and record.id:
+            res = getattr(record, field_name, Unset)
+            if not res:
+                record = record.parent_id
+        if res is Unset:
+            if default is not Unset:
+                return default
+            else:
+                raise AttributeError(field_name)
+        else:
+            return res
+    return _get
+
+
+def _compute_from_branch(field_name, update_field_name, default=Unset):
+    _get = _get_from_branch(field_name, default=default)
+
+    @api.depends(field_name)
+    def _compute(self):
+        for record in self:
+            setattr(record, update_field_name, _get(record))
+    return _compute
+
+
 class AccountAnalyticAccount(models.Model):
     _inherit = 'account.analytic.account'
 
@@ -91,6 +124,23 @@ class AccountAnalyticAccount(models.Model):
         default=0
     )
 
+    current_required_margin = fields.Float(
+        compute=_compute_from_branch('required_margin',
+                                     'current_required_margin', default=0)
+    )
+    current_max_margin = fields.Float(
+        compute=_compute_from_branch('max_margin',
+                                     'current_max_margin', default=0)
+    )
+    current_min_comm = fields.Float(
+        compute=_compute_from_branch('min_commission_margin',
+                                     'current_min_comm', default=0)
+    )
+    current_max_comm = fields.Float(
+        compute=_compute_from_branch('max_commission_margin',
+                                     'current_max_comm', default=0)
+    )
+
     percentage_margin = fields.Float(
         string='Margin %', help='Percentage margin related to credit.',
         compute='_compute_commission')
@@ -123,10 +173,10 @@ class AccountAnalyticAccount(models.Model):
             margin = balance/invoiced if invoiced > 0 else 0
             # Since all the margins are expected to be given in percent units
             # we normalize them to the interval 0-1.
-            required_margin = _get_required_margin(record) / 100
-            max_margin = _get_max_margin(record) / 100
-            min_comm = _get_min_commission_margin(record) / 100
-            max_comm = _get_max_commission_margin(record) / 100
+            required_margin = record.current_required_margin / 100
+            max_margin = record.current_max_margin / 100
+            min_comm = record.current_min_comm / 100
+            max_comm = record.current_max_comm / 100
             if required_margin and max_margin and min_comm and max_comm:
                 alpha = (max_margin - margin)/(max_margin - required_margin)
                 if alpha < 0:
@@ -223,34 +273,3 @@ class AccountAnalyticAccount(models.Model):
 
 def raise_validation_error(*fields):
     raise ValidationError('Invalid value for field(s) %r', fields)
-
-
-def _get_from_branch(field_name, default=Unset):
-    '''Return a function that will traverse the account's ancestry branch
-    looking for the first node in which `field_name` has a non-null value.
-
-    '''
-    def _get(record):
-        res = Unset
-        # XXX: Don't test for res is Unset cause we need to traverse the
-        # branch when the value is 0
-        while not res and record and record.id:
-            res = getattr(record, field_name, Unset)
-            if not res:
-                record = record.parent_id
-        if res is Unset:
-            if default is not Unset:
-                return default
-            else:
-                raise AttributeError(field_name)
-        else:
-            return res
-
-    return _get
-
-_get_required_margin = _get_from_branch('required_margin', default=0)
-_get_max_margin = _get_from_branch('max_margin', default=0)
-_get_min_commission_margin = _get_from_branch('min_commission_margin',
-                                              default=0)
-_get_max_commission_margin = _get_from_branch('max_commission_margin',
-                                              default=0)

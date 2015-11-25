@@ -388,6 +388,10 @@ class account_fiscalyear_close(TransientModel):
         currency_id = data.journal_id.company_id.currency_id.id
         if ids:
             cr.execute(UPDATE_SQL_QUERY, (currency_id, ids, ))
+            # The following is to make sure any cache in the current
+            # environment is properly invalidated, since we're modifying the
+            # DB via SQL.
+            self.invalidate_cache(cr, uid, context=context)
         return {
             # Go to the view of the generated entry.
             'type': 'ir.actions.act_window',

@@ -60,14 +60,15 @@ def _get_from_branch(field_name, default=Unset):
     looking for the first node in which `field_name` has a non-null value.
 
     '''
+    @redis_cache(field_name, type_=float)
     def _get(record):
-        res = Unset
+        res = getattr(record, field_name, Unset)
         # XXX: Don't test for res is Unset cause we need to traverse the
         # branch when the value is 0
-        while not res and record and record.id:
-            res = getattr(record, field_name, Unset)
-            if not res:
-                record = record.parent_id
+        if not res:
+            parent = record.parent_id
+            if parent and parent.id:
+                return _get(parent)
         if res is Unset:
             if default is not Unset:
                 return default
@@ -78,6 +79,38 @@ def _get_from_branch(field_name, default=Unset):
     return _get
 
 
+# TODO: Make it a part of the framework and integrate with signals.
+class RedisCache(object):
+    def __init__(self, ttl=300):
+        import redis
+        import rb
+        self.cp = cp = redis.ConnectionPool.from_url(url='redis://localhost/7')
+        self.client = rb.clients.LocalClient(cp)
+        self.ttl = ttl
+
+    def __call__(self, field_name, type_, extract_key=None):
+        if not extract_key:
+            extract_key = lambda r: '{db}::{rec}::{field}::{id}'.format(
+                db=r.env.cr.dbname, rec=r._name, field=field_name, id=r.id)
+
+        def decorator(func):
+            def inner(record):
+                key = extract_key(record)
+                res = self.client.get(key)
+                if res:
+                    return type_(res)
+                else:
+                    res = func(record)
+                    self.client.set(key, res)
+                    self.client.expire(key, self.ttl)
+                    return res
+            return inner
+        return decorator
+
+
+redis_cache = RedisCache()
+
+
 def _compute_from_branch(field_name, update_field_name, default=Unset):
     _get = _get_from_branch(field_name, default=default)
 
@@ -86,6 +119,32 @@ def _compute_from_branch(field_name, update_field_name, default=Unset):
         for record in self:
             setattr(record, update_field_name, _get(record))
     return _compute
+
+
+@redis_cache('commissions', type_=eval)
+def _compute_margin_commission(record):
+    # XXX: Technically debit != invoiced, since purchase refunds increase
+    # debit.  Nevertheless we can't ignore that.
+    invoiced, balance = record.debit, record.balance
+    margin = balance/invoiced if invoiced > 0 else 0
+    # Since all the margins are expected to be given in percent units
+    # we normalize them to the interval 0-1.
+    required_margin = record.current_required_margin / 100
+    max_margin = record.current_max_margin / 100
+    min_comm = record.current_min_comm / 100
+    max_comm = record.current_max_comm / 100
+    if required_margin and max_margin and min_comm and max_comm:
+        alpha = (max_margin - margin)/(max_margin - required_margin)
+        if alpha < 0:
+            # Ensure the formula below will never surpass max_comm
+            alpha = 0
+        commission_percent = min_comm*alpha + max_comm*(1 - alpha)
+        if commission_percent < min_comm:
+            # Bad sales are given nothing
+            commission_percent = 0
+    else:
+        commission_percent = 0
+    return margin, commission_percent, balance
 
 
 class AccountAnalyticAccount(models.Model):
@@ -200,30 +259,10 @@ class AccountAnalyticAccount(models.Model):
     @api.depends('debit', 'balance')
     def _compute_commission(self):
         for record in self:
-            # XXX: Technically debit != invoiced, since purchase refunds
-            # increase debit.  Nevertheless we can't ignore that.
-            invoiced, balance = record.debit, record.balance
-            margin = balance/invoiced if invoiced > 0 else 0
-            # Since all the margins are expected to be given in percent units
-            # we normalize them to the interval 0-1.
-            required_margin = record.current_required_margin / 100
-            max_margin = record.current_max_margin / 100
-            min_comm = record.current_min_comm / 100
-            max_comm = record.current_max_comm / 100
-            if required_margin and max_margin and min_comm and max_comm:
-                alpha = (max_margin - margin)/(max_margin - required_margin)
-                if alpha < 0:
-                    # Ensure the formula below will never surpass max_comm
-                    alpha = 0
-                commission_percent = min_comm*alpha + max_comm*(1 - alpha)
-                if commission_percent < min_comm:
-                    # Bad sales are given nothing
-                    commission_percent = 0
-            else:
-                commission_percent = 0
+            margin, comm_percent, balance = _compute_margin_commission(record)
             record.percentage_margin = margin * 100
-            record.percentage_commission = commission_percent * 100
-            record.commission = commission_percent * balance
+            record.percentage_commission = comm_percent * 100
+            record.commission = comm_percent * balance
 
     @api.depends("type", "line_ids.invoice_id.user_id.name")
     def _compute_primary_salesperson(self):

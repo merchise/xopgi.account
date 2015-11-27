@@ -39,9 +39,7 @@
       </field>
     </record>
     <record id="operations_performance_reports_view_search" model="ir.ui.view">
-      <field name="name">
-        xopgi_operations_performance.operations_performance_report.search
-      </field>
+      <field name="name">xopgi_operations_performance.operations_performance_report.search</field>
       <field name="model">xopgi_operations_performance.opperf_report</field>
       <field name="arch" type="xml">
         <search>
@@ -60,9 +58,7 @@
       </field>
     </record>
     <record id="operations_performance_reports_view_tree" model="ir.ui.view">
-      <field name="name">
-        xopgi_operations_performance.operations_performance_report.tree
-      </field>
+      <field name="name">xopgi_operations_performance.operations_performance_report.tree</field>
       <field name="model">xopgi_operations_performance.opperf_report</field>
       <field name="arch" type="xml">
         <tree create="false" edit="false"
@@ -97,9 +93,7 @@
       </field>
     </record>
     <record id="result_performance_reports_view_search" model="ir.ui.view">
-      <field name="name">
-        xopgi_operations_performance.result_performance_report.search
-      </field>
+      <field name="name">xopgi_operations_performance.result_performance_report.search</field>
       <field name="model">xopgi_operations_performance.opresult_report</field>
       <field name="arch" type="xml">
         <search>
@@ -123,9 +117,7 @@
       </field>
     </record>
     <record id="operations_result_reports_view_tree" model="ir.ui.view">
-      <field name="name">
-        xopgi_operations_performance.operations_results_report.graph.tree
-      </field>
+      <field name="name">xopgi_operations_performance.operations_results_report.graph.tree</field>
       <field name="model">xopgi_operations_performance.opresult_report</field>
       <field name="arch" type="xml">
         <tree create="false" edit="false"
@@ -180,11 +172,8 @@
         </graph>
       </field>
     </record>
-    <record id="coordination_performance_reports_view_search"
-            model="ir.ui.view">
-      <field name="name">
-        xopgi_operations_performance.coordination_performance_report.search
-      </field>
+    <record id="coordination_performance_reports_view_search" model="ir.ui.view">
+      <field name="name">xopgi_operations_performance.coordination_performance_report.search</field>
       <field name="model">xopgi_operations_performance.coordperf_report</field>
       <field name="arch" type="xml">
         <search>
@@ -206,9 +195,7 @@
       </field>
     </record>
     <record id="coordination_performance_reports_view_tree" model="ir.ui.view">
-      <field name="name">
-        xopgi_operations_performance.coordination_performance_report.tree
-      </field>
+      <field name="name">xopgi_operations_performance.coordination_performance_report.tree</field>
       <field name="model">xopgi_operations_performance.coordperf_report</field>
       <field name="arch" type="xml">
         <tree create="false" edit="false"
@@ -247,8 +234,7 @@
       <field name="context" eval="{'search_default_by_supplier': 1}"/>
     </record>
 
-    <menuitem id="operations_menu" name="Operations"
-              parent="base.menu_reporting"/>
+    <menuitem id="operations_menu" name="Operations" parent="base.menu_reporting"/>
     <menuitem id="operations_performance_report_menu"
               action="operations_performance_report_action"
               parent="operations_menu" sequence="10"/>

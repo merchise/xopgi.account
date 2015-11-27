@@ -16,7 +16,12 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
+import os
+import threading
+from time import sleep
+
 from xoutil import Unset
+from xoutil import logger as _logger
 
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
@@ -55,12 +60,75 @@ from openerp.exceptions import ValidationError
 #
 
 
+class Timer(object):
+    def __init__(self, ttl=600):
+        self._lock = threading.Lock()
+        self._functions = []
+        self._thread = None
+        self._debugger = None
+        self._ttl = ttl
+
+    def lru_cache(self, maxsize=None):
+        from functools import wraps
+        from xoutil.functools import lru_cache
+
+        def decorator(func):
+            @wraps(func)
+            def wrapper(*args, **kwargs):
+                # Ensure the thread is started for this process.  This is
+                # needed cause the global `timer` is used at module-level
+                # functions.  So when the server forks the worker we need to
+                # start the TTL thread in the child process, but the only way
+                # to that now is by ensuring the thread is started once the
+                # function is called.  If called from above this level the
+                # thread will be enacted at the master process which would be
+                # wasteful and useless.
+                self.start()
+                return func(*args, **kwargs)
+
+            function = lru_cache(maxsize)(wrapper)
+            with self._lock:
+                self._functions.append(function)
+            return function
+        return decorator
+
+    def start(self):
+        if not self._thread or not self._thread.is_alive():
+            _logger.debug('Starting TTL eviction thread for worker PID %d',
+                          os.getpid())
+            self._thread = t = threading.Thread(target=self._clean)
+            t.setDaemon(True)
+            t.start()
+        if not self._debugger or not self._debugger.is_alive():
+            self._debugger = t = threading.Thread(target=self._log_cache_info)
+            t.setDaemon(True)
+            t.start()
+
+    def _log_cache_info(self):
+        while True:
+            sleep(self._ttl//10)
+            with self._lock:
+                for f in self._functions:
+                    _logger.debug('CacheInfo for %r: %r', f, f.cache_info())
+
+    def _clean(self):
+        while True:
+            sleep(self._ttl)
+            _logger.debug('Cleaning Cache TTL for worker PID %d', os.getpid())
+            with self._lock:
+                for f in self._functions:
+                    f.cache_clear()
+
+
+timer = Timer()
+
+
 def _get_from_branch(field_name, default=Unset):
     '''Return a function that will traverse the account's ancestry branch
     looking for the first node in which `field_name` has a non-null value.
 
     '''
-    @redis_cache(field_name, type_=float)
+    @timer.lru_cache(1000)
     def _get(record):
         res = getattr(record, field_name, Unset)
         # XXX: Don't test for res is Unset cause we need to traverse the
@@ -68,7 +136,7 @@ def _get_from_branch(field_name, default=Unset):
         if not res:
             parent = record.parent_id
             if parent and parent.id:
-                return _get(parent)
+                return _get(parent)  # recursive to warm the cache
         if res is Unset:
             if default is not Unset:
                 return default
@@ -77,38 +145,6 @@ def _get_from_branch(field_name, default=Unset):
         else:
             return res
     return _get
-
-
-# TODO: Make it a part of the framework and integrate with signals.
-class RedisCache(object):
-    def __init__(self, ttl=300):
-        import redis
-        import rb
-        self.cp = cp = redis.ConnectionPool.from_url(url='redis://localhost/7')
-        self.client = rb.clients.LocalClient(cp)
-        self.ttl = ttl
-
-    def __call__(self, field_name, type_, extract_key=None):
-        if not extract_key:
-            extract_key = lambda r: '{db}::{rec}::{field}::{id}'.format(
-                db=r.env.cr.dbname, rec=r._name, field=field_name, id=r.id)
-
-        def decorator(func):
-            def inner(record):
-                key = extract_key(record)
-                res = self.client.get(key)
-                if res:
-                    return type_(res)
-                else:
-                    res = func(record)
-                    self.client.set(key, res)
-                    self.client.expire(key, self.ttl)
-                    return res
-            return inner
-        return decorator
-
-
-redis_cache = RedisCache()
 
 
 def _compute_from_branch(field_name, update_field_name, default=Unset):
@@ -121,7 +157,7 @@ def _compute_from_branch(field_name, update_field_name, default=Unset):
     return _compute
 
 
-@redis_cache('commissions', type_=eval)
+@timer.lru_cache(1000)
 def _compute_margin_commission(record):
     # XXX: Technically debit != invoiced, since purchase refunds increase
     # debit.  Nevertheless we can't ignore that.

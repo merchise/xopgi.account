@@ -346,7 +346,8 @@ class AccountAnalyticAccount(models.Model):
                 raise_validation_error('required minimum margin')
             if max_margin < 0 or max_margin > 100:
                 raise_validation_error('maximum allowed margin')
-            if required_margin >= max_margin:
+            if required_margin and max_margin and \
+               required_margin >= max_margin:
                 raise ValidationError('required margin must be less that '
                                       'max margin.')
             parent = record.parent_id
@@ -376,7 +377,7 @@ class AccountAnalyticAccount(models.Model):
                 raise_validation_error('minimum commission margin')
             if max_comm < 0 or max_comm > 100:
                 raise_validation_error('maximum commission margin')
-            if min_comm >= max_comm:
+            if min_comm and max_comm and min_comm >= max_comm:
                 raise ValidationError('min commission must be less that '
                                       'max commission.')
 

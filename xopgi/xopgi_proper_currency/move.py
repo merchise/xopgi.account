@@ -254,13 +254,6 @@ class account_move_line(Model):
                 return self.write(cr, uid, line_id, to_write, context,
                                   update_check=_update_check)
 
-    def _get_line_currency_amount(self, cr, uid, ids, field, arg,
-                                  context=None):
-        result = {}
-        for line in self.browse(cr, uid, ids, context=context):
-            result[line.id] = line.currency_debit - line.currency_credit
-        return result
-
     def _get_line_currency(self, cr, uid, ids, field, arg, context=None):
         result = {}
         for line in self.browse(cr, uid, ids, context=context):
@@ -295,15 +288,6 @@ class account_move_line(Model):
             # If no journal is selected account_id is False, so change
             # nothing.
             return {}
-
-    # Change whenever the debit or credit in proper currency change.
-    _PROPER_AMOUNT_INVALIDATE_RULE = {
-        this: (
-            store_identity,
-            ['currency_debit', 'currency_credit'],
-            10
-        )
-    }
 
     # Change whenever either currency, credit, debit or the amount currency
     # change.
@@ -341,12 +325,6 @@ class account_move_line(Model):
                             digits_compute=dp.get_precision('Account'),
                             string='Credit',
                             multi=nameof(_get_currency_credit_debit)),
-        'line_currency_amount':
-            fields.function(_get_line_currency_amount,
-                            type='float',
-                            store=_PROPER_AMOUNT_INVALIDATE_RULE,
-                            arg='amount_currency',
-                            string='Currency Amount',),
         'line_currency':
             fields.function(_get_line_currency,
                             type='many2one',
@@ -410,6 +388,10 @@ class account_fiscalyear_close(TransientModel):
         currency_id = data.journal_id.company_id.currency_id.id
         if ids:
             cr.execute(UPDATE_SQL_QUERY, (currency_id, ids, ))
+            # The following is to make sure any cache in the current
+            # environment is properly invalidated, since we're modifying the
+            # DB via SQL.
+            self.invalidate_cache(cr, uid, context=context)
         return {
             # Go to the view of the generated entry.
             'type': 'ir.actions.act_window',

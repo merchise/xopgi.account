@@ -46,6 +46,21 @@ msgid "Call Date"
 msgstr ""
 
 #. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opresult_report,state:0
+msgid "Cancelled"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opresult_report,state:0
+msgid "Closed"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.opresult_report:xopgi_operations_performance.result_performance_reports_view_search
+msgid "Closed Dossier"
+msgstr ""
+
+#. module: xopgi_operations_performance
 #: model:ir.actions.act_window,name:xopgi_operations_performance.coordination_performance_report_action
 #: model:ir.ui.menu,name:xopgi_operations_performance.operations_performance_coordination_report_menu
 msgid "Coordination Analysis"
@@ -61,6 +76,11 @@ msgstr ""
 #: model:ir.model,name:xopgi_operations_performance.model_xopgi_operations_performance_coordperf_report
 #: view:xopgi_operations_performance.coordperf_report:xopgi_operations_performance.coordination_performance_reports_view_graph
 msgid "Coordination Performance Statistics"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.coordperf_report:xopgi_operations_performance.coordination_performance_reports_view_form
+msgid "Coordination Statistic"
 msgstr ""
 
 #. module: xopgi_operations_performance
@@ -93,6 +113,7 @@ msgid "Dossier"
 msgstr ""
 
 #. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.opresult_report:xopgi_operations_performance.result_performance_reports_view_search
 #: field:xopgi_operations_performance.opresult_report,date:0
 msgid "Expiration Date"
 msgstr ""
@@ -109,6 +130,11 @@ msgstr ""
 #: field:xopgi_operations_performance.opperf_report,id:0
 #: field:xopgi_operations_performance.opresult_report,id:0
 msgid "ID"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opresult_report,state:0
+msgid "In Progress"
 msgstr ""
 
 #. module: xopgi_operations_performance

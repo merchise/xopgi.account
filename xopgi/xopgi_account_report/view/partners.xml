@@ -9,7 +9,7 @@
 	  <field name="partner_id" type="row"/>
 	  <field name="line_currency" type="col"/>
 	  <field name="account_id" type="col"/>
-	  <field name="line_currency_amount" operator="+"/>
+	  <field name="amount_currency" operator="+"/>
 	</graph>
       </field>
     </record>

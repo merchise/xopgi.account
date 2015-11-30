@@ -8,7 +8,7 @@
 	<graph string="Invoices" type="pivot" stacked="True">
 	  <field name="account_id"/>
 	  <field name="currency_id" type="col"/>
-	  <field name="line_currency_amount" operator="+"/>
+	  <field name="amount_currency" operator="+"/>
 	</graph>
       </field>
     </record>

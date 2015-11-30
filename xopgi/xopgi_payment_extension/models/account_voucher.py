@@ -1,4 +1,17 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+# ---------------------------------------------------------------------
+# account_voucher.py
+# ---------------------------------------------------------------------
+# Copyright (c) 2015 Merchise Autrement and Contributors
+# All rights reserved.
+#
+# This is free software; you can redistribute it and/or modify it under the
+# terms of the LICENCE attached (see LICENCE file) in the distribution
+# package.
+#
+# Created on 13/11/15
+
 
 from openerp import models
 
@@ -12,8 +25,7 @@ class AccountVoucher(models.Model):
             cr, uid,
             ids, partner_id, journal_id, price,
             currency_id, ttype, date, context=context)
-
-        if "line_dr_ids" in context and any(context["line_dr_ids"]):
+        if any(context.get("line_dr_ids", [])):
             context_line_dr_ids = context["line_dr_ids"]
             for line_dr_id in result["value"]["line_dr_ids"][:]:
                 if line_dr_id["move_line_id"] not in context_line_dr_ids:
@@ -21,8 +33,7 @@ class AccountVoucher(models.Model):
                 elif "from_wizard" in context and context["from_wizard"]:
                     line_dr_id["amount"] = line_dr_id["amount_unreconciled"]
                     line_dr_id["reconcile"] = True
-
-        if "line_cr_ids" in context and any(context["line_cr_ids"]):
+        if any(context.get("line_cr_ids", [])):
             context_line_cr_ids = context["line_cr_ids"]
             for line_cr_id in result["value"]["line_cr_ids"][:]:
                 if line_cr_id["move_line_id"] not in context_line_cr_ids:
@@ -30,10 +41,10 @@ class AccountVoucher(models.Model):
                 elif "from_wizard" in context and context["from_wizard"]:
                     line_cr_id["amount"] = line_cr_id["amount_unreconciled"]
                     line_cr_id["reconcile"] = True
-
-        result['value']['writeoff_amount'] = self._compute_writeoff_amount(
-            cr, uid, result['value']['line_dr_ids'],
-            result['value']['line_cr_ids'], price, ttype)
+        if context.get("from_wizard", None):
+            result['value']['writeoff_amount'] = self._compute_writeoff_amount(
+                cr, uid, result['value']['line_dr_ids'],
+                result['value']['line_cr_ids'], price, ttype)
 
         return result
 

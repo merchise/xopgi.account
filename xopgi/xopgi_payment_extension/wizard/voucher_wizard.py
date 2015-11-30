@@ -60,23 +60,23 @@ class VoucherWizard(models.TransientModel):
     reference = fields.Char('Ref #', help="Transaction reference number.")
     name = fields.Char('Memo')
 
-    @api.one
     @api.depends("invoice_ids")
     def _compute_invoice_dependencies(self):
-        if any(self.invoice_ids):
-            self.partner_id = self._get_real_partner(
-                self.invoice_ids[0].partner_id).id
-            self.type = self.invoice_ids[0].type
-            self.move_line_ids = self._get_move_lines()
-        else:
-            self.partner_id = False
-            self.type = False
+        for record in self:
+            if any(self.invoice_ids):
+                record.partner_id = record._get_real_partner(
+                    record.invoice_ids[0].partner_id).id
+                record.type = self.invoice_ids[0].type
+                record.move_line_ids = self._get_move_lines()
+            else:
+                record.partner_id = False
+                record.type = False
 
-    @api.one
     @api.depends("journal_id", "move_line_ids", "type", "date")
     def _compute_amount(self):
-        voucher_lines = self._recompute_voucher_lines()
-        self.amount = self._calculate_amount(voucher_lines)
+        for record in self:
+            voucher_lines = record._recompute_voucher_lines()
+            record.amount = record._calculate_amount(voucher_lines)
 
     @api.multi
     def quick_payment(self):

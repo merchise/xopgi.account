@@ -100,6 +100,9 @@
           <field name="partner_id"/>
           <field name="manager_id"/>
           <field name="primary_salesperson_id"/>
+          <field name="state"/>
+          <filter name="closed_dossier" string="Closed Dossier"
+                  domain="[('state', '=', 'close')]"/>
           <group string="Group By">
             <filter name="by_customer" string="Customer"
                     context="{'group_by': 'partner_id'}"/>
@@ -107,6 +110,8 @@
                     context="{'group_by': 'manager_id'}"/>
             <filter name="by_salesperson" string="Salesperson"
                     context="{'group_by': 'primary_salesperson_id'}"/>
+            <filter name="by_expiration_date" string="Expiration Date"
+                    context="{'group_by': 'date'}"/>
           </group>
         </search>
       </field>
@@ -216,6 +221,7 @@
             model="ir.actions.act_window">
       <field name="name">Operations Results</field>
       <field name="res_model">xopgi_operations_performance.opresult_report</field>
+      <field name="context" eval="{'search_default_closed_dossier': 1}"/>
       <field name="view_type">form</field>
       <field name="view_mode">tree,graph</field>
     </record>

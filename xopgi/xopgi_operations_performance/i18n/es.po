@@ -46,6 +46,21 @@ msgid "Call Date"
 msgstr "Fecha de licitación"
 
 #. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opresult_report,state:0
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opresult_report,state:0
+msgid "Closed"
+msgstr "Cerrado"
+
+#. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.opresult_report:xopgi_operations_performance.result_performance_reports_view_search
+msgid "Closed Dossier"
+msgstr "Dossier Cerrado"
+
+#. module: xopgi_operations_performance
 #: model:ir.actions.act_window,name:xopgi_operations_performance.coordination_performance_report_action
 #: model:ir.ui.menu,name:xopgi_operations_performance.operations_performance_coordination_report_menu
 msgid "Coordination Analysis"
@@ -62,6 +77,11 @@ msgstr "Eficiencia de coordinación"
 #: view:xopgi_operations_performance.coordperf_report:xopgi_operations_performance.coordination_performance_reports_view_graph
 msgid "Coordination Performance Statistics"
 msgstr "Estadísticas coordinación"
+
+#. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.coordperf_report:xopgi_operations_performance.coordination_performance_reports_view_form
+msgid "Coordination Statistic"
+msgstr "Estadísticas Coordinación"
 
 #. module: xopgi_operations_performance
 #: field:xopgi_operations_performance.opresult_report,credit:0
@@ -93,6 +113,7 @@ msgid "Dossier"
 msgstr "Dossier"
 
 #. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.opresult_report:xopgi_operations_performance.result_performance_reports_view_search
 #: field:xopgi_operations_performance.opresult_report,date:0
 msgid "Expiration Date"
 msgstr "Fecha de expiración"
@@ -110,6 +131,11 @@ msgstr "Agrupar por"
 #: field:xopgi_operations_performance.opresult_report,id:0
 msgid "ID"
 msgstr "ID"
+
+#. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opresult_report,state:0
+msgid "In Progress"
+msgstr "En Progreso"
 
 #. module: xopgi_operations_performance
 #: field:xopgi_operations_performance.opperf_report,invoice_time:0
@@ -132,6 +158,11 @@ msgid "Negotiation Time"
 msgstr "Tiempo de negociación"
 
 #. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opresult_report,state:0
+msgid "New"
+msgstr "Nuevo"
+
+#. module: xopgi_operations_performance
 #: field:account.analytic.account,pax:0
 #: field:xopgi_operations_performance.opresult_report,pax:0
 msgid "Nro. Pax"
@@ -145,6 +176,11 @@ msgstr "Operación"
 #. module: xopgi_operations_performance
 #: model:ir.model,name:xopgi_operations_performance.model_xopgi_operations_performance_opperf_report
 msgid "Operation Performance Statistics"
+msgstr "Estadísticas operaciones"
+
+#. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.opperf_report:xopgi_operations_performance.operations_performance_reports_view_form
+msgid "Operation Statistic"
 msgstr "Estadísticas operaciones"
 
 #. module: xopgi_operations_performance
@@ -174,7 +210,7 @@ msgstr "Estadísticas operaciones"
 #: model:ir.ui.menu,name:xopgi_operations_performance.operations_performance_result_report_menu
 #: view:xopgi_operations_performance.opresult_report:xopgi_operations_performance.operations_result_reports_view_graph
 msgid "Operations Results"
-msgstr "Resultados Operaciones"
+msgstr "Resultados operaciones"
 
 #. module: xopgi_operations_performance
 #: model:ir.model,name:xopgi_operations_performance.model_xopgi_operations_performance_opresult_report
@@ -263,6 +299,11 @@ msgid "Send Date"
 msgstr "Fecha de envío"
 
 #. module: xopgi_operations_performance
+#: field:xopgi_operations_performance.opresult_report,state:0
+msgid "Status"
+msgstr "Estado"
+
+#. module: xopgi_operations_performance
 #: view:xopgi_operations_performance.coordperf_report:xopgi_operations_performance.coordination_performance_reports_view_search
 #: field:xopgi_operations_performance.coordperf_report,partner_id:0
 msgid "Supplier"
@@ -272,6 +313,11 @@ msgstr "Proveedor"
 #: field:xopgi_operations_performance.coordperf_report,supplier_response_time:0
 msgid "Supplier Response Time"
 msgstr "Tiempo respuesta del proveedor"
+
+#. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opresult_report,state:0
+msgid "Template"
+msgstr "Plantilla"
 
 #. module: xopgi_operations_performance
 #: help:xopgi_operations_performance.coordperf_report,reserve_send_time:0
@@ -318,3 +364,7 @@ msgstr "Tiempo entre creación de oportunidad y primera confirmación de cotizac
 msgid "Time between opportunity creation and first Quotation sent"
 msgstr "Tiempo entre creación de oportunidad y primera cotización enviada"
 
+#. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opresult_report,state:0
+msgid "To Renew"
+msgstr "A renovar"

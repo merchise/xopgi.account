@@ -1,4 +1,17 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+# ---------------------------------------------------------------------
+# operations_performance_report.py
+# ---------------------------------------------------------------------
+# Copyright (c) 2015 Merchise Autrement and Contributors
+# All rights reserved.
+#
+# This is free software; you can redistribute it and/or modify it under the
+# terms of the LICENCE attached (see LICENCE file) in the distribution
+# package.
+#
+# Created on 21/11/15
+
 
 from openerp import tools
 from openerp import fields, models
@@ -89,6 +102,14 @@ class OperationResultReport(models.Model):
     pax = fields.Integer("Nro. Pax")
     margin_by_pax = fields.Float("Margin by Pax")
     date = fields.Date("Expiration Date")
+    state = fields.Selection(
+        [('template', 'Template'),
+         ('draft', 'New'),
+         ('open', 'In Progress'),
+         ('pending', 'To Renew'),
+         ('close', 'Closed'),
+         ('cancelled', 'Cancelled')],
+        "Status")
 
     def init(self, cr):
         tools.drop_view_if_exists(cr,
@@ -120,7 +141,8 @@ class OperationResultReport(models.Model):
                ELSE
                  x.balance/x.pax
                END) AS margin_by_pax,
-              x.date
+              x.date,
+              x.state
             FROM
               (SELECT
               a.id,
@@ -131,6 +153,7 @@ class OperationResultReport(models.Model):
               a.primary_salesperson_id,
               a.date,
               a.pax,
+              a.state,
               SUM(
                 CASE WHEN l.amount > 0
                 THEN l.amount

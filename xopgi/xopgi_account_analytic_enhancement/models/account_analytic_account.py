@@ -77,10 +77,12 @@ class Timer(object):
             def wrapper(*args, **kwargs):
                 # Ensure the thread is started for this process.  This is
                 # needed cause the global `timer` is used at module-level
-                # functions.  So when the server forks the worker we need to
-                # start the TTL thread in the child process, but the only way
-                # to that now is by ensuring the thread is started once the
-                # function is called.  If called from above this level the
+                # functions.  So when the server forks the worker process, we
+                # need to start the TTL thread in this child process.  The
+                # only way to do that now is by ensuring the thread is started
+                # once the function is called.
+                #
+                # If we start the timer before calling the function, the
                 # thread will be enacted at the master process which would be
                 # wasteful and useless.
                 self.start()

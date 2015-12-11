@@ -233,25 +233,29 @@ class AccountAnalyticAccount(models.Model):
         help=('This is the minimum margin required for an operation. If 0 '
               'no commission will be calculated.'),
         required=False,
-        default=0
+        default=0,
+        track_visibility='onchange',
     )
     max_margin = fields.Float(
         string='Maximum margin',
         help='This is maximum margin allowed for an operation.',
         required=False,
-        default=0
+        default=0,
+        track_visibility='onchange',
     )
     min_commission_margin = fields.Float(
         string='Minimum commission margin',
         help='This is minimum margin for commissions.',
         required=False,
-        default=0
+        default=0,
+        track_visibility='onchange',
     )
     max_commission_margin = fields.Float(
         string='Maximum commission margin',
         help='This is maximum margin for commissions.',
         required=False,
-        default=0
+        default=0,
+        track_visibility='onchange',
     )
 
     current_required_margin = fields.Float(

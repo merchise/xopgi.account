@@ -35,7 +35,16 @@ class PrimaryInstructorWizard(models.TransientModel):
         self._supplier_invoice_generator(partner, account_id,
                                          self.analytic_account_ids)
 
-    def generate_supplier_invoice_cron(self, cr, uid):
+    def enqueue_generate_supplier_invoice_cron(self, cr, uid, context=None):
+        from openerp.jobs import Deferred
+        # Avoid performing a big computation within the WorkerCron process
+        # which is under tight timeout restriction (because the same
+        # restriction applies to Cron and HTTP workers).  Jobs are allowed to
+        # take longer.
+        Deferred(self._name, 'generate_supplier_invoice_cron', cr, uid,
+                 context=context)
+
+    def generate_supplier_invoice_cron(self, cr, uid, context=None):
         with api.Environment.manage():
             self.env = api.Environment(cr, uid, {})
             commission_ready = self.env["account.analytic.account"].search(

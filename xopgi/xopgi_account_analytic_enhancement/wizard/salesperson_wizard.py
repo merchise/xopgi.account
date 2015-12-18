@@ -41,7 +41,7 @@ class PrimaryInstructorWizard(models.TransientModel):
         # which is under tight timeout restriction (because the same
         # restriction applies to Cron and HTTP workers).  Jobs are allowed to
         # take longer.
-        Deferred(self._name, 'generate_supplier_invoice_cron', cr, uid,
+        Deferred(self._name, cr, uid, 'generate_supplier_invoice_cron',
                  context=context)
 
     def generate_supplier_invoice_cron(self, cr, uid, context=None):

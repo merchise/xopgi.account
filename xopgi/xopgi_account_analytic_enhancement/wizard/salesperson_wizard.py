@@ -46,9 +46,10 @@ class PrimaryInstructorWizard(models.TransientModel):
                 salesperson = commission.primary_salesperson_id
                 if salesperson:
                     sale_partner = salesperson.partner_id
-                    if sale_partner.id not in salesperson_commissions:
-                        salesperson_commissions[sale_partner.id] = []
-                    salesperson_commissions[sale_partner.id].append(commission)
+                    comm = salesperson_commissions.setdefault(
+                        sale_partner.id, []
+                    )
+                    comm.append(commission)
             for salesperson_key in salesperson_commissions:
                 partner = self.env["res.partner"].browse([salesperson_key])
                 account_id = partner.property_account_payable.id

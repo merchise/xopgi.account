@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-from . import voucher_wizard
+from . import voucher_wizard  # noqa

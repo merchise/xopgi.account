@@ -1,4 +1,18 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+# ---------------------------------------------------------------------
+# unrealized_gl_wizard
+# ---------------------------------------------------------------------
+# Copyright (c) 2015 Merchise Autrement and Contributors
+# All rights reserved.
+#
+# This is free software; you can redistribute it and/or modify it under the
+# terms of the LICENCE attached (see LICENCE file) in the distribution
+# package.
+
+from __future__ import (division as _py3_division,
+                        print_function as _py3_print,
+                        absolute_import as _py3_abs_import)
 
 import datetime
 from openerp import api, fields, models
@@ -131,6 +145,5 @@ class UnrealizedGLWizard(models.TransientModel):
                          'adjusted_balance', 'unrealized_gain_loss'),
             query="l.date <= '" + self.close_date + "'")
         account_ugl = full_ugl[account.id]
-        ugl = account_ugl["foreign_balance"] / self.currency_rate - \
-              account_ugl["balance"]
+        ugl = account_ugl["foreign_balance"] / self.currency_rate - account_ugl["balance"]
         return ugl

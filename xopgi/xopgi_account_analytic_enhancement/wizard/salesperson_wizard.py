@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import (division as _py3_division,
+                        print_function as _py3_print,
+                        absolute_import as _py3_abs_import)
 
 import logging
 from openerp import api, fields, models
@@ -35,7 +38,16 @@ class PrimaryInstructorWizard(models.TransientModel):
         self._supplier_invoice_generator(partner, account_id,
                                          self.analytic_account_ids)
 
-    def generate_supplier_invoice_cron(self, cr, uid):
+    def enqueue_generate_supplier_invoice_cron(self, cr, uid, context=None):
+        from openerp.jobs import Deferred
+        # Avoid performing a big computation within the WorkerCron process
+        # which is under tight timeout restriction (because the same
+        # restriction applies to Cron and HTTP workers).  Jobs are allowed to
+        # take longer.
+        Deferred(self._name, cr, uid, 'generate_supplier_invoice_cron',
+                 context=context)
+
+    def generate_supplier_invoice_cron(self, cr, uid, context=None):
         with api.Environment.manage():
             self.env = api.Environment(cr, uid, {})
             commission_ready = self.env["account.analytic.account"].search(
@@ -46,9 +58,10 @@ class PrimaryInstructorWizard(models.TransientModel):
                 salesperson = commission.primary_salesperson_id
                 if salesperson:
                     sale_partner = salesperson.partner_id
-                    if sale_partner.id not in salesperson_commissions:
-                        salesperson_commissions[sale_partner.id] = []
-                    salesperson_commissions[sale_partner.id].append(commission)
+                    comm = salesperson_commissions.setdefault(
+                        sale_partner.id, []
+                    )
+                    comm.append(commission)
             for salesperson_key in salesperson_commissions:
                 partner = self.env["res.partner"].browse([salesperson_key])
                 account_id = partner.property_account_payable.id

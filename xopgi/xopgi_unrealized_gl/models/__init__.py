@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# flake8: noqa
 
-import account_config_settings
-import account_move
+from . import account_config_settings
+from . import account_move

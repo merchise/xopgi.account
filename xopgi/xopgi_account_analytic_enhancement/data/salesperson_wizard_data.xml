@@ -8,7 +8,7 @@
             <field name="numbercall">-1</field>
             <field name="doall" eval="True"/>
             <field name="model" eval="'xopgi.salesperson_wizard'"/>
-            <field name="function" eval="'generate_supplier_invoice_cron'"/>
+            <field name="function" eval="'enqueue_generate_supplier_invoice_cron'"/>
             <field name="args" eval="'()'" />
             <field name="active" eval="False" />
         </record>

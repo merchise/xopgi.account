@@ -1,8 +1,11 @@
 #!python
 # -*- encoding: utf-8 -*-
+# flake8: noqa
 from __future__ import absolute_import, print_function
 
-import os, sys
+import os
+import sys
+
 from setuptools import setup, find_packages
 from setuptools.command.develop import develop as _develop
 

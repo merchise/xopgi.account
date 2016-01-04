@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # xopgi.xopgi.xopgi_account.invoice
 # ---------------------------------------------------------------------
-# Copyright (c) 2013-2015 Merchise Autrement
+# Copyright (c) 2013-2016 Merchise Autrement
 # All rights reserved.
 #
 #

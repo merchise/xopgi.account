@@ -11,15 +11,17 @@
 # package.
 #
 # @created: 2013-11-11
+# flake8:  noqa
 
-from . import chart  # noqa
-from . import move  # noqa
-from . import invoice  # noqa
-from . import statement  # noqa
-from . import multicompanyitem  # noqa
-from . import voucher  # noqa
-from . import currency  # noqa
-from . import misc  # noqa
-from . import config  # noqa
-from . import post  # noqa
-from . import reconcile  # noqa
+from . import chart
+from . import move
+from . import invoice
+from . import statement
+from . import multicompanyitem
+from . import voucher
+from . import currency
+from . import misc
+from . import config
+from . import post
+from . import reconcile
+from . import analytic

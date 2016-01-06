@@ -19,7 +19,7 @@
     "website": "http://xopgi.merchise.org/addons/xopgi_account",
     "category": "Accounting",
     "description": "Accounting",
-    "depends": ['account_accountant'],
+    "depends": ['account_accountant', 'analytic', 'account', ],
     "data": [
         'view/config.xml',
         'view/company.xml',

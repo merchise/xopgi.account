@@ -56,16 +56,22 @@ class AnalyticAccount(models.Model):
         .. note:: No message tracking the temporary change is produced.
 
         '''
-        cancelled = self.filtered(lambda account: account.state == 'cancelled')
-        if any(cancelled):
-            raise ValueError(cancelled)
-        invalid = self.filtered(
-            lambda account: account.type not in ('normal', 'contract'))
-        if any(invalid):
-            raise ValueError(invalid)
+        self.ensure_not_in_state('cancelled')
+        self.ensure_type('normal', 'contract')
         closed = self.filtered(lambda account: account.state == 'close')
         closed.with_context(tracking_disable=True).write({'state': 'open'})
         try:
             yield closed
         finally:
             closed.with_context(tracking_disable=True).write({'state': 'close'})
+
+    def ensure_not_in_state(self, *states):
+        invalid = self.filtered(lambda account: account.state in states)
+        if any(invalid):
+            raise ValueError(invalid)
+
+    def ensure_type(self, *types):
+        invalid = self.filtered(
+            lambda account: account.type not in types)
+        if any(invalid):
+            raise ValueError(invalid)

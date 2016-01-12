@@ -26,12 +26,12 @@
           <page string="Commission" groups="base.group_sale_manager">
             <group>
               <group>
-                <field name='required_margin' />
-                <field name='max_margin' />
+                <field name='required_margin'/>
+                <field name='max_margin'/>
               </group>
               <group>
-                <field name='min_commission_margin' />
-                <field name='max_commission_margin' />
+                <field name='min_commission_margin'/>
+                <field name='max_commission_margin'/>
               </group>
             </group>
           </page>
@@ -167,8 +167,8 @@
                 domain="[('type', '=', 'contract')]"/>
 
     <!--<menuitem id="account_analytic_account_action" name="Commissions"-->
-    <!--action="account_analytic_account_operation_action"-->
-    <!--parent="base.menu_sales"-->
-    <!--sequence="100"/>-->
+              <!--action="account_analytic_account_operation_action"-->
+              <!--parent="base.menu_sales"-->
+              <!--sequence="100"/>-->
   </data>
 </openerp>

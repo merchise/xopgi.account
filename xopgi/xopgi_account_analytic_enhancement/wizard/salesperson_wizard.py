@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import logging
+
+from datetime import date
 from openerp import api, fields, models
 
 
@@ -69,10 +71,17 @@ class PrimaryInstructorWizard(models.TransientModel):
 
     def _supplier_invoice_generator(self, partner, account_id,
                                     analytic_account_ids):
+        d = date.today()
         supplier_invoice = self.env["account.invoice"].sudo().create(
             {"partner_id": partner.id,
              "account_id": account_id,
-             "type": "in_invoice"})
+             "type": "in_invoice",
+             "name": "Commission/" + d.strftime("%B") + "/" + partner.name,
+             "journal_id": self.env['account.journal'].search(
+                 [('type', 'in', ['purchase']),
+                  ('company_id', '=', self._context.get(
+                      'company_id', self.env.user.company_id.id))],
+                 limit=1).id})
         supplier_invoice.message_follower_ids |= self.env[
             "res.partner"].browse([partner.id])
         employees = self.env["hr.employee"].search(

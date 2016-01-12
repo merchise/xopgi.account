@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # operations_performance_report.py
 # ---------------------------------------------------------------------
-# Copyright (c) 2015 Merchise Autrement and Contributors
+# Copyright (c) 2015, 2016 Merchise Autrement and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -12,6 +12,9 @@
 #
 # Created on 21/11/15
 
+from __future__ import (division as _py3_division,
+                        print_function as _py3_print,
+                        absolute_import as _py3_abs_import)
 
 from openerp import tools
 from openerp import fields, models

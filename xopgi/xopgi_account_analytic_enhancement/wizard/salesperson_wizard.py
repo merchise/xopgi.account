@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from __future__ import (division as _py3_division,
+                        print_function as _py3_print,
+                        absolute_import as _py3_abs_import)
 
 import logging
 
@@ -71,6 +74,8 @@ class PrimaryInstructorWizard(models.TransientModel):
 
     def _supplier_invoice_generator(self, partner, account_id,
                                     analytic_account_ids):
+        # TODO: Performance.  This code: issues lots of SQL, if needed use the
+        # xoeuf.orm.get_creator API to make this easier.
         d = date.today()
         supplier_invoice = self.env["account.invoice"].sudo().create(
             {"partner_id": partner.id,
@@ -83,15 +88,16 @@ class PrimaryInstructorWizard(models.TransientModel):
                       'company_id', self.env.user.company_id.id))],
                  limit=1).id})
         supplier_invoice.message_follower_ids |= self.env[
-            "res.partner"].browse([partner.id])
+            "res.partner"].browse([partner.id])  # UPDATE ...
         employees = self.env["hr.employee"].search(
             [("user_id.partner_id", "=", partner.id)])
         for employee in employees:
             if employee.parent_id:
                 manager = employee.parent_id.user_id.partner_id
                 if any(manager):
-                    supplier_invoice.message_follower_ids |= manager
+                    supplier_invoice.message_follower_ids |= manager  # UPDATE ...
         for analytic_account_id in analytic_account_ids:
+            # Lots of INSERT INTO (and possible UPDATE...)
             self.env["account.invoice.line"].sudo().create(
                 {"invoice_id": supplier_invoice.id,
                  "quantity": 1,

@@ -2,16 +2,17 @@
 {
     "name": "Unrealized Gain & Loss",
 
-    "summary": """
-        Genera las entradas correspondientes al cierre para ganancias y pérdidas basadas en fluctuaciones de moneda""",
+    "summary": ("Genera las entradas correspondientes al cierre para "
+                "ganancias y pérdidas basadas en fluctuaciones de moneda"),
 
     "description": """
-        Genera las entradas correspondientes al cierre para ganancias y pérdidas basadas en fluctuaciones de moneda
+        Genera las entradas correspondientes al cierre para ganancias
+        y pérdidas basadas en fluctuaciones de moneda
     """,
 
     "author": "Merchise Autrement",
 
-    "category": "Specific Industry Applications",
+    "category": "Accounting",
 
     "version": "1.0",
 

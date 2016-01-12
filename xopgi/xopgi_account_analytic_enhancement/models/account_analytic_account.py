@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # account_analytic_account
 # ---------------------------------------------------------------------
-# Copyright (c) 2015 Merchise Autrement and Contributors
+# Copyright (c) 2015-2016 Merchise Autrement and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -16,12 +16,7 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-import os
-import threading
-from time import sleep
-
 from xoutil import Unset
-from xoutil import logger as _logger
 
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
@@ -60,77 +55,11 @@ from openerp.exceptions import ValidationError
 #
 
 
-class Timer(object):
-    def __init__(self, ttl=600):
-        self._lock = threading.Lock()
-        self._functions = []
-        self._thread = None
-        self._debugger = None
-        self._ttl = ttl
-
-    def lru_cache(self, maxsize=None):
-        from functools import wraps
-        from xoutil.functools import lru_cache
-
-        def decorator(func):
-            @wraps(func)
-            def wrapper(*args, **kwargs):
-                # Ensure the thread is started for this process.  This is
-                # needed cause the global `timer` is used at module-level
-                # functions.  So when the server forks the worker process, we
-                # need to start the TTL thread in this child process.  The
-                # only way to do that now is by ensuring the thread is started
-                # once the function is called.
-                #
-                # If we start the timer before calling the function, the
-                # thread will be enacted at the master process which would be
-                # wasteful and useless.
-                self.start()
-                return func(*args, **kwargs)
-
-            function = lru_cache(maxsize)(wrapper)
-            with self._lock:
-                self._functions.append(function)
-            return function
-        return decorator
-
-    def start(self):
-        if not self._thread or not self._thread.is_alive():
-            _logger.debug('Starting TTL eviction thread for worker PID %d',
-                          os.getpid())
-            self._thread = t = threading.Thread(target=self._clean)
-            t.setDaemon(True)
-            t.start()
-        if not self._debugger or not self._debugger.is_alive():
-            self._debugger = t = threading.Thread(target=self._log_cache_info)
-            t.setDaemon(True)
-            t.start()
-
-    def _log_cache_info(self):
-        while True:
-            sleep(self._ttl//10)
-            with self._lock:
-                for f in self._functions:
-                    _logger.debug('CacheInfo for %r: %r', f, f.cache_info())
-
-    def _clean(self):
-        while True:
-            sleep(self._ttl)
-            _logger.debug('Cleaning Cache TTL for worker PID %d', os.getpid())
-            with self._lock:
-                for f in self._functions:
-                    f.cache_clear()
-
-
-timer = Timer()
-
-
 def _get_from_branch(field_name, default=Unset):
     '''Return a function that will traverse the account's ancestry branch
     looking for the first node in which `field_name` has a non-null value.
 
     '''
-    @timer.lru_cache(1000)
     def _get(record):
         res = getattr(record, field_name, Unset)
         # XXX: Don't test for res is Unset cause we need to traverse the
@@ -159,7 +88,6 @@ def _compute_from_branch(field_name, update_field_name, default=Unset):
     return _compute
 
 
-@timer.lru_cache(1000)
 def _compute_margin_commission(record):
     # XXX: Technically debit != invoiced, since purchase refunds increase
     # debit.  Nevertheless we can't ignore that.

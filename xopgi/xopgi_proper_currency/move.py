@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # xopgi.xopgi.xopgi_account.move
 # ---------------------------------------------------------------------
-# Copyright (c) 2013-2015 Merchise Autrement
+# Copyright (c) 2013-2016 Merchise Autrement
 # All rights reserved.
 #
 #
@@ -18,7 +18,6 @@
 
 from __future__ import (division as _py3_division,
                         print_function as _py3_print,
-                        unicode_literals as _py3_unicode,
                         absolute_import as _absolute_import)
 
 from openerp.osv import fields
@@ -249,8 +248,8 @@ class account_move_line(Model):
                         to_write['amount_currency'] = -value
                 else:
                     to_write[arg] = value
-                    to_write['amount_currency'] = 0  # Otherwise a validation
-                                                     # error might hunt you
+                    # Otherwise a validation error might hunt you
+                    to_write['amount_currency'] = 0
                 return self.write(cr, uid, line_id, to_write, context,
                                   update_check=_update_check)
 

@@ -228,6 +228,12 @@ msgid "Order send date"
 msgstr "Fecha envío de orden"
 
 #. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.opresult_report:xopgi_operations_performance.result_performance_reports_view_search
+#: field:xopgi_operations_performance.opresult_report,parent_analityc_id:0
+msgid "Parent Operation"
+msgstr "Operación Padre"
+
+#. module: xopgi_operations_performance
 #: field:xopgi_operations_performance.coordperf_report,planification_time:0
 msgid "Planification Time"
 msgstr "Tiempo de planificación"

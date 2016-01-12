@@ -112,6 +112,8 @@
                     context="{'group_by': 'primary_salesperson_id'}"/>
             <filter name="by_expiration_date" string="Expiration Date"
                     context="{'group_by': 'date'}"/>
+            <filter name="by_parent_operation" string="Parent Operation"
+                    context="{'group_by': 'parent_analityc_id'}"/>
           </group>
         </search>
       </field>

@@ -95,6 +95,8 @@ class OperationResultReport(models.Model):
     partner_id = fields.Many2one("res.partner", "Customer")
     manager_id = fields.Many2one("res.users", "Account Manager")
     primary_salesperson_id = fields.Many2one("res.users", string="Salesperson")
+    parent_analityc_id = fields.Many2one("account.analytic.account",
+                                         "Parent Operation")
     debit = fields.Float("Debit")
     credit = fields.Float("Credit")
     balance = fields.Float("Balance")
@@ -125,6 +127,7 @@ class OperationResultReport(models.Model):
               x.partner_id,
               x.manager_id,
               x.primary_salesperson_id,
+              x.parent_id AS parent_analityc_id,
               x.debit,
               x.credit,
               x.balance,
@@ -151,6 +154,7 @@ class OperationResultReport(models.Model):
               a.partner_id,
               a.manager_id,
               a.primary_salesperson_id,
+              a.parent_id,
               a.date,
               a.pax,
               a.state,

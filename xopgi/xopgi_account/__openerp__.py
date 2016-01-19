@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # xopgi.xopgi_account.__openerp__
 # ---------------------------------------------------------------------
-# Copyright (c) 2013-2015 Merchise Autrement
+# Copyright (c) 2013-2016 Merchise Autrement
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -19,7 +19,7 @@
     "website": "http://xopgi.merchise.org/addons/xopgi_account",
     "category": "Accounting",
     "description": "Accounting",
-    "depends": ['account_accountant'],
+    "depends": ['account_accountant', 'analytic', 'account', ],
     "data": [
         'view/config.xml',
         'view/company.xml',

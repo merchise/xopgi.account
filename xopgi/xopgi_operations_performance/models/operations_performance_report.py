@@ -15,7 +15,6 @@
 from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
-
 from openerp import tools
 from openerp import fields, models
 
@@ -26,9 +25,24 @@ class OperationPerformanceReport(models.Model):
     _auto = False
 
     lead_id = fields.Many2one("crm.lead", "Opportunity")
+    lead_month = fields.Selection([
+        (1, "January"),
+        (2, "February"),
+        (3, "March"),
+        (4, "April"),
+        (5, "May"),
+        (6, "June"),
+        (7, "July"),
+        (8, "August"),
+        (9, "September"),
+        (10, "October"),
+        (11, "November"),
+        (12, "December")
+    ], "Opportunity Month")
     partner_id = fields.Many2one("res.partner", "Customer")
     manager_id = fields.Many2one("res.users", "Account Manager")
     user_id = fields.Many2one("res.users", string="Salesperson")
+    operation_id = fields.Many2one("account.analytic.account", "Operation")
     response_time = fields.Integer(
         "Response Time", group_operator="avg",
         help="Time between opportunity creation and first Quotation")
@@ -57,6 +71,8 @@ class OperationPerformanceReport(models.Model):
              MIN(account_analytic_account.manager_id) AS manager_id,
              crm_lead.partner_id,
              crm_lead.user_id,
+             MIN(sale_order.project_id) AS operation_id,
+             DATE_PART('month', crm_lead.create_date) AS lead_month,
              CAST(DATE_PART('day', MIN(sale_order.date_order - crm_lead.create_date)) AS INTEGER) AS response_time,
              CAST(DATE_PART('day', MIN(sale_order.send_date - crm_lead.create_date)) AS INTEGER) AS proposal_time,
              CAST(DATE_PART('day', MIN(sale_order.date_confirm - sale_order.send_date)) AS INTEGER) AS negotiation_time,

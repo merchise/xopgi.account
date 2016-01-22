@@ -22,6 +22,9 @@
                   attrs="{'invisible': [('state', '!=', 'draft')]}"
                   string="Mark All" class="oe_right oe_edit_only"/>
         </field>
+        <tree string="Invoices and outstanding transactions">
+          <field name="name" invisible="1"/>
+        </tree>
       </field>
     </record>
 
@@ -46,6 +49,9 @@
                   attrs="{'invisible': [('state', '!=', 'draft')]}"
                   string="Mark All" class="oe_right oe_edit_only"/>
         </field>
+        <tree string="Supplier Invoices and Outstanding transactions">
+          <field name="name" invisible="1"/>
+        </tree>
       </field>
     </record>
   </data>

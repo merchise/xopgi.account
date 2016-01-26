@@ -21,6 +21,9 @@ from xoutil import Unset
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
 
+from openerp.addons.decimal_precision import decimal_precision as dp
+
+
 # TODO:  Improve performance.
 #
 # After a single profiling session on a worker.  We see that most of the time
@@ -163,6 +166,7 @@ class AccountAnalyticAccount(models.Model):
         required=False,
         default=0,
         track_visibility='onchange',
+        digits=dp.get_precision('Account'),
     )
     max_margin = fields.Float(
         string='Maximum margin',
@@ -170,6 +174,7 @@ class AccountAnalyticAccount(models.Model):
         required=False,
         default=0,
         track_visibility='onchange',
+        digits=dp.get_precision('Account'),
     )
     min_commission_margin = fields.Float(
         string='Minimum commission margin',
@@ -177,6 +182,7 @@ class AccountAnalyticAccount(models.Model):
         required=False,
         default=0,
         track_visibility='onchange',
+        digits=dp.get_precision('Account'),
     )
     max_commission_margin = fields.Float(
         string='Maximum commission margin',
@@ -184,41 +190,55 @@ class AccountAnalyticAccount(models.Model):
         required=False,
         default=0,
         track_visibility='onchange',
+        digits=dp.get_precision('Account'),
     )
 
     current_required_margin = fields.Float(
         compute=_compute_from_branch('required_margin',
-                                     'current_required_margin', default=0)
+                                     'current_required_margin', default=0),
+        digits=dp.get_precision('Account'),
     )
     current_max_margin = fields.Float(
         compute=_compute_from_branch('max_margin',
-                                     'current_max_margin', default=0)
+                                     'current_max_margin', default=0),
+        digits=dp.get_precision('Account'),
     )
     current_min_comm = fields.Float(
         compute=_compute_from_branch('min_commission_margin',
-                                     'current_min_comm', default=0)
+                                     'current_min_comm', default=0),
+        digits=dp.get_precision('Account'),
     )
     current_max_comm = fields.Float(
         compute=_compute_from_branch('max_commission_margin',
-                                     'current_max_comm', default=0)
+                                     'current_max_comm', default=0),
+        digits=dp.get_precision('Account'),
     )
 
     percentage_margin = fields.Float(
         string='Margin %', help='Percentage margin related to credit.',
-        compute='_compute_commission')
+        compute='_compute_commission',
+        digits=dp.get_precision('Account'),
+    )
 
     percentage_commission = fields.Float(
-        string='Commission %', help='Percentage commission related to profit.',
-        compute='_compute_commission')
+        string='Commission %',
+        help='Percentage commission related to profit.',
+        compute='_compute_commission',
+        digits=dp.get_precision('Account'),
+    )
 
     commission = fields.Float(
         string='Commission', help='Commission related to profit.',
-        compute='_compute_commission')
+        compute='_compute_commission',
+        digits=dp.get_precision('Account'),
+    )
 
     primary_salesperson_id = fields.Many2one(
         "res.users", string="Salesperson",
         help="Primary salesperson in operation",
-        compute="_compute_primary_salesperson", store=True)
+        compute="_compute_primary_salesperson",
+        store=True
+    )
 
     supplier_invoice_id = fields.Many2one('account.invoice',
                                           ondelete='set null')

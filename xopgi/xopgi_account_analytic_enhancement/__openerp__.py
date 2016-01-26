@@ -8,7 +8,7 @@
 
     "version": "1.0",
 
-    "depends": ["account", "account_analytic_analysis"],
+    "depends": ["account", "account_analytic_analysis", 'decimal_precision', ],
 
     "author": "Merchise Autrement",
 

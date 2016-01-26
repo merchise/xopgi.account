@@ -7,6 +7,10 @@
       <field name="inherit_id"
              ref="account.view_account_analytic_account_tree"/>
       <field name="arch" type="xml">
+        <field name="balance" position="before">
+          <field name="invoiced" sum="Total Invoiced"/>
+          <field name="expended" sum="Total expended"/>
+        </field>
         <field name="balance" position="after">
           <field name="percentage_margin"/>
         </field>
@@ -53,7 +57,11 @@
           <field name="complete_name"/>
           <field name="debit" sum="Total Debit"/>
           <field name="credit" sum="Total Credit"/>
+          <field name="invoiced" sum="Total Invoiced"/>
+          <field name="expended" sum="Total expended"/>
+
           <field name="balance" sum="Total Balance"/>
+
           <field name="percentage_margin"/>
           <field name="percentage_commission"/>
           <field name="commission" sum="Total Commission"/>
@@ -98,6 +106,9 @@
         <field name="partner_id" position="after">
           <field name="debit" sum="Total Debit"/>
           <field name="credit" sum="Total Credit"/>
+          <field name="invoiced" sum="Total Invoiced"/>
+          <field name="expended" sum="Total expended"/>
+
           <field name="balance" sum="Total Balance"/>
           <field name="percentage_margin"/>
           <field name="percentage_commission"/>

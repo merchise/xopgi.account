@@ -31,6 +31,16 @@ msgid "Analytic Account"
 msgstr ""
 
 #. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opperf_report,lead_month:0
+msgid "April"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opperf_report,lead_month:0
+msgid "August"
+msgstr ""
+
+#. module: xopgi_operations_performance
 #: field:xopgi_operations_performance.opresult_report,balance:0
 msgid "Balance"
 msgstr ""
@@ -107,6 +117,11 @@ msgid "Debit"
 msgstr ""
 
 #. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opperf_report,lead_month:0
+msgid "December"
+msgstr ""
+
+#. module: xopgi_operations_performance
 #: view:xopgi_operations_performance.coordperf_report:xopgi_operations_performance.coordination_performance_reports_view_search
 #: field:xopgi_operations_performance.coordperf_report,account_analytic_id:0
 msgid "Dossier"
@@ -116,6 +131,11 @@ msgstr ""
 #: view:xopgi_operations_performance.opresult_report:xopgi_operations_performance.result_performance_reports_view_search
 #: field:xopgi_operations_performance.opresult_report,date:0
 msgid "Expiration Date"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opperf_report,lead_month:0
+msgid "February"
 msgstr ""
 
 #. module: xopgi_operations_performance
@@ -143,6 +163,26 @@ msgid "Invoice Time"
 msgstr ""
 
 #. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opperf_report,lead_month:0
+msgid "January"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opperf_report,lead_month:0
+msgid "July"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opperf_report,lead_month:0
+msgid "June"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opperf_report,lead_month:0
+msgid "March"
+msgstr ""
+
+#. module: xopgi_operations_performance
 #: field:xopgi_operations_performance.opresult_report,margin_percentage:0
 msgid "Margin %"
 msgstr ""
@@ -153,8 +193,23 @@ msgid "Margin by Pax"
 msgstr ""
 
 #. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opperf_report,lead_month:0
+msgid "May"
+msgstr ""
+
+#. module: xopgi_operations_performance
 #: field:xopgi_operations_performance.opperf_report,negotiation_time:0
 msgid "Negotiation Time"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opresult_report,state:0
+msgid "New"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opperf_report,lead_month:0
+msgid "November"
 msgstr ""
 
 #. module: xopgi_operations_performance
@@ -164,6 +219,12 @@ msgid "Nro. Pax"
 msgstr ""
 
 #. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opperf_report,lead_month:0
+msgid "October"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: field:xopgi_operations_performance.opperf_report,operation_id:0
 #: field:xopgi_operations_performance.opresult_report,analytic_id:0
 msgid "Operation"
 msgstr ""
@@ -213,8 +274,20 @@ msgid "Opportunity"
 msgstr ""
 
 #. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.opperf_report:xopgi_operations_performance.operations_performance_reports_view_search
+#: field:xopgi_operations_performance.opperf_report,lead_month:0
+msgid "Opportunity Month"
+msgstr ""
+
+#. module: xopgi_operations_performance
 #: help:sale.order,send_date:0
 msgid "Order send date"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: view:xopgi_operations_performance.opresult_report:xopgi_operations_performance.result_performance_reports_view_search
+#: field:xopgi_operations_performance.opresult_report,parent_analityc_id:0
+msgid "Parent Operation"
 msgstr ""
 
 #. module: xopgi_operations_performance
@@ -286,6 +359,11 @@ msgstr ""
 #: field:purchase.order,send_date:0
 #: field:sale.order,send_date:0
 msgid "Send Date"
+msgstr ""
+
+#. module: xopgi_operations_performance
+#: selection:xopgi_operations_performance.opperf_report,lead_month:0
+msgid "September"
 msgstr ""
 
 #. module: xopgi_operations_performance

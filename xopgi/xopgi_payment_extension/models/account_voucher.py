@@ -14,7 +14,6 @@
 from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
-
 from openerp import models
 
 
@@ -73,3 +72,20 @@ class AccountVoucher(models.Model):
         for line_dr_id in current_voucher.line_dr_ids:
             line_dr_id.amount = 0.00
             line_dr_id.reconcile = False
+
+    def proforma_voucher(self, cr, uid, ids, context=None):
+        current_vouchers = self.browse(cr, uid, ids)
+        for current_voucher in current_vouchers:
+            write_values = {}
+            for line_cr_id in current_voucher.line_cr_ids:
+                if line_cr_id.amount == 0.00:
+                    write_values.setdefault(
+                        "line_cr_ids", []).append((2, line_cr_id.id, 0))
+            for line_dr_id in current_voucher.line_dr_ids:
+                if line_dr_id.amount == 0.00:
+                    write_values.setdefault(
+                        "line_dr_ids", []).append((2, line_dr_id.id, 0))
+            if any(write_values):
+                current_voucher.write(write_values)
+        return super(AccountVoucher, self).proforma_voucher(
+            cr, uid, ids, context)

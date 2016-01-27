@@ -7,6 +7,11 @@
       <field name="inherit_id"
              ref="account.view_account_analytic_account_tree"/>
       <field name="arch" type="xml">
+        <field name="balance" position="before">
+          <field name="invoiced" sum="Invoiced"/>
+          <field name="expended" sum="Expended"/>
+          <field name="amount_undefined" sum="Not invoiced"/>
+        </field>
         <field name="balance" position="after">
           <field name="percentage_margin"/>
         </field>
@@ -26,12 +31,12 @@
           <page string="Commission" groups="base.group_sale_manager">
             <group>
               <group>
-                <field name='required_margin' />
-                <field name='max_margin' />
+                <field name='required_margin'/>
+                <field name='max_margin'/>
               </group>
               <group>
-                <field name='min_commission_margin' />
-                <field name='max_commission_margin' />
+                <field name='min_commission_margin'/>
+                <field name='max_commission_margin'/>
               </group>
             </group>
           </page>
@@ -51,9 +56,11 @@
               string="Analytic account" toolbar="1">
           <field name="name" invisible="1"/>
           <field name="complete_name"/>
-          <field name="debit" sum="Total Debit"/>
-          <field name="credit" sum="Total Credit"/>
+          <field name="invoiced" sum="Invoiced"/>
+          <field name="expended" sum="Expended"/>
+
           <field name="balance" sum="Total Balance"/>
+
           <field name="percentage_margin"/>
           <field name="percentage_commission"/>
           <field name="commission" sum="Total Commission"/>
@@ -96,8 +103,8 @@
           <attribute name="invisible">1</attribute>
         </field>
         <field name="partner_id" position="after">
-          <field name="debit" sum="Total Debit"/>
-          <field name="credit" sum="Total Credit"/>
+          <field name="invoiced" sum="Invoiced"/>
+          <field name="expended" sum="Expended"/>
           <field name="balance" sum="Total Balance"/>
           <field name="percentage_margin"/>
           <field name="percentage_commission"/>
@@ -167,8 +174,8 @@
                 domain="[('type', '=', 'contract')]"/>
 
     <!--<menuitem id="account_analytic_account_action" name="Commissions"-->
-    <!--action="account_analytic_account_operation_action"-->
-    <!--parent="base.menu_sales"-->
-    <!--sequence="100"/>-->
+              <!--action="account_analytic_account_operation_action"-->
+              <!--parent="base.menu_sales"-->
+              <!--sequence="100"/>-->
   </data>
 </openerp>

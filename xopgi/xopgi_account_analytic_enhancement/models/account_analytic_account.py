@@ -21,6 +21,9 @@ from xoutil import Unset
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
 
+from openerp.addons.decimal_precision import decimal_precision as dp
+
+
 # TODO:  Improve performance.
 #
 # After a single profiling session on a worker.  We see that most of the time
@@ -89,9 +92,7 @@ def _compute_from_branch(field_name, update_field_name, default=Unset):
 
 
 def _compute_margin_commission(record):
-    # XXX: Technically debit != invoiced, since purchase refunds increase
-    # debit.  Nevertheless we can't ignore that.
-    invoiced, balance = record.debit, record.balance
+    invoiced, balance = record.invoiced, record.balance
     margin = balance/invoiced if invoiced > 0 else 0
     # Since all the margins are expected to be given in percent units
     # we normalize them to the interval 0-1.
@@ -111,6 +112,10 @@ def _compute_margin_commission(record):
     else:
         commission_percent = 0
     return margin, commission_percent, balance
+
+
+# Types of invoices that affect the income and the margin percent.
+INCOME_INVOICE_TYPES = ('out_invoice', 'out_refund')
 
 
 class AccountAnalyticAccount(models.Model):
@@ -163,6 +168,7 @@ class AccountAnalyticAccount(models.Model):
         required=False,
         default=0,
         track_visibility='onchange',
+        digits=dp.get_precision('Account'),
     )
     max_margin = fields.Float(
         string='Maximum margin',
@@ -170,6 +176,7 @@ class AccountAnalyticAccount(models.Model):
         required=False,
         default=0,
         track_visibility='onchange',
+        digits=dp.get_precision('Account'),
     )
     min_commission_margin = fields.Float(
         string='Minimum commission margin',
@@ -177,6 +184,7 @@ class AccountAnalyticAccount(models.Model):
         required=False,
         default=0,
         track_visibility='onchange',
+        digits=dp.get_precision('Account'),
     )
     max_commission_margin = fields.Float(
         string='Maximum commission margin',
@@ -184,47 +192,101 @@ class AccountAnalyticAccount(models.Model):
         required=False,
         default=0,
         track_visibility='onchange',
+        digits=dp.get_precision('Account'),
     )
 
     current_required_margin = fields.Float(
         compute=_compute_from_branch('required_margin',
-                                     'current_required_margin', default=0)
+                                     'current_required_margin', default=0),
+        digits=dp.get_precision('Account'),
     )
     current_max_margin = fields.Float(
         compute=_compute_from_branch('max_margin',
-                                     'current_max_margin', default=0)
+                                     'current_max_margin', default=0),
+        digits=dp.get_precision('Account'),
     )
     current_min_comm = fields.Float(
         compute=_compute_from_branch('min_commission_margin',
-                                     'current_min_comm', default=0)
+                                     'current_min_comm', default=0),
+        digits=dp.get_precision('Account'),
     )
     current_max_comm = fields.Float(
         compute=_compute_from_branch('max_commission_margin',
-                                     'current_max_comm', default=0)
+                                     'current_max_comm', default=0),
+        digits=dp.get_precision('Account'),
     )
 
     percentage_margin = fields.Float(
         string='Margin %', help='Percentage margin related to credit.',
-        compute='_compute_commission')
+        compute='_compute_commission',
+        digits=dp.get_precision('Account'),
+    )
 
     percentage_commission = fields.Float(
-        string='Commission %', help='Percentage commission related to profit.',
-        compute='_compute_commission')
+        string='Commission %',
+        help='Percentage commission related to profit.',
+        compute='_compute_commission',
+        digits=dp.get_precision('Account'),
+    )
 
     commission = fields.Float(
         string='Commission', help='Commission related to profit.',
-        compute='_compute_commission')
+        compute='_compute_commission',
+        digits=dp.get_precision('Account'),
+    )
+
+    invoiced = fields.Float(
+        string='Invoiced',
+        help=('The amount invoiced for this account, '
+              'discounting refunds.'),
+        compute='_compute_invoiced',
+        digits=dp.get_precision('Account'),
+    )
+
+    expended = fields.Float(
+        string='Expended',
+        help=('The amount expended for this account, '
+              'discounting refunds.'),
+        compute='_compute_invoiced',
+        digits=dp.get_precision('Account'),
+    )
+
+    amount_undefined = fields.Float(
+        string='Undefined',
+        help=('Total that cannot be accounted as invoiced or expended because '
+              'it is not attached to an invoice'),
+        compute='_compute_invoiced',
+        digits=dp.get_precision('Account'),
+    )
 
     primary_salesperson_id = fields.Many2one(
         "res.users", string="Salesperson",
         help="Primary salesperson in operation",
-        compute="_compute_primary_salesperson", store=True)
+        compute="_compute_primary_salesperson",
+        store=True
+    )
 
     supplier_invoice_id = fields.Many2one('account.invoice',
                                           ondelete='set null')
 
     # TODO: Ensure only groups='base.group_sale_manager' can update the
     # commission margins.  So far, only the goodwill of ignorance may save us.
+
+    @api.depends('line_ids')
+    def _compute_invoiced(self):
+        for record in self:
+            invoiced = expended = undefined = 0
+            for line in record.line_ids:
+                if line.move_id and line.move_id.invoice:
+                    if line.move_id.invoice.type in INCOME_INVOICE_TYPES:
+                        invoiced += line.amount
+                    else:
+                        expended -= line.amount
+                else:
+                    undefined += line.amount
+            record.invoiced = invoiced
+            record.expended = expended
+            record.amount_undefined = undefined
 
     @api.depends('debit', 'balance')
     def _compute_commission(self):

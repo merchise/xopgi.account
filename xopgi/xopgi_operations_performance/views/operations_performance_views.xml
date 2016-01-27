@@ -46,6 +46,7 @@
           <field name="partner_id"/>
           <field name="manager_id"/>
           <field name="user_id"/>
+          <field name="operation_id"/>
           <group string="Group By">
             <filter name="by_customer" string="Customer"
                     context="{'group_by': 'partner_id'}"/>
@@ -53,6 +54,8 @@
                     context="{'group_by': 'manager_id'}"/>
             <filter name="by_salesperson" string="Salesperson"
                     context="{'group_by': 'user_id'}"/>
+            <filter name="by_opportunity_month" string="Opportunity Month"
+                    context="{'group_by': 'lead_month'}"/>
           </group>
         </search>
       </field>
@@ -112,6 +115,8 @@
                     context="{'group_by': 'primary_salesperson_id'}"/>
             <filter name="by_expiration_date" string="Expiration Date"
                     context="{'group_by': 'date'}"/>
+            <filter name="by_parent_operation" string="Parent Operation"
+                    context="{'group_by': 'parent_analityc_id'}"/>
           </group>
         </search>
       </field>

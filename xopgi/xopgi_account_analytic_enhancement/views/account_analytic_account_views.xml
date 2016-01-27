@@ -8,8 +8,8 @@
              ref="account.view_account_analytic_account_tree"/>
       <field name="arch" type="xml">
         <field name="balance" position="before">
-          <field name="invoiced" sum="Total Invoiced"/>
-          <field name="expended" sum="Total expended"/>
+          <field name="invoiced" sum="Invoiced"/>
+          <field name="expended" sum="Expended"/>
           <field name="amount_undefined" sum="Not invoiced"/>
         </field>
         <field name="balance" position="after">
@@ -56,10 +56,8 @@
               string="Analytic account" toolbar="1">
           <field name="name" invisible="1"/>
           <field name="complete_name"/>
-          <field name="debit" sum="Total Debit"/>
-          <field name="credit" sum="Total Credit"/>
-          <field name="invoiced" sum="Total Invoiced"/>
-          <field name="expended" sum="Total expended"/>
+          <field name="invoiced" sum="Invoiced"/>
+          <field name="expended" sum="Expended"/>
 
           <field name="balance" sum="Total Balance"/>
 
@@ -105,11 +103,8 @@
           <attribute name="invisible">1</attribute>
         </field>
         <field name="partner_id" position="after">
-          <field name="debit" sum="Total Debit"/>
-          <field name="credit" sum="Total Credit"/>
-          <field name="invoiced" sum="Total Invoiced"/>
-          <field name="expended" sum="Total expended"/>
-
+          <field name="invoiced" sum="Invoiced"/>
+          <field name="expended" sum="Expended"/>
           <field name="balance" sum="Total Balance"/>
           <field name="percentage_margin"/>
           <field name="percentage_commission"/>

@@ -277,8 +277,8 @@ class AccountAnalyticAccount(models.Model):
         for record in self:
             invoiced = expended = undefined = 0
             for line in record.line_ids:
-                if line.invoice_id:
-                    if line.invoice_id.type in INCOME_INVOICE_TYPES:
+                if line.move_id and line.move_id.invoice:
+                    if line.move_id.invoice.type in INCOME_INVOICE_TYPES:
                         invoiced += line.amount
                     else:
                         expended -= line.amount

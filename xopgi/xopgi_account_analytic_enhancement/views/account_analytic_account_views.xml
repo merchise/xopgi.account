@@ -10,6 +10,7 @@
         <field name="balance" position="before">
           <field name="invoiced" sum="Total Invoiced"/>
           <field name="expended" sum="Total expended"/>
+          <field name="amount_undefined" sum="Not invoiced"/>
         </field>
         <field name="balance" position="after">
           <field name="percentage_margin"/>

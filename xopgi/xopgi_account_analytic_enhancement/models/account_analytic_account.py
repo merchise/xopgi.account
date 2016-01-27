@@ -251,6 +251,14 @@ class AccountAnalyticAccount(models.Model):
         digits=dp.get_precision('Account'),
     )
 
+    amount_undefined = fields.Float(
+        string='Undefined',
+        help=('Total that cannot be accounted as invoiced or expended because '
+              'it is not attached to an invoice'),
+        compute='_compute_invoiced',
+        digits=dp.get_precision('Account'),
+    )
+
     primary_salesperson_id = fields.Many2one(
         "res.users", string="Salesperson",
         help="Primary salesperson in operation",
@@ -267,14 +275,18 @@ class AccountAnalyticAccount(models.Model):
     @api.depends('line_ids')
     def _compute_invoiced(self):
         for record in self:
-            invoiced = expended = 0
+            invoiced = expended = undefined = 0
             for line in record.line_ids:
-                if line.invoice_id.type in INCOME_INVOICE_TYPES:
-                    invoiced += line.amount
+                if line.invoice_id:
+                    if line.invoice_id.type in INCOME_INVOICE_TYPES:
+                        invoiced += line.amount
+                    else:
+                        expended -= line.amount
                 else:
-                    expended -= line.amount
+                    undefined += line.amount
             record.invoiced = invoiced
             record.expended = expended
+            record.amount_undefined = undefined
 
     @api.depends('debit', 'balance')
     def _compute_commission(self):

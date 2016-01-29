@@ -12,9 +12,6 @@
         "account",
         "account_analytic_analysis",
         'decimal_precision',
-
-        # Well, the invoice_id of analytic accounts is defined in this addon.
-        'hr_timesheet_invoice'
     ],
 
     "author": "Merchise Autrement",

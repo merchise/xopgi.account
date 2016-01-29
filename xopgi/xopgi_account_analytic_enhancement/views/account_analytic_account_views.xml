@@ -103,6 +103,22 @@
         <field name="date_start" position="attributes">
           <attribute name="invisible">1</attribute>
         </field>
+      </field>
+    </record>
+
+    <record id="contract_base_view_tree" model="ir.ui.view">
+      <field name="name">account.analytic.account.contract.base.tree</field>
+      <field name="model">account.analytic.account</field>
+      <field name="inherit_id"
+             ref="account.view_account_analytic_account_list"/>
+      <field name="groups_id" eval="[(4, ref('base.group_sale_salesman'))]"/>
+      <field name="arch" type="xml">
+        <field name="code" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </field>
+        <field name="date_start" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </field>
         <field name="partner_id" position="after">
           <field name="debit" sum="Total Debit"/>
           <field name="credit" sum="Total Credit"/>
@@ -113,8 +129,6 @@
           <field name="percentage_margin"/>
           <field name="percentage_commission"/>
           <field name="commission" sum="Total Commission"/>
-          <field name="currency_id"
-                 groups="base.group_multi_currency"/>
         </field>
         <field name="manager_id" position="after">
           <field name="primary_salesperson_id"/>

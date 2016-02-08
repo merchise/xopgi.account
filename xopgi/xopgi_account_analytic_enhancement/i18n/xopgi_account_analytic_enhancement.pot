@@ -26,6 +26,11 @@ msgid "Analytic account"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
+#: field:account.analytic.account,self_balance:0
+msgid "Balance"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
 #: view:xopgi.salesperson_wizard:xopgi_account_analytic_enhancement.primary_salesperson_view_wizard
 msgid "Cancel"
 msgstr ""
@@ -49,15 +54,18 @@ msgid "Com. Uninvoiced"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
-#: field:account.analytic.account,percentage_commission:0
-msgid "Commission %"
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.view_account_analytic_account_form
+msgid "Commission"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
 #: model:ir.actions.act_window,name:xopgi_account_analytic_enhancement.account_analytic_account_operation_action
-#: model:ir.ui.menu,name:xopgi_account_analytic_enhancement.account_analytic_account_action
-#: field:account.analytic.account,commission:0
-msgid "Commission"
+msgid "Commissions"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_contract_view_search
+msgid "Contracts"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
@@ -73,6 +81,14 @@ msgstr ""
 #. module: xopgi_account_analytic_enhancement
 #: field:xopgi.salesperson_wizard,create_date:0
 msgid "Created on"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view_tree
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.contract_base_view_tree
+#: field:account.analytic.account,expended:0
+msgid "Expended"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
@@ -98,6 +114,14 @@ msgid "ID"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view_tree
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.contract_base_view_tree
+#: field:account.analytic.account,invoiced:0
+msgid "Invoiced"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
 #: field:xopgi.salesperson_wizard,write_uid:0
 msgid "Last Updated by"
 msgstr ""
@@ -108,8 +132,23 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
-#: field:account.analytic.account,percentage_margin:0
-msgid "Margin %"
+#: field:account.analytic.account,max_commission_margin:0
+msgid "Maximum commission margin"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: field:account.analytic.account,max_margin:0
+msgid "Maximum margin"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: field:account.analytic.account,min_commission_margin:0
+msgid "Minimum commission margin"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view_tree
+msgid "Not invoiced"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
@@ -123,6 +162,11 @@ msgid "Primary salesperson in operation"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
+#: field:account.analytic.account,required_margin:0
+msgid "Required margin"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
 #: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_contract_view_search
 #: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view_search
 #: field:account.analytic.account,primary_salesperson_id:0
@@ -131,26 +175,64 @@ msgid "Salesperson"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
+#: help:account.analytic.account,self_balance:0
+msgid "Self balance"
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
 #: field:account.analytic.account,supplier_invoice_id:0
 msgid "Supplier invoice id"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
+#: help:account.analytic.account,expended:0
+msgid "The amount expended for this account, discounting refunds."
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: help:account.analytic.account,invoiced:0
+msgid "The amount invoiced for this account, discounting refunds."
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: help:account.analytic.account,max_margin:0
+msgid "This is maximum margin allowed for an operation."
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: help:account.analytic.account,max_commission_margin:0
+msgid "This is maximum margin for commissions."
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: help:account.analytic.account,min_commission_margin:0
+msgid "This is minimum margin for commissions."
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
+#: help:account.analytic.account,required_margin:0
+msgid "This is the minimum margin required for an operation. If 0 no commission will be calculated."
+msgstr ""
+
+#. module: xopgi_account_analytic_enhancement
 #: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.contract_base_view_tree
 msgid "Total Balance"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
 #: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
+#: view:account.analytic.account:xopgi_account_analytic_enhancement.contract_base_view_tree
 msgid "Total Commission"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
-#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
-msgid "Total Credit"
+#: help:account.analytic.account,amount_undefined:0
+msgid "Total that cannot be accounted as invoiced or expended because it is not attached to an invoice"
 msgstr ""
 
 #. module: xopgi_account_analytic_enhancement
-#: view:account.analytic.account:xopgi_account_analytic_enhancement.account_analytic_account_view__tree
-msgid "Total Debit"
+#: field:account.analytic.account,amount_undefined:0
+msgid "Undefined"
 msgstr ""
+

@@ -92,7 +92,7 @@ def _compute_from_branch(field_name, update_field_name, default=Unset):
 
 
 def _compute_margin_commission(record):
-    invoiced, balance = record.invoiced, record.balance
+    invoiced, balance = record.invoiced, record.self_balance
     margin = balance/invoiced if invoiced > 0 else 0
     # Since all the margins are expected to be given in percent units
     # we normalize them to the interval 0-1.
@@ -241,6 +241,7 @@ class AccountAnalyticAccount(models.Model):
               'discounting refunds.'),
         compute='_compute_invoiced',
         digits=dp.get_precision('Account'),
+        store=True
     )
 
     expended = fields.Float(
@@ -249,6 +250,7 @@ class AccountAnalyticAccount(models.Model):
               'discounting refunds.'),
         compute='_compute_invoiced',
         digits=dp.get_precision('Account'),
+        store=True
     )
 
     amount_undefined = fields.Float(
@@ -257,6 +259,15 @@ class AccountAnalyticAccount(models.Model):
               'it is not attached to an invoice'),
         compute='_compute_invoiced',
         digits=dp.get_precision('Account'),
+        store=True
+    )
+
+    self_balance = fields.Float(
+        string='Balance',
+        help=('Self balance'),
+        compute='_compute_invoiced',
+        digits=dp.get_precision('Account'),
+        store=True
     )
 
     primary_salesperson_id = fields.Many2one(
@@ -287,8 +298,9 @@ class AccountAnalyticAccount(models.Model):
             record.invoiced = invoiced
             record.expended = expended
             record.amount_undefined = undefined
+            record.self_balance = invoiced - expended + undefined
 
-    @api.depends('debit', 'balance')
+    @api.depends('invoiced', 'self_balance')
     def _compute_commission(self):
         for record in self:
             margin, comm_percent, balance = _compute_margin_commission(record)

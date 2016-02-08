@@ -59,7 +59,7 @@
           <field name="invoiced" sum="Invoiced"/>
           <field name="expended" sum="Expended"/>
 
-          <field name="self_balance" sum="Total Balance"/>
+          <field name="balance" sum="Total Balance"/>
 
           <field name="percentage_margin"/>
           <field name="percentage_commission"/>
@@ -87,11 +87,21 @@
       <field name="inherit_id"
              ref="account_analytic_analysis.view_account_analytic_account_tree_c2c_3"/>
       <field name="arch" type="xml">
-        <field name="date_start" position="replace"/>
-        <field name="last_invoice_date" position="replace"/>
-        <field name="toinvoice_total" position="replace"/>
-        <field name="remaining_hours" position="replace"/>
-        <field name="pricelist_id" invisible="1" position="replace"/>
+        <field name="code" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </field>
+        <field name="last_invoice_date" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </field>
+        <field name="toinvoice_total" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </field>
+        <field name="remaining_hours" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </field>
+        <field name="date_start" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </field>
       </field>
     </record>
 
@@ -102,20 +112,16 @@
              ref="account.view_account_analytic_account_list"/>
       <field name="groups_id" eval="[(4, ref('base.group_sale_salesman'))]"/>
       <field name="arch" type="xml">
-        <data>
-          <field name="code" position="replace"/>
-          <field name="date" position="replace"/>
-          <field name="user_id" position="replace"/>
-          <field name="manager_id" position="replace"/>
-          <field name="parent_id" position="replace"/>
-          <field name="type" position="replace"/>
-          <field name="template_id" position="replace"/>
-          <field name="company_id" position="replace"/>
-        </data>
+        <field name="code" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </field>
+        <field name="date_start" position="attributes">
+          <attribute name="invisible">1</attribute>
+        </field>
         <field name="partner_id" position="after">
           <field name="invoiced" sum="Invoiced"/>
           <field name="expended" sum="Expended"/>
-          <field name="self_balance" sum="Total Balance"/>
+          <field name="balance" sum="Total Balance"/>
           <field name="percentage_margin"/>
           <field name="percentage_commission"/>
           <field name="commission" sum="Total Commission"/>

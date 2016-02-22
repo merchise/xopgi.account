@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="CurrencyRate">
+    <li t-att-title='_t("Display Currency Rate")'>
+      <a class="btn btn-link" data-toggle="modal" data-target="#myModal">
+        <i class="fa fa-money"/>
+      </a>
+      <div class="modal fade" id="myModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <h4 class="modal-title" id="myModalLabel">Currency Rate</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <h4><span class="label label-info eurdate"></span></h4>
+                    <p><strong class="eurrate"></strong></p>
+                    <h4><span class="label label-info usddate"></span></h4>
+                    <p><strong class="usdrate"></strong></p>
+                  </div>
+                  <div class="col-xs-6">
+                    <h4>Converter</h4>
+                    <div class="form-horizontal">
+                      <div class="form-group">
+                        <div class="col-xs-6">
+                          <input type="number" class="form-control fromeur" placeholder="EUR"/>
+                        </div>
+                        <div class="col-xs-6">
+                          <h5><strong class="tousd">= 0.0000 USD</strong></h5>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-horizontal">
+                      <div class="form-group">
+                        <div class="col-xs-6">
+                          <input type="number" class="form-control fromusd" placeholder="USD"/>
+                        </div>
+                        <div class="col-xs-6">
+                          <h5><strong class="toeur">= 0.0000 EUR</strong></h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+</t>
+</templates>

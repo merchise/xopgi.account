@@ -23,18 +23,22 @@
             this.eur = {};
             this.usd = {};
             var res_currency_rate = new openerp.web.Model("res.currency.rate");
-            res_currency_rate.query(["name", "rate"]).filter([["currency_id.name", "=", "EUR"]])
-                .order_by("-name", "-id").first().then(function (eur_rate) {
-                self.eur = eur_rate;
-                res_currency_rate.query(["name", "rate"]).filter([["currency_id.name", "=", "USD"]])
-                    .order_by("-name", "-id").first().then(function (usd_rate) {
-                    self.usd = usd_rate;
-                    self.$(".eurdate").text("Last EUR Update: " + self.eur.name);
-                    self.$(".eurrate").text("1 EUR = " + self.getInternalRate(self.usd.rate, self.eur.rate) + " USD");
-                    self.$(".usddate").text("Last USD Update: " + self.usd.name);
-                    self.$(".usdrate").text("1 USD = " + self.getInternalRate(self.eur.rate, self.usd.rate) + " EUR");
+            return res_currency_rate.query(["name", "rate"])
+                .filter([["currency_id.name", "=", "EUR"]])
+                .order_by("-name", "-id").first()
+                .then(function (eur_rate) {
+                    self.eur = eur_rate;
+                    res_currency_rate.query(["name", "rate"])
+                        .filter([["currency_id.name", "=", "USD"]])
+                        .order_by("-name", "-id").first()
+                        .then(function (usd_rate) {
+                            self.usd = usd_rate;
+                            self.$(".eurdate").text("Last EUR Update: " + self.eur.name);
+                            self.$(".eurrate").text("1 EUR = " + self.getInternalRate(self.usd.rate, self.eur.rate) + " USD");
+                            self.$(".usddate").text("Last USD Update: " + self.usd.name);
+                            self.$(".usdrate").text("1 USD = " + self.getInternalRate(self.eur.rate, self.usd.rate) + " EUR");
+                        });
                 });
-            });
         },
         getInternalRate: function(rate1, rate2){
             return Math.round(rate1/rate2*10000)/10000.0;

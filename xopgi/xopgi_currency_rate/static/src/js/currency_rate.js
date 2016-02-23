@@ -6,7 +6,7 @@
     var QWeb = openerp.qweb;
     var xopgi_currency_rate = openerp.xopgi_currency_rate = {};
 
-    xopgi_currency_rate.CurrencyRate = openerp.Widget.extend({
+    var CurrencyConverter = openerp.Widget.extend({
         template: "CurrencyRate",
         events: {
             "change input.fromeur": function(){
@@ -41,12 +41,14 @@
         }
     });
 
+    xopgi_currency_rate.CurrencyRate = CurrencyConverter;
+
     if (openerp.web && openerp.web.UserMenu) {
         openerp.web.UserMenu.include({
             do_update: function () {
                 var self = this;
                 self.update_promise.then(function () {
-                    var currencyRate = new openerp.xopgi_currency_rate.CurrencyRate(this);
+                    var currencyRate = new CurrencyConverter(this);
                     currencyRate.appendTo(window.$('.oe_systray'));
                 });
                 return this._super.apply(this, arguments);

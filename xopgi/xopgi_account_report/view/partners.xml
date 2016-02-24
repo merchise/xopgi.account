@@ -20,9 +20,8 @@
       <field name="view_type">form</field>
       <field name="view_mode">graph,tree</field>
       <field name="view_id" ref="view_obligations_graph"/>
-      <field name="domain">
-	[('account_id.type', '=', 'receivable'), ('reconcile_id', '=', False)]
-      </field>
+      <field name="domain">[('account_id.type', '=', 'receivable')]</field>
+      <field name="context">{'search_default_unreconciled': 1}</field>
     </record>
 
     <record model="ir.actions.act_window" id="action_payables_graph">
@@ -31,9 +30,8 @@
       <field name="view_type">form</field>
       <field name="view_mode">graph</field>
       <field name="view_id" ref="view_obligations_graph"/>
-      <field name="domain">
-	[('account_id.type', '=', 'payable'), ('reconcile_id', '=', False)]
-      </field>
+      <field name="domain">[('account_id.type', '=', 'payable')]</field>
+      <field name="context">{'search_default_unreconciled': 1}</field>
     </record>
 
     <menuitem

@@ -16,9 +16,11 @@ from __future__ import (division as _py3_division,
                         absolute_import as _py3_abs_import)
 
 import logging
-
 from datetime import date
+from xoutil.string import safe_decode
+
 from openerp import api, fields, models
+from openerp.tools.translate import _
 
 
 class PrimaryInstructorWizard(models.TransientModel):
@@ -93,7 +95,7 @@ class PrimaryInstructorWizard(models.TransientModel):
             {"partner_id": partner.id,
              "account_id": account_id,
              "type": "in_invoice",
-             "name": "Commission/" + d.strftime("%B") + "/" + partner.name,
+             "name": _(u"Commission/") + safe_decode(d.strftime("%B")) + u"/" + safe_decode(partner.name),
              "journal_id": self.env['account.journal'].search(
                  [('type', 'in', ['purchase']),
                   ('company_id', '=', self._context.get(
@@ -114,7 +116,7 @@ class PrimaryInstructorWizard(models.TransientModel):
                 {"invoice_id": supplier_invoice.id,
                  "quantity": 1,
                  "account_analytic_id": analytic_account_id.id,
-                 "name": "Operation " + analytic_account_id.complete_name,
+                 "name": _(u"Operation ") + safe_decode(analytic_account_id.complete_name),
                  "price_unit": analytic_account_id.commission})
             analytic_account_id.supplier_invoice_id = supplier_invoice.id
             if analytic_account_id.has_many_salespeople():

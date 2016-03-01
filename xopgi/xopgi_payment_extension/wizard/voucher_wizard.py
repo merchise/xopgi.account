@@ -210,6 +210,6 @@ class VoucherWizard(models.TransientModel):
                 "date_start", "<", last_period_date)], limit=1).id
 
     def _get_real_partner(self, basePartner):
-        if not basePartner.is_company and basePartner.parent_id is not False:
+        if not basePartner.is_company and any(basePartner.parent_id):
             return basePartner.parent_id
         return basePartner

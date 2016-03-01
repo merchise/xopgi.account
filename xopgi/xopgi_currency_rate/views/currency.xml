@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <template id="assets_backend" name="xopgi_currency_rate assets"
+              inherit_id="web.assets_backend">
+      <xpath expr="." position="inside">
+        <script type="text/javascript"
+                src="/xopgi_currency_rate/static/src/js/currency_rate.js">
+        </script>
+      </xpath>
+    </template>
+  </data>
+</openerp>

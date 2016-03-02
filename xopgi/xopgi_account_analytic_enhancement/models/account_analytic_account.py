@@ -93,7 +93,7 @@ def _compute_from_branch(field_name, update_field_name, default=Unset):
 
 def _compute_margin_commission(record):
     invoiced, balance = record.invoiced, record.self_balance
-    margin = balance/invoiced if invoiced > 0 else 0
+    margin = balance / invoiced if invoiced > 0 else 0
     # Since all the margins are expected to be given in percent units
     # we normalize them to the interval 0-1.
     required_margin = record.current_required_margin / 100
@@ -101,11 +101,11 @@ def _compute_margin_commission(record):
     min_comm = record.current_min_comm / 100
     max_comm = record.current_max_comm / 100
     if required_margin and max_margin and min_comm and max_comm:
-        alpha = (max_margin - margin)/(max_margin - required_margin)
+        alpha = (max_margin - margin) / (max_margin - required_margin)
         if alpha < 0:
             # Ensure the formula below will never surpass max_comm
             alpha = 0
-        commission_percent = min_comm*alpha + max_comm*(1 - alpha)
+        commission_percent = min_comm * alpha + max_comm * (1 - alpha)
         if commission_percent < min_comm:
             # Bad sales are given nothing
             commission_percent = 0

@@ -93,6 +93,5 @@ class xopgi_account_account(Model):
                 '"debit" normal balance.  An account with '
                 'credit normal balance increases its value '
                 'by credits; an account with debit normal balance '
-                'increases its value by debits.'
-            ),
+                'increases its value by debits.'),
     }

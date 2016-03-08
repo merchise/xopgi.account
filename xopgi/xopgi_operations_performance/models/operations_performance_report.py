@@ -119,9 +119,9 @@ class OperationResultReport(models.Model):
     debit = fields.Float("Debit")
     credit = fields.Float("Credit")
     balance = fields.Float("Balance")
-    margin_percentage = fields.Float("Margin %")
+    margin_percentage = fields.Float("Margin %", group_operator='avg')
     pax = fields.Integer("Nro. Pax")
-    margin_by_pax = fields.Float("Margin by Pax")
+    margin_by_pax = fields.Float("Margin by Pax", group_operator='avg')
     date = fields.Date("Expiration Date")
     state = fields.Selection(
         [('template', 'Template'),

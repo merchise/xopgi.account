@@ -16,7 +16,6 @@
 from . import chart
 from . import move
 from . import invoice
-from . import statement
 from . import multicompanyitem
 from . import voucher
 from . import currency

@@ -16,16 +16,14 @@ from __future__ import (division as _py3_division,
                         absolute_import as _absolute_import)
 
 from openerp.osv import fields
-from openerp.osv.orm import Model
-import openerp.addons.account_voucher.account_voucher as base_account_voucher
+from openerp.models import Model
 
 
 class account_voucher_line(Model):
     '''Adds an invoice reference to the voucher line.
 
     '''
-    _name = str('account.voucher.line')
-    _inherit = str('account.voucher.line')
+    _inherit = 'account.voucher.line'
     _columns = {
         'invoice':
             fields.related('move_line_id', 'invoice', 'origin', type='char',
@@ -45,8 +43,7 @@ class account_voucher(Model):
     company will most likely imply chosing other journal and period.
 
     '''
-    _name = base_account_voucher.account_voucher._name
-    _inherit = _name
+    _inherit = 'account.voucher'
 
     def onchange_company(self, cr, uid, ids, context=None):
         '''Cleans the journal and period when the company changes.'''

@@ -20,7 +20,7 @@ from __future__ import (division as _py3_division,
                         absolute_import as _py3_abs_import)
 
 
-from openerp.osv.orm import TransientModel
+from openerp.models import TransientModel
 
 
 class OpenClosedFiscalYear(TransientModel):

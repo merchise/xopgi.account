@@ -20,16 +20,12 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _absolute_import)
 
-from openerp.osv.orm import Model
-from openerp.addons.account.account import account_move as base_move
-
-from xoeuf.osv.orm import get_modelname
+from openerp.models import Model
 
 
 class account_move(Model):
     '''Fixes to account move.'''
-    _name = get_modelname(base_move)
-    _inherit = _name
+    _inherit = 'account.move'
 
     def onchange_journal(self, cr, uid, ids, journal_id, previous_period_id,
                          date, context=None):
@@ -43,19 +39,17 @@ class account_move(Model):
         Finally the `company_id` is re-calculated.
 
         '''
-        from openerp.addons.account.account import account_period
-        from openerp.addons.account.account import account_journal
         from xoeuf.osv.model_extensions import field_value
         result = {}
         if journal_id:
-            journal_obj = self.pool[get_modelname(account_journal)]
+            journal_obj = self.pool['account.journal']
             company_id = field_value(journal_obj, cr, uid, journal_id,
                                      'company_id', context=context)
             values = result.setdefault('value', {})
             domains = result.setdefault('domain', {})
             domains['period_id'] = [('company_id', '=', company_id)]
             if previous_period_id:
-                period_obj = self.pool[get_modelname(account_period)]
+                period_obj = self.pool['account.period']
                 previous_period = period_obj.browse(
                     cr, uid, previous_period_id, context=context)
                 if previous_period.company_id.id != company_id:

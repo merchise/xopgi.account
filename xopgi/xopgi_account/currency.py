@@ -20,10 +20,7 @@ from __future__ import (division as _py3_division,
                         absolute_import as _py3_abs_import)
 
 
-from xoeuf.osv.orm import get_modelname
-
-from openerp.addons.base.res.res_currency import res_currency as base
-from openerp.osv.orm import Model
+from openerp.models import Model
 
 
 class res_currency(Model):
@@ -33,8 +30,7 @@ class res_currency(Model):
     See above :meth:`account_chart.account_chart_open_window` for more info.
 
     '''
-    _name = get_modelname(base)
-    _inherit = _name
+    _inherit = 'res.currency'
 
     def name_get(self, cr, uid, ids, context=None):
         if not ids:

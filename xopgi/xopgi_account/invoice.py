@@ -17,10 +17,6 @@ from __future__ import (division as _py3_division,
                         absolute_import as _absolute_import)
 
 from openerp.osv.orm import TransientModel
-import openerp.addons.account.wizard.account_invoice_refund \
-    as base_invoice_refund
-
-from xoeuf.osv.orm import get_modelname
 
 
 class account_invoice_refund(TransientModel):
@@ -29,8 +25,7 @@ class account_invoice_refund(TransientModel):
     Restricts the journals to those belonging to the selected company.
 
     '''
-    _name = get_modelname(base_invoice_refund.account_invoice_refund)
-    _inherit = _name
+    _inherit = 'account.invoice.refund'
 
     def fields_view_get(self, cr, uid, view_id=None, view_type=False,
                         context=None, toolbar=False, submenu=False):

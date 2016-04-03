@@ -18,10 +18,8 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _absolute_import)
 
-from openerp.osv.orm import TransientModel
-import openerp.addons.account as base_account
 
-from xoeuf.osv.orm import get_modelname
+from openerp.models import TransientModel
 
 
 class account_chart(TransientModel):
@@ -32,11 +30,10 @@ class account_chart(TransientModel):
     - Limit the periods to those of the selected company.
 
     '''
-    _name = get_modelname(base_account.wizard.account_chart.account_chart)
-    _inherit = _name
+    _inherit = 'account.chart'
 
     def onchange_fiscalyear(self, cr, uid, ids, fiscalyear_id, context=None):
-        '''Filters the possible periods depending on the selected fiscal year.
+        '''Filter the periods depending on the selected fiscal year.
 
         Only periods of the same company are allowed.
 

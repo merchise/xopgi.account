@@ -17,15 +17,10 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _absolute_import)
 
-from openerp.osv.orm import Model
-import openerp.addons.account.account as base_account
+from openerp.models import Model
+from openerp.api import guess
 
-from xoeuf.osv.orm import get_modelname
-
-try:
-    from openerp.api import guess
-except ImportError:
-    guess = lambda f: f
+from openerp.release import version_info as ODOO_VERSION_INFO
 
 
 def _get_initials(name):
@@ -65,15 +60,15 @@ class MultiCompanyItem(object):
 
 
 class account_journal(MultiCompanyItem, Model):
-    _name = get_modelname(base_account.account_journal)
-    _inherit = _name
+    _inherit = 'account.journal'
 
 
-class account_fiscalyear(MultiCompanyItem, Model):
-    _name = get_modelname(base_account.account_fiscalyear)
-    _inherit = _name
+if ODOO_VERSION_INFO < (9, 0):
+    # Odoo 9 does not have the fiscal year and period objects.  Instead
+    # company's have fiscal year's closure (lock) dates.
+    class account_fiscalyear(MultiCompanyItem, Model):
+        _inherit = 'account.fiscalyear'
 
-
-class account_period(MultiCompanyItem, Model):
-    _name = get_modelname(base_account.account_period)
-    _inherit = _name
+    class account_period(MultiCompanyItem, Model):
+        _name = 'account.period'
+        _inherit = _name

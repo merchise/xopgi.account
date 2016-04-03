@@ -13,14 +13,23 @@
 # @created: 2013-11-11
 # flake8:  noqa
 
-from . import chart
-from . import move
+from openerp.release import version_info as ODOO_VERSION_INFO
+
+from . import config
+
+if ODOO_VERSION_INFO < (9, 0):
+    # The Chart of Accounts wizard no longer exists in Odoo 9.
+    from . import chart
+
+    # The following contain only UI-level modifications that are no longer
+    # compatible with Odoo 9.
+    from . import move
+    from . import voucher
+    from . import misc
+
 from . import invoice
 from . import multicompanyitem
-from . import voucher
 from . import currency
-from . import misc
-from . import config
 from . import post
 from . import reconcile
 from . import analytic

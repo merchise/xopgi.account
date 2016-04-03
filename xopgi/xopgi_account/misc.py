@@ -21,6 +21,10 @@ from __future__ import (division as _py3_division,
 
 
 from openerp.models import TransientModel
+from openerp.release import version_info as ODOO_VERSION_INFO
+
+# Odoo 9 does not create an opening entry anymore.
+assert ODOO_VERSION_INFO < (9, 0)
 
 
 class OpenClosedFiscalYear(TransientModel):

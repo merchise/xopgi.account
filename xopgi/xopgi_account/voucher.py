@@ -17,6 +17,13 @@ from __future__ import (division as _py3_division,
 
 from openerp.osv import fields
 from openerp.models import Model
+from openerp.release import version_info as ODOO_VERSION_INFO
+
+
+# Odoo 9 does not have the fiscal year and period objects.  Instead company's
+# have fiscal year's closure (lock) dates.
+
+assert ODOO_VERSION_INFO < (9, 0)
 
 
 class account_voucher_line(Model):

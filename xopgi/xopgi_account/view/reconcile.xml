@@ -8,7 +8,9 @@
 	     ref="account.account_move_line_reconcile_writeoff"/>
       <field name="arch" type="xml">
 	<field name="journal_id" position="attributes">
-	  <attribute name="on_change">select_account(journal_id, context)</attribute>
+          <attribute name="on_change">
+            select_account(journal_id, context)
+          </attribute>
 	</field>
       </field>
     </record>

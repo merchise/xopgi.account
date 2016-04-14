@@ -230,6 +230,20 @@ msgid "Operation"
 msgstr "Operación"
 
 #. module: xopgi_operations_performance
+#: field:xopgi_operations_performance.opperf_report,dossier:0
+#: field:xopgi_operations_performance.opresult_report,dossier:0
+msgid "Dossier"
+msgstr "Dossier"
+
+#. module: xopgi_operations_performance
+#: field:xopgi_operations_performance.opperf_report,parent_partner_id:0
+#: field:xopgi_operations_performance.opresult_report,parent_partner_id:0
+#: view:xopgi_operations_performance.opresult_report:xopgi_operations_performance.result_performance_reports_view_search
+#: view:xopgi_operations_performance.opperf_report:xopgi_operations_performance.operations_performance_reports_view_search
+msgid "Agency"
+msgstr "Agencia"
+
+#. module: xopgi_operations_performance
 #: model:ir.model,name:xopgi_operations_performance.model_xopgi_operations_performance_opperf_report
 msgid "Operation Performance Statistics"
 msgstr "Estadísticas operaciones"

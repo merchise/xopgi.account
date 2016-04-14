@@ -47,11 +47,16 @@
           <field name="manager_id"/>
           <field name="user_id"/>
           <field name="operation_id"/>
+          <field name="parent_partner_id"/>
+          <filter name="dossier" string="Dossier"
+                 domain="[('dossier', '=', True)]"/>
           <group string="Group By">
             <filter name="by_customer" string="Customer"
                     context="{'group_by': 'partner_id'}"/>
             <filter name="by_manager" string="Account Manager"
                     context="{'group_by': 'manager_id'}"/>
+            <filter name="by_parent_partner" string="Agency"
+                    context="{'group_by': 'parent_partner_id'}"/>
             <filter name="by_salesperson" string="Salesperson"
                     context="{'group_by': 'user_id'}"/>
             <filter name="by_opportunity_month" string="Opportunity Month"
@@ -104,11 +109,16 @@
           <field name="manager_id"/>
           <field name="primary_salesperson_id"/>
           <field name="state"/>
+          <field name="parent_partner_id"/>
+          <filter name="dossier" string="Dossier"
+                 domain="[('dossier', '=', True)]"/>
           <filter name="closed_dossier" string="Closed Dossier"
                   domain="[('state', '=', 'close')]"/>
           <group string="Group By">
             <filter name="by_customer" string="Customer"
                     context="{'group_by': 'partner_id'}"/>
+            <filter name="by_parent_partner" string="Agency"
+                    context="{'group_by': 'parent_partner_id'}"/>
             <filter name="by_manager" string="Account Manager"
                     context="{'group_by': 'manager_id'}"/>
             <filter name="by_salesperson" string="Salesperson"

@@ -77,7 +77,7 @@ class OperationPerformanceReport(models.Model):
              MIN(account_analytic_account.manager_id) AS manager_id,
              crm_lead.partner_id,
              (CASE WHEN
-                 p.parent_id = NULL
+                 p.parent_id IS NULL
                THEN p.id
                ELSE
                  p.parent_id
@@ -194,7 +194,7 @@ class OperationResultReport(models.Model):
               a.code,
               a.partner_id,
               (CASE WHEN
-                 p.parent_id = NULL
+                 p.parent_id IS NULL
                THEN p.id
                ELSE
                  p.parent_id

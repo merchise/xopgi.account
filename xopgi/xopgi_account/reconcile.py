@@ -17,7 +17,7 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-from openerp.osv.orm import TransientModel, Model
+from openerp.models import TransientModel, Model
 
 
 class MoveLine(Model):

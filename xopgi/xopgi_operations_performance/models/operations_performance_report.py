@@ -40,6 +40,8 @@ class OperationPerformanceReport(models.Model):
         (12, "December")
     ], "Opportunity Month")
     partner_id = fields.Many2one("res.partner", "Customer")
+    parent_partner_id = fields.Many2one("res.partner", "Agency")
+    dossier = fields.Boolean("Dossier")
     manager_id = fields.Many2one("res.users", "Account Manager")
     user_id = fields.Many2one("res.users", string="Salesperson")
     operation_id = fields.Many2one("account.analytic.account", "Operation")
@@ -66,10 +68,20 @@ class OperationPerformanceReport(models.Model):
             """
             CREATE or REPLACE VIEW xopgi_operations_performance_opperf_report AS (
             SELECT
+             x.*,
+             a.dossier
+            FROM
+            (SELECT
              crm_lead.id,
              crm_lead.id AS lead_id,
              MIN(account_analytic_account.manager_id) AS manager_id,
              crm_lead.partner_id,
+             (CASE WHEN
+                 p.parent_id = NULL
+               THEN p.id
+               ELSE
+                 p.parent_id
+               END) AS parent_partner_id,
              crm_lead.user_id,
              MIN(sale_order.project_id) AS operation_id,
              DATE_PART('month', crm_lead.create_date) AS lead_month,
@@ -96,10 +108,16 @@ class OperationPerformanceReport(models.Model):
              public.account_analytic_account
             ON
              sale_order.project_id = account_analytic_account.id
+            LEFT JOIN
+             public.res_partner p ON (p.id = crm_lead.partner_id)
             GROUP BY
-             crm_lead.id
+             crm_lead.id, p.id, p.parent_id
             ORDER BY
-             crm_lead.id DESC)
+             crm_lead.id DESC) as x
+            LEFT JOIN
+             public.account_analytic_account a
+            ON
+             x.operation_id = a.id)
              """)
 
 
@@ -116,9 +134,11 @@ class OperationResultReport(models.Model):
     primary_salesperson_id = fields.Many2one("res.users", string="Salesperson")
     parent_analityc_id = fields.Many2one("account.analytic.account",
                                          "Parent Operation")
+    parent_partner_id = fields.Many2one("res.partner", "Agency")
     debit = fields.Float("Debit")
     credit = fields.Float("Credit")
     balance = fields.Float("Balance")
+    dossier = fields.Boolean("Dossier")
     margin_percentage = fields.Float("Margin %", group_operator='avg')
     pax = fields.Integer("Nro. Pax")
     margin_by_pax = fields.Float("Margin by Pax", group_operator='avg')
@@ -150,6 +170,8 @@ class OperationResultReport(models.Model):
               x.debit,
               x.credit,
               x.balance,
+              x.dossier,
+              x.parent_partner_id,
               (CASE WHEN
                  x.debit = 0
                THEN 0
@@ -171,12 +193,19 @@ class OperationResultReport(models.Model):
               a.name,
               a.code,
               a.partner_id,
+              (CASE WHEN
+                 p.parent_id = NULL
+               THEN p.id
+               ELSE
+                 p.parent_id
+               END) AS parent_partner_id,
               a.manager_id,
               a.primary_salesperson_id,
               a.parent_id,
               a.date,
               a.pax,
               a.state,
+              a.dossier,
               SUM(
                 CASE WHEN l.amount > 0
                 THEN l.amount
@@ -194,10 +223,12 @@ class OperationResultReport(models.Model):
                 account_analytic_account a
               LEFT JOIN
                 account_analytic_line l ON (a.id = l.account_id)
+              LEFT JOIN
+                res_partner p ON (p.id = a.partner_id)
               WHERE
                 a.type = 'contract'
               GROUP BY
-                a.id) AS x order by x.id desc)
+                a.id, p.id, p.parent_id) AS x order by x.id desc)
              """)
 
 

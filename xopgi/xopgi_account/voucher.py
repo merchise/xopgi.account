@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # xopgi.xopgi.xopgi_account.invoice
 # ---------------------------------------------------------------------
-# Copyright (c) 2013-2015 Merchise Autrement
+# Copyright (c) 2013-2016 Merchise Autrement
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -13,20 +13,24 @@
 
 from __future__ import (division as _py3_division,
                         print_function as _py3_print,
-                        unicode_literals as _py3_unicode,
                         absolute_import as _absolute_import)
 
 from openerp.osv import fields
-from openerp.osv.orm import Model
-import openerp.addons.account_voucher.account_voucher as base_account_voucher
+from openerp.models import Model
+from openerp.release import version_info as ODOO_VERSION_INFO
+
+
+# Odoo 9 does not have the fiscal year and period objects.  Instead company's
+# have fiscal year's closure (lock) dates.
+
+assert ODOO_VERSION_INFO < (9, 0)
 
 
 class account_voucher_line(Model):
     '''Adds an invoice reference to the voucher line.
 
     '''
-    _name = str('account.voucher.line')
-    _inherit = str('account.voucher.line')
+    _inherit = 'account.voucher.line'
     _columns = {
         'invoice':
             fields.related('move_line_id', 'invoice', 'origin', type='char',
@@ -46,8 +50,7 @@ class account_voucher(Model):
     company will most likely imply chosing other journal and period.
 
     '''
-    _name = base_account_voucher.account_voucher._name
-    _inherit = _name
+    _inherit = 'account.voucher'
 
     def onchange_company(self, cr, uid, ids, context=None):
         '''Cleans the journal and period when the company changes.'''

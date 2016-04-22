@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <template id="assets_backend" name="xopgi_distance_calculator assets" inherit_id="web.assets_backend">
+      <xpath expr="." position="inside">
+        <link rel="stylesheet" href="/xopgi_distance_calculator/static/src/css/distance_calculator.css"/>
+        <script type="text/javascript"
+                src="/xopgi_distance_calculator/static/src/js/distance_calculator.js">
+        </script>
+      </xpath>
+    </template>
+  </data>
+</openerp>

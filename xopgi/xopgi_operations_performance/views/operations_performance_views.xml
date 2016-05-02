@@ -14,7 +14,7 @@
               <field name="response_time"/>
               <field name="proposal_time"/>
               <field name="negotiation_time"/>
-              <field name="customer_confirm_time"/>
+              <field name="sale_time"/>
               <field name="invoice_time"/>
             </group>
           </sheet>
@@ -33,7 +33,7 @@
           <field name="response_time" type="measure"/>
           <field name="proposal_time" type="measure"/>
           <field name="negotiation_time" type="measure"/>
-          <field name="customer_confirm_time" type="measure"/>
+          <field name="sale_time" type="measure"/>
           <field name="invoice_time" type="measure"/>
         </graph>
       </field>
@@ -76,7 +76,7 @@
           <field name="response_time"/>
           <field name="proposal_time"/>
           <field name="negotiation_time"/>
-          <field name="customer_confirm_time"/>
+          <field name="sale_time"/>
           <field name="invoice_time"/>
         </tree>
       </field>

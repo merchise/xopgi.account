@@ -107,8 +107,8 @@ msgid "Customer"
 msgstr ""
 
 #. module: xopgi_operations_performance
-#: field:xopgi_operations_performance.opperf_report,customer_confirm_time:0
-msgid "Customer Time"
+#: field:xopgi_operations_performance.opperf_report,sale_time:0
+msgid "Sale Time"
 msgstr ""
 
 #. module: xopgi_operations_performance
@@ -413,7 +413,7 @@ msgid "Time between opportunity creation and first Quotation"
 msgstr ""
 
 #. module: xopgi_operations_performance
-#: help:xopgi_operations_performance.opperf_report,customer_confirm_time:0
+#: help:xopgi_operations_performance.opperf_report,Sale_time:0
 msgid "Time between opportunity creation and first Quotation confirm"
 msgstr ""
 

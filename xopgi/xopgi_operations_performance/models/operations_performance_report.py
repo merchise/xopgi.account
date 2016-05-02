@@ -54,12 +54,12 @@ class OperationPerformanceReport(models.Model):
     negotiation_time = fields.Integer(
         "Negotiation Time", group_operator="avg",
         help="Time between Quotation sent and first Quotation confirm")
-    customer_confirm_time = fields.Integer(
-        "Customer Time", group_operator="avg",
+    sale_time = fields.Integer(
+        "Sale Time", group_operator="avg",
         help="Time between opportunity creation and first Quotation confirm")
     invoice_time = fields.Integer(
         "Invoice Time", group_operator="avg",
-        help="Time between opportunity creation and first Invoice")
+        help="Time between Invoice creation and first Invoice confirm")
 
     def init(self, cr):
         tools.drop_view_if_exists(cr,
@@ -88,8 +88,8 @@ class OperationPerformanceReport(models.Model):
              CAST(DATE_PART('day', MIN(sale_order.date_order - crm_lead.create_date)) AS INTEGER) AS response_time,
              CAST(DATE_PART('day', MIN(sale_order.send_date - crm_lead.create_date)) AS INTEGER) AS proposal_time,
              CAST(DATE_PART('day', MIN(sale_order.date_confirm - sale_order.send_date)) AS INTEGER) AS negotiation_time,
-             CAST(DATE_PART('day', MIN(sale_order.date_confirm - crm_lead.create_date)) AS INTEGER) AS customer_confirm_time,
-             CAST(DATE_PART('day', MIN(account_invoice.date_invoice - crm_lead.create_date)) AS INTEGER) AS invoice_time
+             CAST(DATE_PART('day', MIN(sale_order.date_confirm - crm_lead.create_date)) AS INTEGER) AS sale_time,
+             CAST(DATE_PART('day', MIN(account_invoice.date_invoice - sale_order.date_confirm::TIMESTAMP)) AS INTEGER) AS invoice_time
             FROM
              public.crm_lead
             INNER JOIN

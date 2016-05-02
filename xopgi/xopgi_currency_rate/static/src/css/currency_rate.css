@@ -1,0 +1,32 @@
+/* modal-header */
+.modal-header {
+    background-color: #ededed;
+    background-image: linear-gradient(to bottom, #fcfcfc, #dedede);
+    border-bottom: 1px solid #cacaca;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 9px rgba(0, 0, 0, 0.1);
+}
+
+/* button */
+.oe_systray #oe_topbar_currency_rate_button_icon {
+    color: white;
+}
+.oe_topbar_item.oe_topbar_currency_rate_button .oe_e {
+    position: relative;
+    top: 258px;
+}
+
+/* distance */
+.currency_amount{
+    text-align: right;
+}
+
+/* label-info currency_rate button money_exchange */
+.label-info-currency-rate, .btn-money_exchange{
+    text-align: center;
+}
+
+/* button money_exchange */
+.img-money_exchange {
+    width: 50px;
+    height: 50px;
+}

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="distance_calculator.DistanceCalculator">
+    <li t-att-title='_t("Display Distance Calculator")'>
+      <a href="#" data-toggle="modal" data-target="#myModalDistanceCalculator">
+        <i id="oe_topbar_distance_calculator_button_icon" class="fa fa-money"/>
+      </a>
+      <div class="modal fade" id="myModalDistanceCalculator" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
+              <h4 class="modal-title" id="myModalLabel"><strong>Distance Calculator</strong></h4>
+            </div>
+            <div class="modal-body">
+              <div class="btn-add_route">
+                <h5>
+                  <img class="img-add_route" src="/xopgi_distance_calculator/static/src/img/add_route.png"/>
+                  Add Route
+                </h5>
+              </div>
+              <table id="tblRoutes">
+                <thead>
+                  <tr>
+                    <th width="29%">Origin</th>
+                    <th width="2%"></th>
+                    <th width="29%">Destination</th>
+                    <th width="2%"></th>
+                    <th width="29%">Distance</th>
+                    <th width="2%"></th>
+                    <th width="7%"></th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyRoutes">
+                  <tr>
+                    <td><select class="form-control not_chosen origin"></select></td>
+                    <td></td>
+                    <td><select class="form-control not_chosen destination"></select></td>
+                    <td></td>
+                    <td><input type="number" class="form-control distance" placeholder="0.00" readonly="true"/></td>
+                    <td></td>
+                    <td>
+                      <img class="img-delete_route" src="/xopgi_distance_calculator/static/src/img/delete_route.png"/>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <br/>
+              <table>
+                <thead>
+                  <tr>
+                    <th width="62%"></th>
+                    <th width="29%">Total Distance</th>
+                    <th width="9%"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td></td>
+                    <td><input type="number" class="form-control total_distance" value="0.00" readonly="true"/></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </t>
+</templates>

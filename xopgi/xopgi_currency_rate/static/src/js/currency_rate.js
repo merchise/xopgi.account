@@ -53,7 +53,7 @@
             this.decimal_precision = 5;
             this.delay = 600;
             this.keydown_time = 0;
-            this.days_before = 7*1000;
+            this.days_before = 7;
         },
         loadData: function () {
             var self = this;

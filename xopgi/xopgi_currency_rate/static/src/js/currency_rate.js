@@ -40,7 +40,11 @@
                 var id_currency_to = self.$("#currency_to").val();
                 self.$("#currency_from").val(id_currency_to);
                 self.$("#currency_to").val(id_currency_from);
-                self.updateRate({target:{id:"currency_from"}});
+                self.updateRate({target:{id:"currency_from_amount"}});
+            },
+            "show.bs.modal #myModalCurrencyRate": function(eventObject){
+                var self = this;
+                self.loadData();
             }
         },
         init: function(parent) {
@@ -49,14 +53,21 @@
             this.decimal_precision = 5;
             this.delay = 600;
             this.keydown_time = 0;
-            this.days_before = 365*2;
+            this.days_before = 7*1000;
         },
-        start: function () {
+        loadData: function () {
             var self = this;
+
+            self.$("#currency_from_amount").val("");
+            self.$("#currency_to_amount").val("");
+
+            self.$("#currency_from").empty();
+            self.$("#currency_to").empty();
+
             var date_from = new Date(Date.now() - this.days_before * 24 * 60 * 60 * 1000);
             var res_currency_rate = new openerp.web.Model("res.currency.rate");
             res_currency_rate.query(["currency_id", "rate", "name"])
-                .filter([["name", ">", date_from.getFullYear()+"-"+date_from.getMonth()+"-"+date_from.getDate()]])
+                .filter([["name", ">", date_from.getFullYear()+"-"+date_from.getMonth()+"-"+date_from.getDate()], ["rate", "!=", 1]])
                 .order_by("currency_id", "-name")
                 .all()
                 .then(function (currencies_rate) {
@@ -69,7 +80,22 @@
                             self.currencies.push({idcurrency:current_idcurrency, currency:currency_rate.currency_id[1], rate:currency_rate.rate, date:currency_rate.name});
                         }
                     });
-                    self.updateRate({target:{id:"currency_from"}});
+            });
+            res_currency_rate.query(["currency_id", "rate", "name"])
+                .filter([["rate", "=", 1]])
+                .order_by("currency_id", "-name")
+                .all()
+                .then(function (currencies_rate) {
+                    var current_idcurrency="";
+                    _.each(currencies_rate, function(currency_rate) {
+                        if(current_idcurrency!=currency_rate.currency_id[0]){
+                            current_idcurrency=currency_rate.currency_id[0];
+                            self.$("#currency_from").append($('<option>', {value:self.currencies.length, text:currency_rate.currency_id[1]}));
+                            self.$("#currency_to").append($('<option>', {value:self.currencies.length, text:currency_rate.currency_id[1]}));
+                            self.currencies.push({idcurrency:current_idcurrency, currency:currency_rate.currency_id[1], rate:currency_rate.rate, date:currency_rate.name});
+                        }
+                    });
+                    self.updateRate({target:{id:"currency_from_amount"}});
             });
         },
         getInternalRate: function(rate1, rate2){
@@ -84,18 +110,20 @@
             var id_currency_to = self.$("#currency_to").val();
             self.$(".currency_from_rate").text("1 " + self.currencies[id_currency_from].currency + " = " + self.toFixed(self.getInternalRate(self.currencies[id_currency_from].rate, self.currencies[id_currency_to].rate)) + " " + self.currencies[id_currency_to].currency);
             self.$(".currency_to_rate").text("1 " + self.currencies[id_currency_to].currency + " = " + self.toFixed(self.getInternalRate(self.currencies[id_currency_to].rate, self.currencies[id_currency_from].rate)) + " " + self.currencies[id_currency_from].currency);
-            self.calculateAmount({target:{id:eventObject.target.id+"_amount"}});
+            self.calculateAmount(eventObject);
         },
         calculateAmount: function(eventObject){
             var self = this;
-            //self.$("#"+eventObject.target.id).val(self.toFixed(self.$("#"+eventObject.target.id).val()));
-            var amount = self.$("#"+eventObject.target.id).val();
             var id_currency_from = self.$("#currency_from").val();
             var id_currency_to = self.$("#currency_to").val();
-            if(eventObject.target.id == "currency_to_amount" || eventObject.target.id == "currency_to")
-                self.$("#currency_from_amount").val(""+self.toFixed(self.getInternalRate(self.currencies[id_currency_to].rate, self.currencies[id_currency_from].rate)* amount));
-            else
-                self.$("#currency_to_amount").val(""+self.toFixed(self.getInternalRate(self.currencies[id_currency_from].rate, self.currencies[id_currency_to].rate)* amount));
+            if(eventObject.target.id == "currency_to_amount"){
+                self.$("#currency_from_amount").val(self.toFixed(self.getInternalRate(self.currencies[id_currency_to].rate, self.currencies[id_currency_from].rate)* self.$("#currency_to_amount").val()));
+                //self.$("#currency_to_amount").val(self.toFixed(1*self.$("#currency_to_amount").val()));
+            }
+            else{
+                //self.$("#currency_from_amount").val(self.toFixed(1*self.$("#currency_from_amount").val()));
+                self.$("#currency_to_amount").val(self.toFixed(self.getInternalRate(self.currencies[id_currency_from].rate, self.currencies[id_currency_to].rate)* self.$("#currency_from_amount").val()));
+            }
         }
     });
 

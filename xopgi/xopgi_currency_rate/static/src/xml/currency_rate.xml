@@ -3,7 +3,7 @@
 <t t-name="currency_rate.CurrencyRate">
     <li t-att-title='_t("Display Currency Exchange Rate Converter")'>
       <a href="#" data-toggle="modal" data-target="#myModalCurrencyRate">
-        <i id="oe_topbar_currency_rate_button_icon" class="fa fa-money"/>
+        <i id="oe_topbar_currency_rate_button_icon" class="fa fa-usd"/>
       </a>
       <div class="modal fade" id="myModalCurrencyRate" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">

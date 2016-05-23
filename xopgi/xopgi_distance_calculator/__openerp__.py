@@ -1,5 +1,5 @@
 {
-    'name' : 'Distance Calculator Widget',
+    'name': 'Distance Calculator Widget',
     'version': '1.0',
     'summary': 'Calculate the distance between cities and places.',
     'author': 'Merchise Autrement',
@@ -16,9 +16,9 @@ Allows users to know the distance between cities and places.
         'views/distance_calculator.xml',
         "views/travel_routes.xml",
     ],
-    'depends' : ['base', 'web'],
+    'depends': ['base', 'web'],
     'qweb': ['static/src/xml/distance_calculator.xml'],
-    'application': True,
-    'installable': True,
-    'auto_install': True,
+    'application': False,
+    'installable': (8, 0) <= ODOO_VERSION_INFO < (9, 0),   # noqa
+    'auto_install': False,
 }

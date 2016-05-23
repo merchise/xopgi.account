@@ -28,4 +28,7 @@
         "views/account_analytic_account_views.xml",
         "wizard/salesperson_wizard.xml"
     ],
+
+    'installable': (8, 0) <= ODOO_VERSION_INFO < (9, 0),   # noqa
+
 }

@@ -30,4 +30,6 @@
     ],
 
     "demo": [],
+
+    'installable': (8, 0) <= ODOO_VERSION_INFO < (9, 0),   # noqa
 }

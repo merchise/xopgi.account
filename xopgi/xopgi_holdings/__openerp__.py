@@ -34,5 +34,5 @@ consolidates the reports.
     "demo_xml": [],
     # TODO: [review ~med] Where to place UI enhancements.  Proposal xopgi_ui.
     "application": False,
-    "installable": True,
+    'installable': (8, 0) <= ODOO_VERSION_INFO < (9, 0),   # noqa
 }

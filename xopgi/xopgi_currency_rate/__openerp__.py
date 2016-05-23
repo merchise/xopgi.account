@@ -1,5 +1,5 @@
 {
-    'name' : 'Currency Exchange Rate Converter Widget',
+    'name': 'Currency Exchange Rate Converter Widget',
     'version': '1.0',
     'summary': 'Show currency exchange an provide a converter.',
     'author': 'Merchise Autrement',
@@ -15,9 +15,9 @@ Allows users to know the currency exchange an provide a converter with the laste
     'data': [
         'views/currency_rate.xml',
     ],
-    'depends' : ['base', 'web'],
+    'depends': ['base', 'web'],
     'qweb': ['static/src/xml/currency_rate.xml'],
-    'application': True,
-    'installable': True,
-    'auto_install': True,
+    'application': False,
+    'installable': (8, 0) <= ODOO_VERSION_INFO < (9, 0),   # noqa
+    'auto_install': False,
 }

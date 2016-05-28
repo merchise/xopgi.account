@@ -118,10 +118,8 @@
             var id_currency_to = self.$("#currency_to").val();
             if(eventObject.target.id == "currency_to_amount"){
                 self.$("#currency_from_amount").val(self.toFixed(self.getInternalRate(self.currencies[id_currency_to].rate, self.currencies[id_currency_from].rate)* self.$("#currency_to_amount").val()));
-                //self.$("#currency_to_amount").val(self.toFixed(1*self.$("#currency_to_amount").val()));
             }
             else{
-                //self.$("#currency_from_amount").val(self.toFixed(1*self.$("#currency_from_amount").val()));
                 self.$("#currency_to_amount").val(self.toFixed(self.getInternalRate(self.currencies[id_currency_from].rate, self.currencies[id_currency_to].rate)* self.$("#currency_from_amount").val()));
             }
         }

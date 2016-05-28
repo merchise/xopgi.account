@@ -13,6 +13,7 @@ Distance Calculator Widget
 Allows users to know the distance between cities and places.
         """,
     'data': [
+        'security/ir.model.access.csv',
         'views/distance_calculator.xml',
         "views/travel_routes.xml",
     ],

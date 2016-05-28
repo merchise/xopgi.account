@@ -11,6 +11,8 @@ class RoutePoints(models.Model):
     _order = 'name'
 
     name = fields.Char(string="Route Point", required=True)
+    state_id = fields.Many2one(comodel_name="res.country.state", ondelete='restrict', required=True)
+    is_state_reference = fields.Boolean(default=False)
     origin_point_id = fields.One2many(comodel_name="res.routes", inverse_name='origin_point_id')
     destination_point_id = fields.One2many(comodel_name="res.routes", inverse_name='destination_point_id')
 

@@ -1,707 +1,707 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data noupdate="1">
+  <data noupdate="1">
 
-        <!-- id = 108 - Isla de la Juventud -->
+    <!-- id = 108 - Isla de la Juventud -->
 
-        <!-- id = 69 - Pinar del Rio -->
-        <record model="res.route.points" id="route_point_PRI_01">
-            <field name="state_id">69</field>
-            <field name="name">Pinar del Río</field>
-            <field name="is_state_reference">True</field>
-        </record>
-        <record model="res.route.points" id="route_point_PRI_02">
-            <field name="state_id">69</field>
-            <field name="name">Cayo Jutias (Santa Lucía)</field>
-        </record>
-        <record model="res.route.points" id="route_point_PRI_03">
-            <field name="state_id">69</field>
-            <field name="name">Mil Cumbres</field>
-        </record>
-        <record model="res.route.points" id="route_point_PRI_04">
-            <field name="state_id">69</field>
-            <field name="name">Comunidad El Moncada</field>
-        </record>
-        <record model="res.route.points" id="route_point_PRI_05">
-            <field name="state_id">69</field>
-            <field name="name">Aguas Claras</field>
-        </record>
-        <record model="res.route.points" id="route_point_PRI_06">
-            <field name="state_id">69</field>
-            <field name="name">María la Gorda</field>
-        </record>
-        <record model="res.route.points" id="route_point_PRI_07">
-            <field name="state_id">69</field>
-            <field name="name">Hotel Mirador (S.D. Baños)</field>
-        </record>
-        <record model="res.route.points" id="route_point_PRI_08">
-            <field name="state_id">69</field>
-            <field name="name">Viñales</field>
-        </record>
-        <record model="res.route.points" id="route_point_PRI_09">
-            <field name="state_id">69</field>
-            <field name="name">La Guabina</field>
-        </record>
-        <record model="res.route.points" id="route_point_PRI_10">
-            <field name="state_id">69</field>
-            <field name="name">Cayo Levisa (Palma Rubia)</field>
-        </record>
-        <record model="res.route.points" id="route_point_PRI_11">
-            <field name="state_id">69</field>
-            <field name="name">La Coloma</field>
-        </record>
-        <record model="res.route.points" id="route_point_PRI_12">
-            <field name="state_id">69</field>
-            <field name="name">Soroa</field>
-        </record>
-        <record model="res.route.points" id="route_point_PRI_13">
-            <field name="state_id">69</field>
-            <field name="name">Las Terrazas</field>
-        </record>
+    <!-- id = 69 - Pinar del Rio -->
+    <record model="res.route.points" id="route_point_PRI_01">
+      <field name="state_id">69</field>
+      <field name="name">Pinar del Río</field>
+      <field name="is_state_reference">True</field>
+    </record>
+    <record model="res.route.points" id="route_point_PRI_02">
+      <field name="state_id">69</field>
+      <field name="name">Cayo Jutias (Santa Lucía)</field>
+    </record>
+    <record model="res.route.points" id="route_point_PRI_03">
+      <field name="state_id">69</field>
+      <field name="name">Mil Cumbres</field>
+    </record>
+    <record model="res.route.points" id="route_point_PRI_04">
+      <field name="state_id">69</field>
+      <field name="name">Comunidad El Moncada</field>
+    </record>
+    <record model="res.route.points" id="route_point_PRI_05">
+      <field name="state_id">69</field>
+      <field name="name">Aguas Claras</field>
+    </record>
+    <record model="res.route.points" id="route_point_PRI_06">
+      <field name="state_id">69</field>
+      <field name="name">María la Gorda</field>
+    </record>
+    <record model="res.route.points" id="route_point_PRI_07">
+      <field name="state_id">69</field>
+      <field name="name">Hotel Mirador (S.D. Baños)</field>
+    </record>
+    <record model="res.route.points" id="route_point_PRI_08">
+      <field name="state_id">69</field>
+      <field name="name">Viñales</field>
+    </record>
+    <record model="res.route.points" id="route_point_PRI_09">
+      <field name="state_id">69</field>
+      <field name="name">La Guabina</field>
+    </record>
+    <record model="res.route.points" id="route_point_PRI_10">
+      <field name="state_id">69</field>
+      <field name="name">Cayo Levisa (Palma Rubia)</field>
+    </record>
+    <record model="res.route.points" id="route_point_PRI_11">
+      <field name="state_id">69</field>
+      <field name="name">La Coloma</field>
+    </record>
+    <record model="res.route.points" id="route_point_PRI_12">
+      <field name="state_id">69</field>
+      <field name="name">Soroa</field>
+    </record>
+    <record model="res.route.points" id="route_point_PRI_13">
+      <field name="state_id">69</field>
+      <field name="name">Las Terrazas</field>
+    </record>
 
-        <!-- id = 54 - Artemisa -->
-        <record model="res.route.points" id="route_point_ART_01">
-            <field name="state_id">54</field>
-            <field name="name">Artemisa</field>
-            <field name="is_state_reference">True</field>
-        </record>
-        <record model="res.route.points" id="route_point_ART_02">
-            <field name="state_id">54</field>
-            <field name="name">Playa El Salado</field>
-        </record>
-        <record model="res.route.points" id="route_point_ART_03">
-            <field name="state_id">54</field>
-            <field name="name">Apto Baracoa</field>
-        </record>
-        <record model="res.route.points" id="route_point_ART_04">
-            <field name="state_id">54</field>
-            <field name="name">San Antonio de los Baños</field>
-        </record>
-        <record model="res.route.points" id="route_point_ART_05">
-            <field name="state_id">54</field>
-            <field name="name">Surgidero de Batabanó</field>
-        </record>
-        <record model="res.route.points" id="route_point_ART_06">
-            <field name="state_id">54</field>
-            <field name="name">San José de las Lajas</field>
-        </record>
-        <record model="res.route.points" id="route_point_ART_07">
-            <field name="state_id">54</field>
-            <field name="name">Playa Jibacoa</field>
-        </record>
-        <record model="res.route.points" id="route_point_ART_08">
-            <field name="state_id">54</field>
-            <field name="name">Arroyo Bermejo</field>
-        </record>
-        <record model="res.route.points" id="route_point_ART_09">
-            <field name="state_id">54</field>
-            <field name="name">Puerto Escondido</field>
-        </record>
-        <record model="res.route.points" id="route_point_ART_10">
-            <field name="state_id">54</field>
-            <field name="name">Madruga</field>
-        </record>
+    <!-- id = 54 - Artemisa -->
+    <record model="res.route.points" id="route_point_ART_01">
+      <field name="state_id">54</field>
+      <field name="name">Artemisa</field>
+      <field name="is_state_reference">True</field>
+    </record>
+    <record model="res.route.points" id="route_point_ART_02">
+      <field name="state_id">54</field>
+      <field name="name">Playa El Salado</field>
+    </record>
+    <record model="res.route.points" id="route_point_ART_03">
+      <field name="state_id">54</field>
+      <field name="name">Apto Baracoa</field>
+    </record>
+    <record model="res.route.points" id="route_point_ART_04">
+      <field name="state_id">54</field>
+      <field name="name">San Antonio de los Baños</field>
+    </record>
+    <record model="res.route.points" id="route_point_ART_05">
+      <field name="state_id">54</field>
+      <field name="name">Surgidero de Batabanó</field>
+    </record>
+    <record model="res.route.points" id="route_point_ART_06">
+      <field name="state_id">54</field>
+      <field name="name">San José de las Lajas</field>
+    </record>
+    <record model="res.route.points" id="route_point_ART_07">
+      <field name="state_id">54</field>
+      <field name="name">Playa Jibacoa</field>
+    </record>
+    <record model="res.route.points" id="route_point_ART_08">
+      <field name="state_id">54</field>
+      <field name="name">Arroyo Bermejo</field>
+    </record>
+    <record model="res.route.points" id="route_point_ART_09">
+      <field name="state_id">54</field>
+      <field name="name">Puerto Escondido</field>
+    </record>
+    <record model="res.route.points" id="route_point_ART_10">
+      <field name="state_id">54</field>
+      <field name="name">Madruga</field>
+    </record>
 
-        <!-- id = 52 - La Habana -->
-        <record model="res.route.points" id="route_point_CHA_01">
-            <field name="state_id">52</field>
-            <field name="name">Aerop. J. Martí Terminal 1</field>
-        </record>
-        <record model="res.route.points" id="route_point_CHA_02">
-            <field name="state_id">52</field>
-            <field name="name">Aerop. J. Martí Terminal 2</field>
-        </record>
-        <record model="res.route.points" id="route_point_CHA_03">
-            <field name="state_id">52</field>
-            <field name="name">Aerop. J. Martí Terminal 3</field>
-        </record>
-        <record model="res.route.points" id="route_point_CHA_04">
-            <field name="state_id">52</field>
-            <field name="name">Aerop. Wajay</field>
-        </record>
-        <record model="res.route.points" id="route_point_CHA_05">
-            <field name="state_id">52</field>
-            <field name="name">Marina Hemingway</field>
-        </record>
-        <record model="res.route.points" id="route_point_CHA_06">
-            <field name="state_id">52</field>
-            <field name="name">Hoteles Miramar-Playa</field>
-        </record>
-        <record model="res.route.points" id="route_point_CHA_07">
-            <field name="state_id">52</field>
-            <field name="name">Hoteles Vedado</field>
-        </record>
-        <record model="res.route.points" id="route_point_CHA_08">
-            <field name="state_id">52</field>
-            <field name="name">Habana Vieja</field>
-            <field name="is_state_reference">True</field>
-        </record>
-        <record model="res.route.points" id="route_point_CHA_09">
-            <field name="state_id">52</field>
-            <field name="name">Villa Panamericana</field>
-        </record>
-        <record model="res.route.points" id="route_point_CHA_10">
-            <field name="state_id">52</field>
-            <field name="name">Playa Santa María del Mar</field>
-        </record>
-        <record model="res.route.points" id="route_point_CHA_11">
-            <field name="state_id">52</field>
-            <field name="name">Playa de Guanabo</field>
-        </record>
+    <!-- id = 52 - La Habana -->
+    <record model="res.route.points" id="route_point_CHA_01">
+      <field name="state_id">52</field>
+      <field name="name">Aerop. J. Martí Terminal 1</field>
+    </record>
+    <record model="res.route.points" id="route_point_CHA_02">
+      <field name="state_id">52</field>
+      <field name="name">Aerop. J. Martí Terminal 2</field>
+    </record>
+    <record model="res.route.points" id="route_point_CHA_03">
+      <field name="state_id">52</field>
+      <field name="name">Aerop. J. Martí Terminal 3</field>
+    </record>
+    <record model="res.route.points" id="route_point_CHA_04">
+      <field name="state_id">52</field>
+      <field name="name">Aerop. Wajay</field>
+    </record>
+    <record model="res.route.points" id="route_point_CHA_05">
+      <field name="state_id">52</field>
+      <field name="name">Marina Hemingway</field>
+    </record>
+    <record model="res.route.points" id="route_point_CHA_06">
+      <field name="state_id">52</field>
+      <field name="name">Hoteles Miramar-Playa</field>
+    </record>
+    <record model="res.route.points" id="route_point_CHA_07">
+      <field name="state_id">52</field>
+      <field name="name">Hoteles Vedado</field>
+    </record>
+    <record model="res.route.points" id="route_point_CHA_08">
+      <field name="state_id">52</field>
+      <field name="name">Habana Vieja</field>
+      <field name="is_state_reference">True</field>
+    </record>
+    <record model="res.route.points" id="route_point_CHA_09">
+      <field name="state_id">52</field>
+      <field name="name">Villa Panamericana</field>
+    </record>
+    <record model="res.route.points" id="route_point_CHA_10">
+      <field name="state_id">52</field>
+      <field name="name">Playa Santa María del Mar</field>
+    </record>
+    <record model="res.route.points" id="route_point_CHA_11">
+      <field name="state_id">52</field>
+      <field name="name">Playa de Guanabo</field>
+    </record>
 
-        <!-- id = 107 - Mayabeque -->
+    <!-- id = 107 - Mayabeque -->
 
-        <!-- id = 87 - Matanzas -->
-        <record model="res.route.points" id="route_point_MTZ_01">
-            <field name="state_id">87</field>
-            <field name="name">Matanzas</field>
-            <field name="is_state_reference">True</field>
-        </record>
-        <record model="res.route.points" id="route_point_MTZ_02">
-            <field name="state_id">87</field>
-            <field name="name">Canimao</field>
-        </record>
-        <record model="res.route.points" id="route_point_MTZ_03">
-            <field name="state_id">87</field>
-            <field name="name">Aerop. J. G. Gómez</field>
-        </record>
-        <record model="res.route.points" id="route_point_MTZ_04">
-            <field name="state_id">87</field>
-            <field name="name">Playa de Varadero</field>
-        </record>
-        <record model="res.route.points" id="route_point_MTZ_05">
-            <field name="state_id">87</field>
-            <field name="name">Marina Gaviota</field>
-        </record>
-        <record model="res.route.points" id="route_point_MTZ_06">
-            <field name="state_id">87</field>
-            <field name="name">Cárdenas</field>
-        </record>
-        <record model="res.route.points" id="route_point_MTZ_07">
-            <field name="state_id">87</field>
-            <field name="name">Jaguey Grande</field>
-        </record>
-        <record model="res.route.points" id="route_point_MTZ_08">
-            <field name="state_id">87</field>
-            <field name="name">La Boca</field>
-        </record>
-        <record model="res.route.points" id="route_point_MTZ_09">
-            <field name="state_id">87</field>
-            <field name="name">Playa Larga</field>
-        </record>
-        <record model="res.route.points" id="route_point_MTZ_10">
-            <field name="state_id">87</field>
-            <field name="name">Playa Girón</field>
-        </record>
-        <record model="res.route.points" id="route_point_MTZ_11">
-            <field name="state_id">87</field>
-            <field name="name">Colón</field>
-        </record>
+    <!-- id = 87 - Matanzas -->
+    <record model="res.route.points" id="route_point_MTZ_01">
+      <field name="state_id">87</field>
+      <field name="name">Matanzas</field>
+      <field name="is_state_reference">True</field>
+    </record>
+    <record model="res.route.points" id="route_point_MTZ_02">
+      <field name="state_id">87</field>
+      <field name="name">Canimao</field>
+    </record>
+    <record model="res.route.points" id="route_point_MTZ_03">
+      <field name="state_id">87</field>
+      <field name="name">Aerop. J. G. Gómez</field>
+    </record>
+    <record model="res.route.points" id="route_point_MTZ_04">
+      <field name="state_id">87</field>
+      <field name="name">Playa de Varadero</field>
+    </record>
+    <record model="res.route.points" id="route_point_MTZ_05">
+      <field name="state_id">87</field>
+      <field name="name">Marina Gaviota</field>
+    </record>
+    <record model="res.route.points" id="route_point_MTZ_06">
+      <field name="state_id">87</field>
+      <field name="name">Cárdenas</field>
+    </record>
+    <record model="res.route.points" id="route_point_MTZ_07">
+      <field name="state_id">87</field>
+      <field name="name">Jaguey Grande</field>
+    </record>
+    <record model="res.route.points" id="route_point_MTZ_08">
+      <field name="state_id">87</field>
+      <field name="name">La Boca</field>
+    </record>
+    <record model="res.route.points" id="route_point_MTZ_09">
+      <field name="state_id">87</field>
+      <field name="name">Playa Larga</field>
+    </record>
+    <record model="res.route.points" id="route_point_MTZ_10">
+      <field name="state_id">87</field>
+      <field name="name">Playa Girón</field>
+    </record>
+    <record model="res.route.points" id="route_point_MTZ_11">
+      <field name="state_id">87</field>
+      <field name="name">Colón</field>
+    </record>
 
-        <!-- id = 100 - Cienfuegos -->
-        <record model="res.route.points" id="route_point_CFG_01">
-            <field name="state_id">100</field>
-            <field name="name">Cienfuegos Ciudad</field>
-            <field name="is_state_reference">True</field>
-        </record>
-        <record model="res.route.points" id="route_point_CFG_02">
-            <field name="state_id">100</field>
-            <field name="name">Hotel Pasacaballos</field>
-        </record>
-        <record model="res.route.points" id="route_point_CFG_03">
-            <field name="state_id">100</field>
-            <field name="name">Aguada de Pasageros</field>
-        </record>
-        <record model="res.route.points" id="route_point_CFG_04">
-            <field name="state_id">100</field>
-            <field name="name">Castillo de Jagua</field>
-        </record>
-        <record model="res.route.points" id="route_point_CFG_05">
-            <field name="state_id">100</field>
-            <field name="name">Delfinario</field>
-        </record>
-        <record model="res.route.points" id="route_point_CFG_06">
-            <field name="state_id">100</field>
-            <field name="name">El Nicho</field>
-        </record>
-        <record model="res.route.points" id="route_point_CFG_07">
-            <field name="state_id">100</field>
-            <field name="name">Palmira</field>
-        </record>
-        <record model="res.route.points" id="route_point_CFG_08">
-            <field name="state_id">100</field>
-            <field name="name">Hacienda la Vega</field>
-        </record>
-        <record model="res.route.points" id="route_point_CFG_09">
-            <field name="state_id">100</field>
-            <field name="name">Jardín Bontánico</field>
-        </record>
-        <record model="res.route.points" id="route_point_CFG_10">
-            <field name="state_id">100</field>
-            <field name="name">Playa Yaguanabo</field>
-        </record>
-        <record model="res.route.points" id="route_point_CFG_11">
-            <field name="state_id">100</field>
-            <field name="name">Mal Tiempo</field>
-        </record>
-        <record model="res.route.points" id="route_point_CFG_12">
-            <field name="state_id">100</field>
-            <field name="name">Guajaimico</field>
-        </record>
-        <record model="res.route.points" id="route_point_CFG_13">
-            <field name="state_id">100</field>
-            <field name="name">Cumanayagua</field>
-        </record>
-        <record model="res.route.points" id="route_point_CFG_14">
-            <field name="state_id">100</field>
-            <field name="name">Playa Rancho Luna</field>
-        </record>
+    <!-- id = 100 - Cienfuegos -->
+    <record model="res.route.points" id="route_point_CFG_01">
+      <field name="state_id">100</field>
+      <field name="name">Cienfuegos Ciudad</field>
+      <field name="is_state_reference">True</field>
+    </record>
+    <record model="res.route.points" id="route_point_CFG_02">
+      <field name="state_id">100</field>
+      <field name="name">Hotel Pasacaballos</field>
+    </record>
+    <record model="res.route.points" id="route_point_CFG_03">
+      <field name="state_id">100</field>
+      <field name="name">Aguada de Pasageros</field>
+    </record>
+    <record model="res.route.points" id="route_point_CFG_04">
+      <field name="state_id">100</field>
+      <field name="name">Castillo de Jagua</field>
+    </record>
+    <record model="res.route.points" id="route_point_CFG_05">
+      <field name="state_id">100</field>
+      <field name="name">Delfinario</field>
+    </record>
+    <record model="res.route.points" id="route_point_CFG_06">
+      <field name="state_id">100</field>
+      <field name="name">El Nicho</field>
+    </record>
+    <record model="res.route.points" id="route_point_CFG_07">
+      <field name="state_id">100</field>
+      <field name="name">Palmira</field>
+    </record>
+    <record model="res.route.points" id="route_point_CFG_08">
+      <field name="state_id">100</field>
+      <field name="name">Hacienda la Vega</field>
+    </record>
+    <record model="res.route.points" id="route_point_CFG_09">
+      <field name="state_id">100</field>
+      <field name="name">Jardín Bontánico</field>
+    </record>
+    <record model="res.route.points" id="route_point_CFG_10">
+      <field name="state_id">100</field>
+      <field name="name">Playa Yaguanabo</field>
+    </record>
+    <record model="res.route.points" id="route_point_CFG_11">
+      <field name="state_id">100</field>
+      <field name="name">Mal Tiempo</field>
+    </record>
+    <record model="res.route.points" id="route_point_CFG_12">
+      <field name="state_id">100</field>
+      <field name="name">Guajaimico</field>
+    </record>
+    <record model="res.route.points" id="route_point_CFG_13">
+      <field name="state_id">100</field>
+      <field name="name">Cumanayagua</field>
+    </record>
+    <record model="res.route.points" id="route_point_CFG_14">
+      <field name="state_id">100</field>
+      <field name="name">Playa Rancho Luna</field>
+    </record>
 
-        <!-- id = 68 - Villa Clara -->
-        <record model="res.route.points" id="route_point_VCL_01">
-            <field name="state_id">68</field>
-            <field name="name">Santa Clara</field>
-            <field name="is_state_reference">True</field>
-        </record>
-        <record model="res.route.points" id="route_point_VCL_02">
-            <field name="state_id">68</field>
-            <field name="name">La Granjita</field>
-        </record>
-        <record model="res.route.points" id="route_point_VCL_03">
-            <field name="state_id">68</field>
-            <field name="name">Baños de Elguea</field>
-        </record>
-        <record model="res.route.points" id="route_point_VCL_04">
-            <field name="state_id">68</field>
-            <field name="name">Isabela de Sagua</field>
-        </record>
-        <record model="res.route.points" id="route_point_VCL_05">
-            <field name="state_id">68</field>
-            <field name="name">Remedios</field>
-        </record>
-        <record model="res.route.points" id="route_point_VCL_06">
-            <field name="state_id">68</field>
-            <field name="name">Caibarien</field>
-        </record>
-        <record model="res.route.points" id="route_point_VCL_07">
-            <field name="state_id">68</field>
-            <field name="name">Hanabanilla</field>
-        </record>
-        <record model="res.route.points" id="route_point_VCL_08">
-            <field name="state_id">68</field>
-            <field name="name">Cayo las Brujas</field>
-        </record>
-        <record model="res.route.points" id="route_point_VCL_09">
-            <field name="state_id">68</field>
-            <field name="name">Cayo Santa María</field>
-        </record>
+    <!-- id = 68 - Villa Clara -->
+    <record model="res.route.points" id="route_point_VCL_01">
+      <field name="state_id">68</field>
+      <field name="name">Santa Clara</field>
+      <field name="is_state_reference">True</field>
+    </record>
+    <record model="res.route.points" id="route_point_VCL_02">
+      <field name="state_id">68</field>
+      <field name="name">La Granjita</field>
+    </record>
+    <record model="res.route.points" id="route_point_VCL_03">
+      <field name="state_id">68</field>
+      <field name="name">Baños de Elguea</field>
+    </record>
+    <record model="res.route.points" id="route_point_VCL_04">
+      <field name="state_id">68</field>
+      <field name="name">Isabela de Sagua</field>
+    </record>
+    <record model="res.route.points" id="route_point_VCL_05">
+      <field name="state_id">68</field>
+      <field name="name">Remedios</field>
+    </record>
+    <record model="res.route.points" id="route_point_VCL_06">
+      <field name="state_id">68</field>
+      <field name="name">Caibarien</field>
+    </record>
+    <record model="res.route.points" id="route_point_VCL_07">
+      <field name="state_id">68</field>
+      <field name="name">Hanabanilla</field>
+    </record>
+    <record model="res.route.points" id="route_point_VCL_08">
+      <field name="state_id">68</field>
+      <field name="name">Cayo las Brujas</field>
+    </record>
+    <record model="res.route.points" id="route_point_VCL_09">
+      <field name="state_id">68</field>
+      <field name="name">Cayo Santa María</field>
+    </record>
 
-        <!-- id = 66 - Sancti Spíritus -->
-        <record model="res.route.points" id="route_point_SS_01">
-            <field name="state_id">66</field>
-            <field name="name">Sancti Spíritus</field>
-            <field name="is_state_reference">True</field>
-        </record>
-        <record model="res.route.points" id="route_point_SS_02">
-            <field name="state_id">66</field>
-            <field name="name">Topes de Collantes</field>
-        </record>
-        <record model="res.route.points" id="route_point_SS_03">
-            <field name="state_id">66</field>
-            <field name="name">Trinidad</field>
-        </record>
-        <record model="res.route.points" id="route_point_SS_04">
-            <field name="state_id">66</field>
-            <field name="name">Playa Ancón</field>
-        </record>
-        <record model="res.route.points" id="route_point_SS_05">
-            <field name="state_id">66</field>
-            <field name="name">Valle de los Ingenios</field>
-        </record>
-        <record model="res.route.points" id="route_point_SS_06">
-            <field name="state_id">66</field>
-            <field name="name">Zaza</field>
-        </record>
-        <record model="res.route.points" id="route_point_SS_07">
-            <field name="state_id">66</field>
-            <field name="name">Lagos de Mayajigua</field>
-        </record>
+    <!-- id = 66 - Sancti Spíritus -->
+    <record model="res.route.points" id="route_point_SS_01">
+      <field name="state_id">66</field>
+      <field name="name">Sancti Spíritus</field>
+      <field name="is_state_reference">True</field>
+    </record>
+    <record model="res.route.points" id="route_point_SS_02">
+      <field name="state_id">66</field>
+      <field name="name">Topes de Collantes</field>
+    </record>
+    <record model="res.route.points" id="route_point_SS_03">
+      <field name="state_id">66</field>
+      <field name="name">Trinidad</field>
+    </record>
+    <record model="res.route.points" id="route_point_SS_04">
+      <field name="state_id">66</field>
+      <field name="name">Playa Ancón</field>
+    </record>
+    <record model="res.route.points" id="route_point_SS_05">
+      <field name="state_id">66</field>
+      <field name="name">Valle de los Ingenios</field>
+    </record>
+    <record model="res.route.points" id="route_point_SS_06">
+      <field name="state_id">66</field>
+      <field name="name">Zaza</field>
+    </record>
+    <record model="res.route.points" id="route_point_SS_07">
+      <field name="state_id">66</field>
+      <field name="name">Lagos de Mayajigua</field>
+    </record>
 
-        <!-- id = 72 - Ciego de Avila -->
-        <record model="res.route.points" id="route_point_CA_01">
-            <field name="state_id">72</field>
-            <field name="name">Ciego de Avila</field>
-            <field name="is_state_reference">True</field>
-        </record>
-        <record model="res.route.points" id="route_point_CA_02">
-            <field name="state_id">72</field>
-            <field name="name">Morón</field>
-        </record>
-        <record model="res.route.points" id="route_point_CA_03">
-            <field name="state_id">72</field>
-            <field name="name">Cayo Coco</field>
-        </record>
-        <record model="res.route.points" id="route_point_CA_04">
-            <field name="state_id">72</field>
-            <field name="name">Aerop. Cayo Coco</field>
-        </record>
-        <record model="res.route.points" id="route_point_CA_05">
-            <field name="state_id">72</field>
-            <field name="name">Parque El Bag </field>
-        </record>
-        <record model="res.route.points" id="route_point_CA_06">
-            <field name="state_id">72</field>
-            <field name="name">Marina Cayo Coco</field>
-        </record>
-        <record model="res.route.points" id="route_point_CA_07">
-            <field name="state_id">72</field>
-            <field name="name">Cayo Guillermo</field>
-        </record>
-        <record model="res.route.points" id="route_point_CA_08">
-            <field name="state_id">72</field>
-            <field name="name">Aerop. M. Gomez</field>
-        </record>
-        <record model="res.route.points" id="route_point_CA_09">
-            <field name="state_id">72</field>
-            <field name="name">Embarcadero Palo Alto</field>
-        </record>
+    <!-- id = 72 - Ciego de Avila -->
+    <record model="res.route.points" id="route_point_CA_01">
+      <field name="state_id">72</field>
+      <field name="name">Ciego de Avila</field>
+      <field name="is_state_reference">True</field>
+    </record>
+    <record model="res.route.points" id="route_point_CA_02">
+      <field name="state_id">72</field>
+      <field name="name">Morón</field>
+    </record>
+    <record model="res.route.points" id="route_point_CA_03">
+      <field name="state_id">72</field>
+      <field name="name">Cayo Coco</field>
+    </record>
+    <record model="res.route.points" id="route_point_CA_04">
+      <field name="state_id">72</field>
+      <field name="name">Aerop. Cayo Coco</field>
+    </record>
+    <record model="res.route.points" id="route_point_CA_05">
+      <field name="state_id">72</field>
+      <field name="name">Parque El Bag </field>
+    </record>
+    <record model="res.route.points" id="route_point_CA_06">
+      <field name="state_id">72</field>
+      <field name="name">Marina Cayo Coco</field>
+    </record>
+    <record model="res.route.points" id="route_point_CA_07">
+      <field name="state_id">72</field>
+      <field name="name">Cayo Guillermo</field>
+    </record>
+    <record model="res.route.points" id="route_point_CA_08">
+      <field name="state_id">72</field>
+      <field name="name">Aerop. M. Gomez</field>
+    </record>
+    <record model="res.route.points" id="route_point_CA_09">
+      <field name="state_id">72</field>
+      <field name="name">Embarcadero Palo Alto</field>
+    </record>
 
-        <!-- id = 105 - Camaguey -->
-        <record model="res.route.points" id="route_point_CMG_01">
-            <field name="state_id">105</field>
-            <field name="name">Camaguey</field>
-            <field name="is_state_reference">True</field>
-        </record>
-        <record model="res.route.points" id="route_point_CMG_02">
-            <field name="state_id">105</field>
-            <field name="name">Aerop. I. Agramonte</field>
-        </record>
-        <record model="res.route.points" id="route_point_CMG_03">
-            <field name="state_id">105</field>
-            <field name="name">Florida</field>
-        </record>
-        <record model="res.route.points" id="route_point_CMG_04">
-            <field name="state_id">105</field>
-            <field name="name">Rancho King</field>
-        </record>
-        <record model="res.route.points" id="route_point_CMG_05">
-            <field name="state_id">105</field>
-            <field name="name">La Bel‚n</field>
-        </record>
-        <record model="res.route.points" id="route_point_CMG_06">
-            <field name="state_id">105</field>
-            <field name="name">Cocodrilo</field>
-        </record>
-        <record model="res.route.points" id="route_point_CMG_07">
-            <field name="state_id">105</field>
-            <field name="name">Camalote</field>
-        </record>
-        <record model="res.route.points" id="route_point_CMG_08">
-            <field name="state_id">105</field>
-            <field name="name">Sierra de Cubitas</field>
-        </record>
-        <record model="res.route.points" id="route_point_CMG_09">
-            <field name="state_id">105</field>
-            <field name="name">Jimbambay</field>
-        </record>
-        <record model="res.route.points" id="route_point_CMG_10">
-            <field name="state_id">105</field>
-            <field name="name">Cayo Paredon Grande</field>
-        </record>
-        <record model="res.route.points" id="route_point_CMG_11">
-            <field name="state_id">105</field>
-            <field name="name">Cayo Cruz</field>
-        </record>
-        <record model="res.route.points" id="route_point_CMG_12">
-            <field name="state_id">105</field>
-            <field name="name">Nuevitas</field>
-        </record>
-        <record model="res.route.points" id="route_point_CMG_13">
-            <field name="state_id">105</field>
-            <field name="name">Playa Santa Lucía</field>
-        </record>
-        <record model="res.route.points" id="route_point_CMG_14">
-            <field name="state_id">105</field>
-            <field name="name">Santa Cruz del Sur</field>
-        </record>
-        <record model="res.route.points" id="route_point_CMG_15">
-            <field name="state_id">105</field>
-            <field name="name">Playa Los Pinos</field>
-        </record>
+    <!-- id = 105 - Camaguey -->
+    <record model="res.route.points" id="route_point_CMG_01">
+      <field name="state_id">105</field>
+      <field name="name">Camaguey</field>
+      <field name="is_state_reference">True</field>
+    </record>
+    <record model="res.route.points" id="route_point_CMG_02">
+      <field name="state_id">105</field>
+      <field name="name">Aerop. I. Agramonte</field>
+    </record>
+    <record model="res.route.points" id="route_point_CMG_03">
+      <field name="state_id">105</field>
+      <field name="name">Florida</field>
+    </record>
+    <record model="res.route.points" id="route_point_CMG_04">
+      <field name="state_id">105</field>
+      <field name="name">Rancho King</field>
+    </record>
+    <record model="res.route.points" id="route_point_CMG_05">
+      <field name="state_id">105</field>
+      <field name="name">La Bel‚n</field>
+    </record>
+    <record model="res.route.points" id="route_point_CMG_06">
+      <field name="state_id">105</field>
+      <field name="name">Cocodrilo</field>
+    </record>
+    <record model="res.route.points" id="route_point_CMG_07">
+      <field name="state_id">105</field>
+      <field name="name">Camalote</field>
+    </record>
+    <record model="res.route.points" id="route_point_CMG_08">
+      <field name="state_id">105</field>
+      <field name="name">Sierra de Cubitas</field>
+    </record>
+    <record model="res.route.points" id="route_point_CMG_09">
+      <field name="state_id">105</field>
+      <field name="name">Jimbambay</field>
+    </record>
+    <record model="res.route.points" id="route_point_CMG_10">
+      <field name="state_id">105</field>
+      <field name="name">Cayo Paredon Grande</field>
+    </record>
+    <record model="res.route.points" id="route_point_CMG_11">
+      <field name="state_id">105</field>
+      <field name="name">Cayo Cruz</field>
+    </record>
+    <record model="res.route.points" id="route_point_CMG_12">
+      <field name="state_id">105</field>
+      <field name="name">Nuevitas</field>
+    </record>
+    <record model="res.route.points" id="route_point_CMG_13">
+      <field name="state_id">105</field>
+      <field name="name">Playa Santa Lucía</field>
+    </record>
+    <record model="res.route.points" id="route_point_CMG_14">
+      <field name="state_id">105</field>
+      <field name="name">Santa Cruz del Sur</field>
+    </record>
+    <record model="res.route.points" id="route_point_CMG_15">
+      <field name="state_id">105</field>
+      <field name="name">Playa Los Pinos</field>
+    </record>
 
-        <!-- id = 106 - Las Tunas -->
-        <record model="res.route.points" id="route_point_LTN_01">
-            <field name="state_id">106</field>
-            <field name="name">Las Tunas</field>
-            <field name="is_state_reference">True</field>
-        </record>
-        <record model="res.route.points" id="route_point_LTN_02">
-            <field name="state_id">106</field>
-            <field name="name">Aerop. H. Amejeiras</field>
-        </record>
-        <record model="res.route.points" id="route_point_LTN_03">
-            <field name="state_id">106</field>
-            <field name="name">Cerro Caisim£</field>
-        </record>
-        <record model="res.route.points" id="route_point_LTN_04">
-            <field name="state_id">106</field>
-            <field name="name">Playa Covarrubias</field>
-        </record>
-        <record model="res.route.points" id="route_point_LTN_05">
-            <field name="state_id">106</field>
-            <field name="name">Puerto Manatí</field>
-        </record>
-        <record model="res.route.points" id="route_point_LTN_06">
-            <field name="state_id">106</field>
-            <field name="name">Puerto Padre</field>
-        </record>
-        <record model="res.route.points" id="route_point_LTN_07">
-            <field name="state_id">106</field>
-            <field name="name">Puerto Carúpano</field>
-        </record>
-        <record model="res.route.points" id="route_point_LTN_08">
-            <field name="state_id">106</field>
-            <field name="name">Guayabal</field>
-        </record>
+    <!-- id = 106 - Las Tunas -->
+    <record model="res.route.points" id="route_point_LTN_01">
+      <field name="state_id">106</field>
+      <field name="name">Las Tunas</field>
+      <field name="is_state_reference">True</field>
+    </record>
+    <record model="res.route.points" id="route_point_LTN_02">
+      <field name="state_id">106</field>
+      <field name="name">Aerop. H. Amejeiras</field>
+    </record>
+    <record model="res.route.points" id="route_point_LTN_03">
+      <field name="state_id">106</field>
+      <field name="name">Cerro Caisim£</field>
+    </record>
+    <record model="res.route.points" id="route_point_LTN_04">
+      <field name="state_id">106</field>
+      <field name="name">Playa Covarrubias</field>
+    </record>
+    <record model="res.route.points" id="route_point_LTN_05">
+      <field name="state_id">106</field>
+      <field name="name">Puerto Manatí</field>
+    </record>
+    <record model="res.route.points" id="route_point_LTN_06">
+      <field name="state_id">106</field>
+      <field name="name">Puerto Padre</field>
+    </record>
+    <record model="res.route.points" id="route_point_LTN_07">
+      <field name="state_id">106</field>
+      <field name="name">Puerto Carúpano</field>
+    </record>
+    <record model="res.route.points" id="route_point_LTN_08">
+      <field name="state_id">106</field>
+      <field name="name">Guayabal</field>
+    </record>
 
-        <!-- id = 57 - Holguín -->
-        <record model="res.route.points" id="route_point_HLG_01">
-            <field name="state_id">57</field>
-            <field name="name">Holguín</field>
-            <field name="is_state_reference">True</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_02">
-            <field name="state_id">57</field>
-            <field name="name">Aerop. Frank País</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_03">
-            <field name="state_id">57</field>
-            <field name="name">Mirador de Mayabe</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_04">
-            <field name="state_id">57</field>
-            <field name="name">Gibara</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_05">
-            <field name="state_id">57</field>
-            <field name="name">Playa Blanca</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_06">
-            <field name="state_id">57</field>
-            <field name="name">Don Lino</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_07">
-            <field name="state_id">57</field>
-            <field name="name">Playa Pesquero</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_08">
-            <field name="state_id">57</field>
-            <field name="name">Bahía de Naranjo</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_09">
-            <field name="state_id">57</field>
-            <field name="name">Playa Guardalavaca</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_10">
-            <field name="state_id">57</field>
-            <field name="name">Chorro de Mahita</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_11">
-            <field name="state_id">57</field>
-            <field name="name">Boca de Sam </field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_12">
-            <field name="state_id">57</field>
-            <field name="name">Banes</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_13">
-            <field name="state_id">57</field>
-            <field name="name">Macabí</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_14">
-            <field name="state_id">57</field>
-            <field name="name">Biran</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_15">
-            <field name="state_id">57</field>
-            <field name="name">Antilla</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_16">
-            <field name="state_id">57</field>
-            <field name="name">Mayarí</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_17">
-            <field name="state_id">57</field>
-            <field name="name">Guatemala</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_18">
-            <field name="state_id">57</field>
-            <field name="name">Cayo Saetía</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_19">
-            <field name="state_id">57</field>
-            <field name="name">Nicaro</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_20">
-            <field name="state_id">57</field>
-            <field name="name">Cayo Mambí</field>
-        </record>
-        <record model="res.route.points" id="route_point_HLG_21">
-            <field name="state_id">57</field>
-            <field name="name">Moa</field>
-        </record>
+    <!-- id = 57 - Holguín -->
+    <record model="res.route.points" id="route_point_HLG_01">
+      <field name="state_id">57</field>
+      <field name="name">Holguín</field>
+      <field name="is_state_reference">True</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_02">
+      <field name="state_id">57</field>
+      <field name="name">Aerop. Frank País</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_03">
+      <field name="state_id">57</field>
+      <field name="name">Mirador de Mayabe</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_04">
+      <field name="state_id">57</field>
+      <field name="name">Gibara</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_05">
+      <field name="state_id">57</field>
+      <field name="name">Playa Blanca</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_06">
+      <field name="state_id">57</field>
+      <field name="name">Don Lino</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_07">
+      <field name="state_id">57</field>
+      <field name="name">Playa Pesquero</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_08">
+      <field name="state_id">57</field>
+      <field name="name">Bahía de Naranjo</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_09">
+      <field name="state_id">57</field>
+      <field name="name">Playa Guardalavaca</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_10">
+      <field name="state_id">57</field>
+      <field name="name">Chorro de Mahita</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_11">
+      <field name="state_id">57</field>
+      <field name="name">Boca de Sam </field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_12">
+      <field name="state_id">57</field>
+      <field name="name">Banes</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_13">
+      <field name="state_id">57</field>
+      <field name="name">Macabí</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_14">
+      <field name="state_id">57</field>
+      <field name="name">Biran</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_15">
+      <field name="state_id">57</field>
+      <field name="name">Antilla</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_16">
+      <field name="state_id">57</field>
+      <field name="name">Mayarí</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_17">
+      <field name="state_id">57</field>
+      <field name="name">Guatemala</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_18">
+      <field name="state_id">57</field>
+      <field name="name">Cayo Saetía</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_19">
+      <field name="state_id">57</field>
+      <field name="name">Nicaro</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_20">
+      <field name="state_id">57</field>
+      <field name="name">Cayo Mambí</field>
+    </record>
+    <record model="res.route.points" id="route_point_HLG_21">
+      <field name="state_id">57</field>
+      <field name="name">Moa</field>
+    </record>
 
-        <!-- id = 101 - Granma -->
-        <record model="res.route.points" id="route_point_GR_01">
-            <field name="state_id">101</field>
-            <field name="name">Bayamo</field>
-            <field name="is_state_reference">True</field>
-        </record>
-        <record model="res.route.points" id="route_point_GR_02">
-            <field name="state_id">101</field>
-            <field name="name">Aerop. C. M. de Céspedes</field>
-        </record>
-        <record model="res.route.points" id="route_point_GR_03">
-            <field name="state_id">101</field>
-            <field name="name">El Yarey</field>
-        </record>
-        <record model="res.route.points" id="route_point_GR_04">
-            <field name="state_id">101</field>
-            <field name="name">Manzanillo</field>
-        </record>
-        <record model="res.route.points" id="route_point_GR_05">
-            <field name="state_id">101</field>
-            <field name="name">Aerop Sierra Maestra</field>
-        </record>
-        <record model="res.route.points" id="route_point_GR_06">
-            <field name="state_id">101</field>
-            <field name="name">Ceiba Hueca</field>
-        </record>
-        <record model="res.route.points" id="route_point_GR_07">
-            <field name="state_id">101</field>
-            <field name="name">Niquero</field>
-        </record>
-        <record model="res.route.points" id="route_point_GR_08">
-            <field name="state_id">101</field>
-            <field name="name">Las Coloradas</field>
-        </record>
-        <record model="res.route.points" id="route_point_GR_09">
-            <field name="state_id">101</field>
-            <field name="name">Cabo Cruz</field>
-        </record>
-        <record model="res.route.points" id="route_point_GR_10">
-            <field name="state_id">101</field>
-            <field name="name">Pilón</field>
-        </record>
-        <record model="res.route.points" id="route_point_GR_11">
-            <field name="state_id">101</field>
-            <field name="name">Marea del Portillo</field>
-        </record>
-        <record model="res.route.points" id="route_point_GR_12">
-            <field name="state_id">101</field>
-            <field name="name">Villa Santo Domingo</field>
-        </record>
-        <record model="res.route.points" id="route_point_GR_13">
-            <field name="state_id">101</field>
-            <field name="name">Bartolom‚ Masó</field>
-        </record>
+    <!-- id = 101 - Granma -->
+    <record model="res.route.points" id="route_point_GR_01">
+      <field name="state_id">101</field>
+      <field name="name">Bayamo</field>
+      <field name="is_state_reference">True</field>
+    </record>
+    <record model="res.route.points" id="route_point_GR_02">
+      <field name="state_id">101</field>
+      <field name="name">Aerop. C. M. de Céspedes</field>
+    </record>
+    <record model="res.route.points" id="route_point_GR_03">
+      <field name="state_id">101</field>
+      <field name="name">El Yarey</field>
+    </record>
+    <record model="res.route.points" id="route_point_GR_04">
+      <field name="state_id">101</field>
+      <field name="name">Manzanillo</field>
+    </record>
+    <record model="res.route.points" id="route_point_GR_05">
+      <field name="state_id">101</field>
+      <field name="name">Aerop Sierra Maestra</field>
+    </record>
+    <record model="res.route.points" id="route_point_GR_06">
+      <field name="state_id">101</field>
+      <field name="name">Ceiba Hueca</field>
+    </record>
+    <record model="res.route.points" id="route_point_GR_07">
+      <field name="state_id">101</field>
+      <field name="name">Niquero</field>
+    </record>
+    <record model="res.route.points" id="route_point_GR_08">
+      <field name="state_id">101</field>
+      <field name="name">Las Coloradas</field>
+    </record>
+    <record model="res.route.points" id="route_point_GR_09">
+      <field name="state_id">101</field>
+      <field name="name">Cabo Cruz</field>
+    </record>
+    <record model="res.route.points" id="route_point_GR_10">
+      <field name="state_id">101</field>
+      <field name="name">Pilón</field>
+    </record>
+    <record model="res.route.points" id="route_point_GR_11">
+      <field name="state_id">101</field>
+      <field name="name">Marea del Portillo</field>
+    </record>
+    <record model="res.route.points" id="route_point_GR_12">
+      <field name="state_id">101</field>
+      <field name="name">Villa Santo Domingo</field>
+    </record>
+    <record model="res.route.points" id="route_point_GR_13">
+      <field name="state_id">101</field>
+      <field name="name">Bartolom‚ Masó</field>
+    </record>
 
-        <!-- id = 86 - Santiago de Cuba -->
-        <record model="res.route.points" id="route_point_SCU_01">
-            <field name="state_id">86</field>
-            <field name="name">Santiago de Cuba</field>
-            <field name="is_state_reference">True</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_02">
-            <field name="state_id">86</field>
-            <field name="name">Aerop. Antonio Maceo</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_03">
-            <field name="state_id">86</field>
-            <field name="name">Cayo Granma</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_04">
-            <field name="state_id">86</field>
-            <field name="name">Castillo del Morro</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_05">
-            <field name="state_id">86</field>
-            <field name="name">Santuario El Cobre</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_06">
-            <field name="state_id">86</field>
-            <field name="name">Granjita Siboney</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_07">
-            <field name="state_id">86</field>
-            <field name="name">Valle de la Prehistoría</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_08">
-            <field name="state_id">86</field>
-            <field name="name">Hotel Bucanero</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_09">
-            <field name="state_id">86</field>
-            <field name="name">Hotel Costa Morena</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_10">
-            <field name="state_id">86</field>
-            <field name="name">Hotel Carisol Los Corales</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_11">
-            <field name="state_id">86</field>
-            <field name="name">Palma Soriano</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_12">
-            <field name="state_id">86</field>
-            <field name="name">El Saltón</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_13">
-            <field name="state_id">86</field>
-            <field name="name">Hotel Sierramar</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_14">
-            <field name="state_id">86</field>
-            <field name="name">Hotel Los Galeones</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_15">
-            <field name="state_id">86</field>
-            <field name="name">La Gran Piedra</field>
-        </record>
-        <record model="res.route.points" id="route_point_SCU_16">
-            <field name="state_id">86</field>
-            <field name="name">Baconao</field>
-        </record>
+    <!-- id = 86 - Santiago de Cuba -->
+    <record model="res.route.points" id="route_point_SCU_01">
+      <field name="state_id">86</field>
+      <field name="name">Santiago de Cuba</field>
+      <field name="is_state_reference">True</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_02">
+      <field name="state_id">86</field>
+      <field name="name">Aerop. Antonio Maceo</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_03">
+      <field name="state_id">86</field>
+      <field name="name">Cayo Granma</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_04">
+      <field name="state_id">86</field>
+      <field name="name">Castillo del Morro</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_05">
+      <field name="state_id">86</field>
+      <field name="name">Santuario El Cobre</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_06">
+      <field name="state_id">86</field>
+      <field name="name">Granjita Siboney</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_07">
+      <field name="state_id">86</field>
+      <field name="name">Valle de la Prehistoría</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_08">
+      <field name="state_id">86</field>
+      <field name="name">Hotel Bucanero</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_09">
+      <field name="state_id">86</field>
+      <field name="name">Hotel Costa Morena</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_10">
+      <field name="state_id">86</field>
+      <field name="name">Hotel Carisol Los Corales</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_11">
+      <field name="state_id">86</field>
+      <field name="name">Palma Soriano</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_12">
+      <field name="state_id">86</field>
+      <field name="name">El Saltón</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_13">
+      <field name="state_id">86</field>
+      <field name="name">Hotel Sierramar</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_14">
+      <field name="state_id">86</field>
+      <field name="name">Hotel Los Galeones</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_15">
+      <field name="state_id">86</field>
+      <field name="name">La Gran Piedra</field>
+    </record>
+    <record model="res.route.points" id="route_point_SCU_16">
+      <field name="state_id">86</field>
+      <field name="name">Baconao</field>
+    </record>
 
-        <!-- id = 104 - Guantánamo -->
-        <record model="res.route.points" id="route_point_GT_01">
-            <field name="state_id">104</field>
-            <field name="name">Guantánamo</field>
-            <field name="is_state_reference">True</field>
-        </record>
-        <record model="res.route.points" id="route_point_GT_02">
-            <field name="state_id">104</field>
-            <field name="name">Aerop. M. Grajales</field>
-        </record>
-        <record model="res.route.points" id="route_point_GT_03">
-            <field name="state_id">104</field>
-            <field name="name">Mirador de Malones</field>
-        </record>
-        <record model="res.route.points" id="route_point_GT_04">
-            <field name="state_id">104</field>
-            <field name="name">Playita de Cajobabo</field>
-        </record>
-        <record model="res.route.points" id="route_point_GT_05">
-            <field name="state_id">104</field>
-            <field name="name">Baracoa</field>
-        </record>
-        <record model="res.route.points" id="route_point_GT_06">
-            <field name="state_id">104</field>
-            <field name="name">El Yunque</field>
-        </record>
-        <record model="res.route.points" id="route_point_GT_07">
-            <field name="state_id">104</field>
-            <field name="name">Caimanera</field>
-        </record>
-    </data>
+    <!-- id = 104 - Guantánamo -->
+    <record model="res.route.points" id="route_point_GT_01">
+      <field name="state_id">104</field>
+      <field name="name">Guantánamo</field>
+      <field name="is_state_reference">True</field>
+    </record>
+    <record model="res.route.points" id="route_point_GT_02">
+      <field name="state_id">104</field>
+      <field name="name">Aerop. M. Grajales</field>
+    </record>
+    <record model="res.route.points" id="route_point_GT_03">
+      <field name="state_id">104</field>
+      <field name="name">Mirador de Malones</field>
+    </record>
+    <record model="res.route.points" id="route_point_GT_04">
+      <field name="state_id">104</field>
+      <field name="name">Playita de Cajobabo</field>
+    </record>
+    <record model="res.route.points" id="route_point_GT_05">
+      <field name="state_id">104</field>
+      <field name="name">Baracoa</field>
+    </record>
+    <record model="res.route.points" id="route_point_GT_06">
+      <field name="state_id">104</field>
+      <field name="name">El Yunque</field>
+    </record>
+    <record model="res.route.points" id="route_point_GT_07">
+      <field name="state_id">104</field>
+      <field name="name">Caimanera</field>
+    </record>
+  </data>
 </openerp>

@@ -15,8 +15,6 @@ Allows users to know the distance between cities and places.
     'depends': ['base', 'web'],
     'data': [
         'security/ir.model.access.csv',
-        'data/res.route.points.xml',
-        'data/res.routes.xml',
         'views/distance_calculator.xml',
         "views/travel_routes.xml",
     ],

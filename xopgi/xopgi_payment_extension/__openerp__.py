@@ -21,4 +21,7 @@
         "views/account_voucher_views.xml",
         "wizard/voucher_wizard.xml"
     ],
+
+    'installable': (8, 0) <= ODOO_VERSION_INFO < (9, 0),   # noqa
+
 }

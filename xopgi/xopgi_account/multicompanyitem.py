@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # xopgi.xopgi.xopgi_account.journal
 # ---------------------------------------------------------------------
-# Copyright (c) 2013-2016 Merchise Autrement
+# Copyright (c) 2013-2016 Merchise Autrement [~º/~]
 # All rights reserved.
 #
 #

@@ -67,22 +67,11 @@
             var date_from = new Date(Date.now() - this.days_before * 24 * 60 * 60 * 1000);
             var res_currency_rate = new openerp.web.Model("res.currency.rate");
             res_currency_rate.query(["currency_id", "rate", "name"])
-                .filter([["name", ">", date_from.getFullYear()+"-"+date_from.getMonth()+"-"+date_from.getDate()], ["rate", "!=", 1]])
-                .order_by("currency_id", "-name")
-                .all()
-                .then(function (currencies_rate) {
-                    var current_idcurrency="";
-                    _.each(currencies_rate, function(currency_rate) {
-                        if(current_idcurrency!=currency_rate.currency_id[0]){
-                            current_idcurrency=currency_rate.currency_id[0];
-                            self.$("#currency_from").append($('<option>', {value:self.currencies.length, text:currency_rate.currency_id[1]}));
-                            self.$("#currency_to").append($('<option>', {value:self.currencies.length, text:currency_rate.currency_id[1]}));
-                            self.currencies.push({idcurrency:current_idcurrency, currency:currency_rate.currency_id[1], rate:currency_rate.rate, date:currency_rate.name});
-                        }
-                    });
-            });
-            res_currency_rate.query(["currency_id", "rate", "name"])
-                .filter([["rate", "=", 1]])
+                .filter([
+                    '|',
+                    ["name", ">", date_from.getFullYear()+"-"+date_from.getMonth()+"-"+date_from.getDate()],
+                    ["rate", "=", 1]
+                ])
                 .order_by("currency_id", "-name")
                 .all()
                 .then(function (currencies_rate) {

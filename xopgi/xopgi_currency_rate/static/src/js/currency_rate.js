@@ -8,6 +8,7 @@
 
     xopgi_currency_rate.CurrencyConverter = openerp.Widget.extend({
         template: "currency_rate.CurrencyRate",
+
         events: {
             "change input.currency_amount": "calculateAmount",
             "change select.currency": "updateRate",
@@ -47,6 +48,7 @@
                 self.loadData();
             }
         },
+
         init: function(parent) {
             this._super(parent);
             this.currencies = [];
@@ -55,7 +57,8 @@
             this.keydown_time = 0;
             this.days_before = 7;
         },
-        loadData: function () {
+
+        loadData: function() {
             var self = this;
 
             self.$("#currency_from_amount").val("");
@@ -101,6 +104,7 @@
             self.$(".currency_to_rate").text("1 " + self.currencies[id_currency_to].currency + " = " + self.toFixed(self.getInternalRate(self.currencies[id_currency_to].rate, self.currencies[id_currency_from].rate)) + " " + self.currencies[id_currency_from].currency);
             self.calculateAmount(eventObject);
         },
+
         calculateAmount: function(eventObject){
             var self = this;
             var id_currency_from = self.$("#currency_from").val();
@@ -129,4 +133,3 @@
 
     return xopgi_currency_rate;
 })();
-

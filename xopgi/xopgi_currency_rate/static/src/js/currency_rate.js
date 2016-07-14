@@ -67,7 +67,7 @@
             self.$("#currency_from").empty();
             self.$("#currency_to").empty();
 
-            var date_from = new Date(Date.now() - this.days_before * 24 * 60 * 60 * 1000);
+            var date_from = new Date(Date.now() - days_to_ms(this.days_before));
             var res_currency_rate = new openerp.web.Model("res.currency.rate");
             res_currency_rate.query(["currency_id", "rate", "name"])
                 .filter([
@@ -117,6 +117,11 @@
             }
         }
     });
+
+    var days_to_ms = function(d) {
+        return d * 24 * 60 * 60 * 1000;
+
+    };
 
     if (openerp.web && openerp.web.UserMenu) {
         openerp.web.UserMenu.include({

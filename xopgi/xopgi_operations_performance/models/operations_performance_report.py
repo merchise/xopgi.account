@@ -89,7 +89,8 @@ class OperationPerformanceReport(models.Model):
              CAST(DATE_PART('day', MIN(sale_order.send_date - crm_lead.create_date)) AS INTEGER) AS proposal_time,
              CAST(DATE_PART('day', MIN(sale_order.date_confirm - sale_order.send_date)) AS INTEGER) AS negotiation_time,
              CAST(DATE_PART('day', MIN(sale_order.date_confirm - crm_lead.create_date)) AS INTEGER) AS sale_time,
-             CAST(DATE_PART('day', MIN(account_invoice.date_invoice - sale_order.date_confirm::TIMESTAMP)) AS INTEGER) AS invoice_time
+             CAST(DATE_PART('day', MIN(account_invoice.date_invoice - sale_order.date_confirm::TIMESTAMP)) AS INTEGER)
+                AS invoice_time
             FROM
              public.crm_lead
             INNER JOIN
@@ -269,10 +270,14 @@ class CoordinationPerformanceReport(models.Model):
               purchase_order.partner_id,
               purchase_requisition.account_analytic_id,
               account_analytic_account.manager_id,
-              CAST(DATE_PART('day', purchase_requisition.call_date - purchase_requisition.create_date) AS INTEGER) AS planification_time,
-              CAST(DATE_PART('day', purchase_order.send_date - purchase_order.create_date) AS INTEGER) AS reserve_send_time,
-              CAST(DATE_PART('day', purchase_order.bid_date - purchase_order.send_date) AS INTEGER) AS supplier_response_time,
-              CAST(DATE_PART('day', purchase_order.date_approve - purchase_order.create_date) AS INTEGER) AS purchase_time
+              CAST(DATE_PART('day', purchase_requisition.call_date - purchase_requisition.create_date) AS INTEGER)
+                 AS planification_time,
+              CAST(DATE_PART('day', purchase_order.send_date - purchase_order.create_date) AS INTEGER)
+                 AS reserve_send_time,
+              CAST(DATE_PART('day', purchase_order.bid_date - purchase_order.send_date) AS INTEGER)
+                 AS supplier_response_time,
+              CAST(DATE_PART('day', purchase_order.date_approve - purchase_order.create_date) AS INTEGER)
+                 AS purchase_time
             FROM
               public.purchase_order
             LEFT OUTER JOIN

@@ -15,6 +15,7 @@
 from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
+
 from openerp import tools
 from openerp import fields, models
 
@@ -233,6 +234,7 @@ class OperationResultReport(models.Model):
              """)
 
 
+# FIXME: Misplaced.  'Coordinator' is not at the xopgi level.
 class CoordinationPerformanceReport(models.Model):
     _name = "xopgi_operations_performance.coordperf_report"
     _description = "Coordination Performance Statistics"

@@ -18,9 +18,17 @@
 
     "version": "1.0",
 
-    "depends": ["base", "account", "sale", "crm", "purchase_requisition",
-                "xhg_autrement_project_dossier",
-                "xopgi_account_analytic_enhancement"],
+    "depends": [
+        "base",
+        "account",
+        "sale",
+        "crm",
+        "purchase_requisition",
+
+        # FIXME: xopgi MUST NOT depend on xhg
+        "xhg_autrement_project_dossier",
+        "xopgi_account_analytic_enhancement"
+    ],
 
     "data": [
         "security/ir.model.access.csv",

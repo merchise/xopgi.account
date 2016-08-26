@@ -12,12 +12,12 @@ Distance Calculator Widget
 
 Allows users to know the distance between cities and places.
         """,
+    'depends': ['base', 'web'],
     'data': [
         'security/ir.model.access.csv',
         'views/distance_calculator.xml',
         "views/travel_routes.xml",
     ],
-    'depends': ['base', 'web'],
     'qweb': ['static/src/xml/distance_calculator.xml'],
     'application': False,
     'installable': (8, 0) <= ODOO_VERSION_INFO < (9, 0),   # noqa

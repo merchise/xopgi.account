@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-<t t-name="currency_rate.CurrencyRate">
+
+  <t t-name="currency_rate.CurrencyRate">
     <li t-att-title='_t("Display Currency Exchange Rate Converter")'>
       <a href="#" data-toggle="modal" data-target="#myModalCurrencyRate">
         <i id="oe_topbar_currency_rate_button_icon" class="fa fa-usd"/>
@@ -13,48 +14,49 @@
               <h4 class="modal-title" id="myModalLabel"><strong>Currency Exchange Rate Converter</strong></h4>
             </div>
             <div class="modal-body">
-                <div class="row">
-                  <div class="col-xs-5">
-                    <h5>Currency From:</h5>
-                    <div class="form-horizontal">
-                      <div class="form-group">
-                        <div class="col-xs-7">
-                          <input id="currency_from_amount" type="number" class="form-control currency_amount" placeholder="0.00"/>
-                        </div>
-                        <div class="col-xs-5">
-                          <select id="currency_from" class="form-control currency">
-                          </select>
-                        </div>
+              <div class="row">
+                <div class="col-xs-5">
+                  <h5>Currency From:</h5>
+                  <div class="form-horizontal">
+                    <div class="form-group">
+                      <div class="col-xs-7">
+                        <input id="currency_from_amount" type="number" class="form-control currency_amount" placeholder="0.00"/>
+                      </div>
+                      <div class="col-xs-5">
+                        <select id="currency_from" class="form-control currency">
+                        </select>
                       </div>
                     </div>
-                    <h4 class="label-info-currency-rate"><span class="label label-info currency_from_rate"></span></h4>
                   </div>
-                  <div class="col-xs-2">
-                    <br/>
-                    <div class="btn-money_exchange">
-                      <img class="img-money_exchange" src="/xopgi_currency_rate/static/src/img/money_exchange.png"/>
-                    </div>
-                  </div>
-                  <div class="col-xs-5">
-                    <h5>Currency To:</h5>
-                    <div class="form-horizontal">
-                      <div class="form-group">
-                        <div class="col-xs-7">
-                          <input id="currency_to_amount" type="number" class="form-control currency_amount" placeholder="0.00"/>
-                        </div>
-                        <div class="col-xs-5">
-                          <select id="currency_to" class="form-control currency">
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <h4 class="label-info-currency-rate"><span class="label label-info currency_to_rate"></span></h4>
+                  <h4 class="label-info-currency-rate"><span class="label label-info currency_from_rate"></span></h4>
+                </div>
+                <div class="col-xs-2">
+                  <br/>
+                  <div class="btn-money_exchange">
+                    <img class="img-money_exchange" src="/xopgi_currency_rate/static/src/img/money_exchange.png"/>
                   </div>
                 </div>
+                <div class="col-xs-5">
+                  <h5>Currency To:</h5>
+                  <div class="form-horizontal">
+                    <div class="form-group">
+                      <div class="col-xs-7">
+                        <input id="currency_to_amount" type="number" class="form-control currency_amount" placeholder="0.00"/>
+                      </div>
+                      <div class="col-xs-5">
+                        <select id="currency_to" class="form-control currency">
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <h4 class="label-info-currency-rate"><span class="label label-info currency_to_rate"></span></h4>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </li>
   </t>
+
 </templates>

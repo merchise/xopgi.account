@@ -8,6 +8,7 @@
 
     xopgi_currency_rate.CurrencyConverter = openerp.Widget.extend({
         template: "currency_rate.CurrencyRate",
+
         events: {
             "change input.currency_amount": "calculateAmount",
             "change select.currency": "updateRate",
@@ -47,6 +48,7 @@
                 self.loadData();
             }
         },
+
         init: function(parent) {
             this._super(parent);
             this.currencies = [];
@@ -55,7 +57,8 @@
             this.keydown_time = 0;
             this.days_before = 7;
         },
-        loadData: function () {
+
+        loadData: function() {
             var self = this;
 
             self.$("#currency_from_amount").val("");
@@ -64,25 +67,14 @@
             self.$("#currency_from").empty();
             self.$("#currency_to").empty();
 
-            var date_from = new Date(Date.now() - this.days_before * 24 * 60 * 60 * 1000);
+            var date_from = new Date(Date.now() - days_to_ms(this.days_before));
             var res_currency_rate = new openerp.web.Model("res.currency.rate");
             res_currency_rate.query(["currency_id", "rate", "name"])
-                .filter([["name", ">", date_from.getFullYear()+"-"+date_from.getMonth()+"-"+date_from.getDate()], ["rate", "!=", 1]])
-                .order_by("currency_id", "-name")
-                .all()
-                .then(function (currencies_rate) {
-                    var current_idcurrency="";
-                    _.each(currencies_rate, function(currency_rate) {
-                        if(current_idcurrency!=currency_rate.currency_id[0]){
-                            current_idcurrency=currency_rate.currency_id[0];
-                            self.$("#currency_from").append($('<option>', {value:self.currencies.length, text:currency_rate.currency_id[1]}));
-                            self.$("#currency_to").append($('<option>', {value:self.currencies.length, text:currency_rate.currency_id[1]}));
-                            self.currencies.push({idcurrency:current_idcurrency, currency:currency_rate.currency_id[1], rate:currency_rate.rate, date:currency_rate.name});
-                        }
-                    });
-            });
-            res_currency_rate.query(["currency_id", "rate", "name"])
-                .filter([["rate", "=", 1]])
+                .filter([
+                    '|',
+                    ["name", ">", date_from.getFullYear()+"-"+date_from.getMonth()+"-"+date_from.getDate()],
+                    ["rate", "=", 1]
+                ])
                 .order_by("currency_id", "-name")
                 .all()
                 .then(function (currencies_rate) {
@@ -112,6 +104,7 @@
             self.$(".currency_to_rate").text("1 " + self.currencies[id_currency_to].currency + " = " + self.toFixed(self.getInternalRate(self.currencies[id_currency_to].rate, self.currencies[id_currency_from].rate)) + " " + self.currencies[id_currency_from].currency);
             self.calculateAmount(eventObject);
         },
+
         calculateAmount: function(eventObject){
             var self = this;
             var id_currency_from = self.$("#currency_from").val();
@@ -124,6 +117,11 @@
             }
         }
     });
+
+    var days_to_ms = function(d) {
+        return d * 24 * 60 * 60 * 1000;
+
+    };
 
     if (openerp.web && openerp.web.UserMenu) {
         openerp.web.UserMenu.include({
@@ -140,4 +138,3 @@
 
     return xopgi_currency_rate;
 })();
-

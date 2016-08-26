@@ -15,7 +15,7 @@ Allows users to know the currency exchange an provide a converter with the laste
     'data': [
         'views/currency_rate.xml',
     ],
-    'depends': ['base', 'web'],
+    'depends': ['base', 'account', 'web'],
     'qweb': ['static/src/xml/currency_rate.xml'],
     'application': False,
     'installable': (8, 0) <= ODOO_VERSION_INFO < (9, 0),   # noqa

@@ -15,8 +15,6 @@
 	      <field name="ugl_gain_account_id"/>
 	      <field name="ugl_loss_account_id"/>
 	    </group>
-	    <group>
-	    </group>
 	  </group>
 	</div>
       </field>

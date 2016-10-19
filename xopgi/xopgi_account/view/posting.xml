@@ -11,8 +11,7 @@
 	res_model="xopgi.account.move.confirm"
 	src_model="account.move"
 	view_mode="form"
-	target="new"
-	view_type="form" />
+	target="new"/>
 
     <record id="xopgi_account_move_confirm" model="ir.ui.view">
       <field name="name">xopgi.account.move.confirm.form</field>

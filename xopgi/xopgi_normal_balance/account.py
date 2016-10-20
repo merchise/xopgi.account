@@ -70,7 +70,7 @@ class xopgi_account_account(Model):
 
     def _get_normal_balance(self, cr, uid, ids, field, args, context=None):
         '''Functional field gutter for ``normal_balance``.'''
-        from six import integer_types
+        from xoutil.eight import integer_types
         res = {}
         if isinstance(ids, integer_types):
             ids = [ids]

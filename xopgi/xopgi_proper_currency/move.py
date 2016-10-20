@@ -48,7 +48,7 @@ except ImportError:
         '''
         from openerp.osv.orm import browse_record
         from xoutil.collections import Mapping
-        from six import integer_types
+        from xoutil.eight import integer_types
         if isinstance(which, integer_types):
             return which
         elif isinstance(which, (Mapping, browse_record)):
@@ -140,7 +140,7 @@ class account_move_line(Model):
 
         '''
         from xoutil import Unset
-        from six import integer_types
+        from xoutil.eight import integer_types
         result = super(account_move_line, self).default_get(
             cr, uid, fields, context=context
         )

@@ -9,6 +9,7 @@ This module patches up several stuff we consider should be done otherwise in
 OpenERP.  These are not (or should not be) customizations specific to any
 business, but things that are general in any accounting setting.
 
+
 Summary of changes
 ------------------
 
@@ -24,11 +25,14 @@ Summary of changes
 Installation
 ============
 
+This package is prepared to be installed as a Python distribution, and run
+with `xoeuf <installation with xoeuf_>`__.
 
+In fact, several addons may use xoeuf's tools like `xoeuf.models`:mod:
+and `xoeuf.osv`:mod:.
 
-Several words of warning
-------------------------
+You may install these addons by copying them, but make sure that you have all
+the required packages installed as well (see the `setup.py` file).
 
-OpenERP's addons are not distributed like that, so ``python setup.py install``
-will not work as you may expect from other distributions, though we try hard
-to simulate its external behavior.
+.. note:: We use buildout to install our Odoo deployments, this and other
+          packages get installed like normal

@@ -69,7 +69,7 @@ class account_voucher(Model):
 
         '''
         from xoutil.objects import traverse
-        from six.moves import zip
+        from xoutil.eight import zip
         res = super(account_voucher, self).recompute_voucher_lines(
             cr, uid,
             ids, partner_id, journal_id, price,

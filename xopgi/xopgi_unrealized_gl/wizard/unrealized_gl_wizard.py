@@ -23,7 +23,7 @@ from __future__ import (division as _py3_division,
 from openerp import api, fields, models
 
 from xoeuf.osv.model_extensions import get_creator
-from xoeuf.osv.orm import UNLINKALL_RELATED, CREATE_RELATED
+from xoeuf.osv.orm import CREATE_RELATED
 
 from xoeuf.models import (
     AccountPeriod as Period,
@@ -154,12 +154,15 @@ class UnrealizedGLWizard(models.TransientModel):
         for adjustment in self.adjustments:
             gainloss = adjustment.gainloss
             if gainloss != 0.0:
+                sequence = self.journal_id.sequence_id
+                next_name = lambda: sequence.next_by_id(sequence.id)
                 account = adjustment.account
                 name = 'UGL: %s' % self.close_date
-                ref = 'AC: %s-%s' % (account.code, account.name)
+                ref = 'UGL for AC: %s-%s at %s' % (account.code, account.name,
+                                                   self.close_date)
                 with get_creator(Move) as creator:
                     creator.update(
-                        name=name,
+                        name=next_name(),
                         ref=ref,
                         journal_id=self.journal_id.id,
                         period_id=Period.find(dt=self.close_date).id,

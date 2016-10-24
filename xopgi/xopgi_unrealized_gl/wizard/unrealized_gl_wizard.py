@@ -23,7 +23,7 @@ from __future__ import (division as _py3_division,
 from openerp import api, fields, models
 
 from xoeuf.osv.model_extensions import get_creator
-from xoeuf.osv.orm import UNLINKALL_RELATED, CREATE_RELATED
+from xoeuf.osv.orm import CREATE_RELATED
 
 from xoeuf.models import (
     AccountPeriod as Period,

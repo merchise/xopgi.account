@@ -25,13 +25,23 @@ from openerp import api, fields, models
 from xoeuf.osv.model_extensions import get_creator
 from xoeuf.osv.orm import CREATE_RELATED
 
-from xoeuf.models import (
-    AccountPeriod as Period,
-    AccountMove as Move,
-    AccountAccount as Account,
-    ResCurrency as Currency,
-    DecimalPrecision,
-)
+try:
+    from xoeuf.models import (
+        AccountPeriod as Period,
+        AccountMove as Move,
+        AccountAccount as Account,
+        ResCurrency as Currency,
+        DecimalPrecision,
+    )
+except ImportError:
+    # xoeuf 0.7.0+
+    from xoeuf.models.proxy import (
+        AccountPeriod as Period,
+        AccountMove as Move,
+        AccountAccount as Account,
+        ResCurrency as Currency,
+        DecimalPrecision,
+    )
 
 
 def _get_valid_accounts(currency=None):

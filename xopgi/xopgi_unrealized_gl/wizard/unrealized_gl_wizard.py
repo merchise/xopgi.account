@@ -232,8 +232,12 @@ class Adjustment(models.TransientModel):
         for record in self:
             account = record.account
             close_date = record.wizard.close_date
-            data = account._account_account__compute(
+            # The 'l' alias in the SQL query refers to the move line.
+            data = account.with_context(state='posted')._account_account__compute(
                 field_names=('balance', 'foreign_balance'),
+                # Why do I need to filter line's date instead of the move's.
+                # Is this consistent with the Chart of Account report, and
+                # other reports?
                 query="l.date <= '" + close_date + "'"
             )
             get = lambda v: data[account.id][v]

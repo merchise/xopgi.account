@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # xopgi.xopgi_account.__openerp__
 # ---------------------------------------------------------------------
-# Copyright (c) 2013-2016 Merchise Autrement [~º/~]
+# Copyright (c) 2013-2017 Merchise Autrement [~º/~]
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -30,5 +30,5 @@
         'static/assets.xml',
     ],
     "application": False,
-    "installable": True,
+    "installable": (8, 0) <= ODOO_VERSION_INFO < (10, 0),   # noqa
 }

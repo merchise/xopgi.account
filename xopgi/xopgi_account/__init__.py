@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # xopgi.addons.account
 # ---------------------------------------------------------------------
-# Copyright (c) 2013-2016 Merchise Autrement [~º/~]
+# Copyright (c) 2013-2017 Merchise Autrement [~º/~]
 # All rights reserved.
 #
 #
@@ -13,9 +13,17 @@
 # @created: 2013-11-11
 # flake8:  noqa
 
-from openerp.release import version_info as ODOO_VERSION_INFO
+try:
+    from openerp.release import version_info as ODOO_VERSION_INFO
+except ImportError:
+    # This is Odoo 10+, but let's be able to get the ODOO_VERSION_INFO
+    from odoo.release import version_info as ODOO_VERSION_INFO
 
-from . import config
+
+if ODOO_VERSION_INFO < (10, 0):
+    # Not tested in Odoo 10
+    from . import config
+
 
 if ODOO_VERSION_INFO < (9, 0):
     # The Chart of Accounts wizard no longer exists in Odoo 9.
@@ -27,9 +35,11 @@ if ODOO_VERSION_INFO < (9, 0):
     from . import voucher
     from . import misc
 
-from . import invoice
-from . import multicompanyitem
-from . import currency
-from . import post
-from . import reconcile
-from . import analytic
+if ODOO_VERSION_INFO < (10, 0):
+    # Not tested in Odoo 10
+    from . import invoice
+    from . import multicompanyitem
+    from . import currency
+    from . import post
+    from . import reconcile
+    from . import analytic

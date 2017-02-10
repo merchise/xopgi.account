@@ -43,3 +43,4 @@ if ODOO_VERSION_INFO < (10, 0):
     from . import post
     from . import reconcile
     from . import analytic
+    from . import track

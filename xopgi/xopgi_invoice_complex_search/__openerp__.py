@@ -19,6 +19,8 @@
      - partner_id.tag
     """,
 
+    'data': ['views/invoice.xml'],
+
     'installable': (8, 0) <= ODOO_VERSION_INFO < (9, 0),   # noqa
 
 }

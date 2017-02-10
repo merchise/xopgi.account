@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+     <record id="view_account_invoice_filter_tags" model="ir.ui.view">
+      <field name="name">account.invoice.filter.tags</field>
+      <field name="model">account.invoice</field>
+       <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+       <field name="arch" type="xml">
+         <xpath expr="//field[@name='partner_id']"
+               position="after">
+           <field name="partner_tags" string="Partner Tags"/>
+        </xpath>
+       </field>
+    </record>
+  </data>
+</openerp>

@@ -16,11 +16,11 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _absolute_import)
 
-from openerp.osv.orm import TransientModel
+from openerp import api, models
 from openerp.release import version_info as ODOO_VERSION_INFO
 
 
-class account_invoice_refund(TransientModel):
+class account_invoice_refund(models.TransientModel):
     '''An invoice refund.
 
     Restricts the journals to those belonging to the selected company.
@@ -28,26 +28,24 @@ class account_invoice_refund(TransientModel):
     '''
     _inherit = 'account.invoice.refund'
 
-    def fields_view_get(self, cr, uid, view_id=None, view_type=False,
-                        context=None, toolbar=False, submenu=False):
+    @api.model
+    def fields_view_get(self, view_id=None, view_type=False, toolbar=False,
+                        submenu=False):
         '''The ORM calls this method when the view is being shown.'''
-        context = context or {}
+        context = self.env.context or {}
         _super = super(account_invoice_refund, self).fields_view_get
-        res = _super(cr, uid,
-                     view_id=view_id, view_type=view_type, context=context,
-                     toolbar=toolbar, submenu=submenu)
+        res = _super(view_id=view_id, view_type=view_type, toolbar=toolbar,
+                     submenu=submenu)
         if ODOO_VERSION_INFO < (9, 0):
             # TODO: Verify if this is needed in Odoo 9.  This only applicable
             # for multi-company scenarios.
-            journal = self.pool.get('account.journal')
+            journal = self.env['account.journal']
             company_id = context.get('invoice_company_id', False)
             journals = res['fields'].get('journal_id', {})
             if company_id and journals:
                 def current_company_journal(item):
                     journal_id, _name = item
-                    cpn = journal.browse(
-                        cr, uid, journal_id, context=context
-                    ).company_id
+                    cpn = journal.browse(journal_id).company_id
                     return cpn.id == company_id
                 journals['selection'] = filter(current_company_journal,
                                                journals['selection'])

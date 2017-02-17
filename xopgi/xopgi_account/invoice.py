@@ -16,7 +16,7 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _absolute_import)
 
-from openerp import api, models
+from openerp import api, models, fields
 from openerp.release import version_info as ODOO_VERSION_INFO
 
 
@@ -50,3 +50,15 @@ class account_invoice_refund(models.TransientModel):
                 journals['selection'] = filter(current_company_journal,
                                                journals['selection'])
         return res
+
+
+class Invoice(models.Model):
+    '''An account invoice.
+
+    Parent's agency field and use it in search view.
+
+    '''
+    _inherit = 'account.invoice'
+
+    partner_company = fields.Many2one(related='partner_id.parent_id',
+                                      string="Partner's Company", store=True)

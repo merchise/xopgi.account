@@ -291,9 +291,15 @@
         <field name="number" position="after">
           <field name="name"/>
         </field>
+        <field name="partner_id" position="after">
+          <field name="partner_company"/>
+        </field>
         <filter string="Partner" position="before" >
           <filter string="Reference / Description" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
           <filter string="Origin" icon="terp-partner" domain="[]" context="{'group_by':'origin'}"/>
+        </filter>
+        <filter string="Partner" position="after" >
+          <filter string="Partner's Company" icon="terp-partner" domain="[]" context="{'group_by':'partner_company'}"/>
         </filter>
       </field>
     </record>

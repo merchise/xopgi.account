@@ -341,3 +341,9 @@ msgstr "{'invoice_company_id': company_id}"
 #: view:account.invoice:xopgi_account.xopgi_account_invoice_form
 msgid "{'type': type, 'force_company': company_id}"
 msgstr "{'type': type, 'force_company': company_id}"
+
+#. module: xopgi_account
+#: view:account.invoice:xopgi_account.xopgi_view_account_invoice_filter
+#: field:account.invoice,partner_agency:0
+msgid "Partner's Company"
+msgstr "Compañía del Contacto"

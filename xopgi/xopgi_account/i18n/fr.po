@@ -234,3 +234,9 @@ msgstr "Aggregate"
 #, fuzzy
 msgid "Journal"
 msgstr "Journal"
+
+#. module: xopgi_account
+#: view:account.invoice:xopgi_account.xopgi_view_account_invoice_filter
+#: field:account.invoice,partner_agency:0
+msgid "Partner's Company"
+msgstr "Société du Partenaire"

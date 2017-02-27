@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <record id="invoice_supplier_form" model="ir.ui.view">
+      <field name="name">xopgi_account_celery.supplier.form</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account.invoice_supplier_form"/>
+      <field name="arch" type="xml">
+        <xpath expr='//button[@name="invoice_open"]' position='attributes'>
+          <attribute name="name">invoice_open_with_celery</attribute>
+          <attribute name="type">object</attribute>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="invoice_form" model="ir.ui.view">
+      <field name="name">xopgi_account_celery.invoice.form</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account.invoice_form"/>
+      <field name="arch" type="xml">
+        <xpath expr='//button[@name="invoice_open"]' position='attributes'>
+          <attribute name="name">invoice_open_with_celery</attribute>
+          <attribute name="type">object</attribute>
+        </xpath>
+      </field>
+    </record>
+
+  </data>
+</openerp>

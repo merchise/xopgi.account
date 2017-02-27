@@ -26,5 +26,18 @@
       </field>
     </record>
 
+
+    <record id="account_invoice_confirm_view" model="ir.ui.view">
+      <field name="name">xopgi_account_celery.invoice.confirm.view</field>
+      <field name="model">account.invoice.confirm</field>
+      <field name="inherit_id" ref="account.account_invoice_confirm_view"/>
+      <field name="arch" type="xml">
+        <xpath expr='//button[@name="invoice_confirm"]' position='attributes'>
+          <attribute name="name">invoice_confirm_with_celery</attribute>
+          <attribute name="type">object</attribute>
+        </xpath>
+      </field>
+    </record>
+
   </data>
 </openerp>

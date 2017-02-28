@@ -53,8 +53,8 @@ setup(name=project_name,
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'xoeuf>=0.6.6dev20161014,<0.7.1',
-          'xoutil>=1.7.1,<1.8',
+          'xoeuf>=0.7.0,<0.7.2',
+          'xoutil>=1.7.3,<1.8',
       ],
       entry_points="""
       [xoeuf.addons]

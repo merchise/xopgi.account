@@ -16,7 +16,7 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-from xoeuf.ui import RELOAD_UI, CLOSE_WINDOW
+from xoeuf.ui import CLOSE_WINDOW
 
 try:
     from odoo import models, api, _
@@ -28,6 +28,15 @@ except ImportError:
     from openerp.jobs import Deferred, report_progress, until_timeout
     from openerp.addons.web_celery import WAIT_FOR_TASK
     from openerp.exceptions import ValidationError
+
+
+try:
+    from odoo.addons.web_celery import CLOSE_PROGRESS_BAR
+except ImportError:
+    try:
+        from openerp.addons.web_celery import CLOSE_PROGRESS_BAR
+    except ImportError:
+        CLOSE_PROGRESS_BAR = None
 
 
 class ValidateInvoice(models.Model):
@@ -63,7 +72,7 @@ class ValidateInvoice(models.Model):
         if not res and any(self):
             raise ValidationError(_("No invoice could be validated"))
         else:
-            return RELOAD_UI
+            return CLOSE_PROGRESS_BAR
 
 
 class ConfirmInvoices(models.TransientModel):

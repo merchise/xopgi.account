@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # account_analytic_account
 # ---------------------------------------------------------------------
-# Copyright (c) 2015-2016 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) 2015-2017 Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -17,6 +17,7 @@ from __future__ import (division as _py3_division,
                         absolute_import as _py3_abs_import)
 
 from xoutil import Unset
+from xoutil.context import Context
 
 from openerp import api, fields, models
 from openerp.exceptions import ValidationError
@@ -282,10 +283,11 @@ class AccountAnalyticAccount(models.Model):
 
     # TODO: Ensure only groups='base.group_sale_manager' can update the
     # commission margins.  So far, only the goodwill of ignorance may save us.
-
     @api.depends('line_ids')
     def _compute_invoiced(self):
-        for record in self:
+        context = Context[AVOID_LENGTHY_COMPUTATION]
+        context_accounts = context.get('accounts', [])
+        for record in self.filtered(lambda r: r not in context_accounts):
             invoiced = expended = undefined = 0
             for line in record.line_ids:
                 if line.move_id and line.move_id.invoice:
@@ -310,7 +312,9 @@ class AccountAnalyticAccount(models.Model):
 
     @api.depends("type", "line_ids.invoice_id.user_id.name")
     def _compute_primary_salesperson(self):
-        for record in self:
+        context = Context[AVOID_LENGTHY_COMPUTATION]
+        context_accounts = context.get('accounts', [])
+        for record in self.filtered(lambda r: r not in context_accounts):
             if record.type != "contract":
                 record.primary_salesperson_id = False
             else:
@@ -390,3 +394,31 @@ class AccountAnalyticAccount(models.Model):
 
 def raise_validation_error(*fields):
     raise ValidationError('Invalid value for field(s) %r', fields)
+
+
+# Context that avoids computing the invoiced and comission for each line added
+# to the analytic account.  We use it when creating the analitic account lines
+# to wrap the whole process.
+AVOID_LENGTHY_COMPUTATION = object()
+
+
+class MoveLine(models.Model):
+    _name = _inherit = 'account.move.line'
+
+    @api.multi
+    def create_analytic_lines(self):
+        accounts = self.env['account.analytic.account']
+        # If, for any unforeseen reason, we get to this point recursively, add
+        # the accounts from our parent context with the accounts we're going
+        # to touch.
+        context = Context[AVOID_LENGTHY_COMPUTATION]
+        if context:
+            accounts = context.get('accounts', accounts)
+        new_accounts = self.mapped('analytic_account_id') - accounts
+        accounts |= new_accounts
+        with Context(AVOID_LENGTHY_COMPUTATION, accounts=accounts):
+            res = super(MoveLine, self).create_analytic_lines()
+        for account in new_accounts:
+            account._compute_invoiced()
+            account._compute_primary_salesperson()
+        return res

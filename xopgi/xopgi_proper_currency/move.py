@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # xopgi.xopgi.xopgi_account.move
 # ---------------------------------------------------------------------
-# Copyright (c) 2013-2016 Merchise Autrement [~º/~]
+# Copyright (c) 2013-2017 Merchise Autrement [~º/~]
 # All rights reserved.
 #
 #
@@ -115,7 +115,10 @@ class account_move_line(Model):
            to be returned.
 
         '''
-        from xoutil import Unset
+        try:
+            from xoutil.symbols import Unset
+        except ImportError:
+            from xoutil import Unset
         from xoutil.eight import integer_types
         result = super(account_move_line, self).default_get(
             cr, uid, fields, context=context
@@ -147,7 +150,10 @@ class account_move_line(Model):
         return result
 
     def _calc_currency_debit_credit(self, obj, fields=None):
-        from xoutil.collections import opendict
+        try:
+            from xoutil.future.collections import opendict
+        except ImportError:
+            from xoutil.collections import opendict
         if not fields:
             fields = ('currency_debit', 'currency_credit')
         result = opendict.fromkeys(fields, 0)

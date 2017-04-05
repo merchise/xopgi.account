@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # xopgi.xopgi.xopgi_account.move
 # ---------------------------------------------------------------------
-# Copyright (c) 2013-2016 Merchise Autrement [~º/~]
+# Copyright (c) 2013-2017 Merchise Autrement [~º/~]
 # All rights reserved.
 #
 #
@@ -32,31 +32,7 @@ import openerp.addons.account.account_move_line as base_move_line
 from xoutil.names import nameof
 
 from xoeuf.osv.orm import get_modelname, store_identity
-
-
-try:
-    from xoeuf.osv.orm import guess_id  # migrate
-except ImportError:
-    def guess_id(which, attr='id'):
-        '''Guess the id of an object.
-
-        If `which` is an integer, it is returned unchanged.  If it is a dict
-        or a browse_record the attribute/key given by `attr` is look up and
-        return.  If not found an AttibuteError is raised.  Any other type is a
-        TypeError.
-
-        '''
-        from openerp.osv.orm import browse_record
-        from xoutil.collections import Mapping
-        from xoutil.eight import integer_types
-        if isinstance(which, integer_types):
-            return which
-        elif isinstance(which, (Mapping, browse_record)):
-            from xoutil.objects import smart_getter
-            get = smart_getter(which, strict=True)
-            return get(attr)
-        else:
-            raise TypeError
+from xoeuf.osv.orm import guess_id
 
 
 def _convert(self, cr, uid, value, date, from_currency, to_currency,
@@ -139,7 +115,10 @@ class account_move_line(Model):
            to be returned.
 
         '''
-        from xoutil import Unset
+        try:
+            from xoutil.symbols import Unset
+        except ImportError:
+            from xoutil import Unset
         from xoutil.eight import integer_types
         result = super(account_move_line, self).default_get(
             cr, uid, fields, context=context
@@ -171,7 +150,10 @@ class account_move_line(Model):
         return result
 
     def _calc_currency_debit_credit(self, obj, fields=None):
-        from xoutil.collections import opendict
+        try:
+            from xoutil.future.collections import opendict
+        except ImportError:
+            from xoutil.collections import opendict
         if not fields:
             fields = ('currency_debit', 'currency_credit')
         result = opendict.fromkeys(fields, 0)

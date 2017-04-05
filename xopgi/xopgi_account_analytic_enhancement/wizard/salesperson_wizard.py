@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # salesperson_wizard
 # ---------------------------------------------------------------------
-# Copyright (c) 2015-2016 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) 2015-2017 Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -17,10 +17,15 @@ from __future__ import (division as _py3_division,
 
 import logging
 from datetime import date
-from xoutil.string import safe_decode
+try:
+    from xoutil.future.string import safe_decode
+except ImportError:
+    from xoutil.string import safe_decode
 
-from openerp import api, fields, models
-from openerp.tools.translate import _
+try:
+    from odoo import api, fields, models, _
+except ImportError:
+    from openerp import api, fields, models, _
 
 
 class PrimaryInstructorWizard(models.TransientModel):

@@ -21,22 +21,26 @@ from xoeuf.ui import CLOSE_WINDOW
 try:
     from odoo import models, api, _
     from odoo.jobs import Deferred, report_progress, until_timeout
-    from odoo.addons.web_celery import WAIT_FOR_TASK
     from odoo.exceptions import ValidationError
 except ImportError:
     from openerp import models, api, _
     from openerp.jobs import Deferred, report_progress, until_timeout
-    from openerp.addons.web_celery import WAIT_FOR_TASK
+
     from openerp.exceptions import ValidationError
 
-
 try:
-    from odoo.addons.web_celery import CLOSE_PROGRESS_BAR
+    from odoo.addons import web_celery
+    from odoo.addons.web_celery import WAIT_FOR_TASK
 except ImportError:
-    try:
-        from openerp.addons.web_celery import CLOSE_PROGRESS_BAR
-    except ImportError:
-        CLOSE_PROGRESS_BAR = None
+    from openerp.addons import web_celery
+    from openerp.addons.web_celery import WAIT_FOR_TASK
+
+QUIETLY_WAIT_FOR_TASK = getattr(
+    web_celery,
+    'QUIETLY_WAIT_FOR_TASK',
+    WAIT_FOR_TASK
+)
+CLOSE_PROGRESS_BAR = getattr(web_celery, 'CLOSE_FEEDBACK', None)
 
 
 class ValidateInvoice(models.Model):
@@ -44,7 +48,7 @@ class ValidateInvoice(models.Model):
 
     @api.multi
     def invoice_open_with_celery(self):
-        return WAIT_FOR_TASK(Deferred(self._do_validate))
+        return QUIETLY_WAIT_FOR_TASK(Deferred(self._do_validate))
 
     @api.multi
     def _do_validate(self):

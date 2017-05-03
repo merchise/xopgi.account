@@ -425,3 +425,25 @@ class MoveLine(models.Model):
             account._compute_invoiced()
             account._compute_primary_salesperson()
         return res
+
+
+class AccountMove(models.Model):
+    _inherit = 'account.move'
+
+    @api.multi
+    def unlink(self):
+        # It seems that the @api.depends in our code above it's not being
+        # properly triggered by Odoo when the account line is being removed in
+        # cascade. THIS NEEDS TO BE CONFIRMED.
+        #
+        # So, we collect all affected analytic accounts to touch them later.
+        accounts = [
+            line.account_id
+            for record in self
+            for move_line in record.line_id
+            for line in move_line.analytic_lines
+        ]
+        res = super(AccountMove, self).unlink()
+        for account in accounts:
+            account._compute_invoiced()
+        return res

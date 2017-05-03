@@ -44,43 +44,6 @@
       </field>
     </record>
 
-
-    <record id="account_analytic_account_view__tree" model="ir.ui.view">
-      <field name="name">account.analytic.account.tree</field>
-      <field name="model">account.analytic.account</field>
-      <field name="field_parent">child_complete_ids</field>
-      <field name="arch" type="xml">
-        <tree create="false" edit="false"
-              default_order='date_start desc'
-              colors="green:supplier_invoice_id!=False;blue:state=='pending';grey:state in ('close','cancelled')"
-              string="Analytic account" toolbar="1">
-          <field name="name" invisible="1"/>
-          <field name="complete_name"/>
-          <field name="invoiced" sum="Invoiced"/>
-          <field name="expended" sum="Expended"/>
-
-          <field name="self_balance" sum="Total Balance"/>
-
-          <field name="percentage_margin"/>
-          <field name="percentage_commission"/>
-          <field name="commission" sum="Total Commission"/>
-          <field name="currency_id"
-                 groups="base.group_multi_currency"/>
-          <field name="state" invisible="1"/>
-          <field name="date"/>
-          <field name="primary_salesperson_id"/>
-          <field name="user_id" invisible="1"/>
-          <field name="partner_id" invisible="1"/>
-          <field name="parent_id" invisible="1"/>
-          <field name="type" invisible="1"/>
-          <field name="company_id"
-                 groups="base.group_multi_company"/>
-          <field name="template_id" invisible="1"/>
-          <field name="supplier_invoice_id" invisible="1"/>
-        </tree>
-      </field>
-    </record>
-
     <record id="contract_view_tree" model="ir.ui.view">
       <field name="name">account.analytic.account.contract.tree</field>
       <field name="model">account.analytic.account</field>
@@ -174,16 +137,5 @@
       </field>
     </record>
 
-    <act_window id="account_analytic_account_operation_action"
-                name="Commissions"
-                res_model="account.analytic.account"
-                view_mode="tree"
-                view_id="account_analytic_account_view__tree"
-                domain="[('type', '=', 'contract')]"/>
-
-    <!--<menuitem id="account_analytic_account_action" name="Commissions"-->
-              <!--action="account_analytic_account_operation_action"-->
-              <!--parent="base.menu_sales"-->
-              <!--sequence="100"/>-->
   </data>
 </openerp>

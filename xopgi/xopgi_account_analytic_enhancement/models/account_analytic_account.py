@@ -410,16 +410,13 @@ class MoveLine(models.Model):
 
     @api.multi
     def create_analytic_lines(self):
-        accounts = self.env['account.analytic.account']
         # If, for any unforeseen reason, we get to this point recursively, add
         # the accounts from our parent context with the accounts we're going
         # to touch.
         context = Context[AVOID_LENGTHY_COMPUTATION]
-        if context:
-            accounts = context.get('accounts', accounts)
+        accounts = context.get('accounts', self.env['account.analytic.account'])
         new_accounts = self.mapped('analytic_account_id') - accounts
-        accounts |= new_accounts
-        with Context(AVOID_LENGTHY_COMPUTATION, accounts=accounts):
+        with Context(AVOID_LENGTHY_COMPUTATION, accounts=accounts | new_accounts):
             res = super(MoveLine, self).create_analytic_lines()
         for account in new_accounts:
             account._compute_invoiced()

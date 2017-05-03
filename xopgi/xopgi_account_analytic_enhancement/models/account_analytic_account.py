@@ -410,18 +410,37 @@ class MoveLine(models.Model):
 
     @api.multi
     def create_analytic_lines(self):
-        accounts = self.env['account.analytic.account']
         # If, for any unforeseen reason, we get to this point recursively, add
         # the accounts from our parent context with the accounts we're going
         # to touch.
         context = Context[AVOID_LENGTHY_COMPUTATION]
-        if context:
-            accounts = context.get('accounts', accounts)
+        accounts = context.get('accounts', self.env['account.analytic.account'])
         new_accounts = self.mapped('analytic_account_id') - accounts
-        accounts |= new_accounts
-        with Context(AVOID_LENGTHY_COMPUTATION, accounts=accounts):
+        with Context(AVOID_LENGTHY_COMPUTATION, accounts=accounts | new_accounts):
             res = super(MoveLine, self).create_analytic_lines()
         for account in new_accounts:
             account._compute_invoiced()
             account._compute_primary_salesperson()
+        return res
+
+
+class AccountMove(models.Model):
+    _inherit = 'account.move'
+
+    @api.multi
+    def unlink(self):
+        # It seems that the @api.depends in our code above it's not being
+        # properly triggered by Odoo when the account line is being removed in
+        # cascade. THIS NEEDS TO BE CONFIRMED.
+        #
+        # So, we collect all affected analytic accounts to touch them later.
+        accounts = {
+            line.account_id
+            for record in self
+            for move_line in record.line_id
+            for line in move_line.analytic_lines
+        }
+        res = super(AccountMove, self).unlink()
+        for account in accounts:
+            account._compute_invoiced()
         return res

@@ -434,13 +434,7 @@ class AccountMove(models.Model):
         # cascade. THIS NEEDS TO BE CONFIRMED.
         #
         # So, we collect all affected analytic accounts to touch them later.
-        accounts = {
-            line.account_id
-            for record in self
-            for move_line in record.line_id
-            for line in move_line.analytic_lines
-        }
+        accounts = self.mapped('line_id.analytic_lines.account_id')
         res = super(AccountMove, self).unlink()
-        for account in accounts:
-            account._compute_invoiced()
+        accounts._compute_invoiced()
         return res

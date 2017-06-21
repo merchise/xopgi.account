@@ -22,7 +22,7 @@ except ImportError:
     from xoutil import Unset
 from xoutil.context import Context
 
-from openerp import api, fields, models
+from xoeuf import api, fields, models
 from openerp.exceptions import ValidationError
 
 from openerp.addons.decimal_precision import decimal_precision as dp

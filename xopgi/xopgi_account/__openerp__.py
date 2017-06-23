@@ -21,13 +21,13 @@
     "description": "Accounting",
     "depends": ['account_accountant', 'analytic', 'account', ],
     "data": [
-        'view/config.xml',
-        'view/company.xml',
-        'view/account.xml',
-        'view/filters.xml',
-        'view/posting.xml',
-        'view/reconcile.xml',
-        'static/assets.xml',
+        'view/%d/config.xml' % ODOO_VERSION_INFO[0],  # noqa
+        'view/%d/company.xml' % ODOO_VERSION_INFO[0],  # noqa
+        'view/%d/account.xml' % ODOO_VERSION_INFO[0],  # noqa
+        'view/%d/filters.xml' % ODOO_VERSION_INFO[0],  # noqa
+        'view/%d/posting.xml' % ODOO_VERSION_INFO[0],  # noqa
+        'view/%d/reconcile.xml' % ODOO_VERSION_INFO[0],  # noqa
+        'static/%d/assets.xml' % ODOO_VERSION_INFO[0],  # noqa
     ],
     "application": False,
     "installable": (8, 0) <= ODOO_VERSION_INFO < (10, 0),   # noqa

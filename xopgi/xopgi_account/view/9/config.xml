@@ -17,10 +17,6 @@
               <label for="module_xopgi_proper_currency"/>
             </div>
             <div>
-              <field name="module_xopgi_holdings" class="oe_inline"/>
-              <label for="module_xopgi_holdings"/>
-            </div>
-            <div>
               <field name="module_xopgi_account_report"
                      class="oe_inline"/>
               <label for="module_xopgi_account_report"/>

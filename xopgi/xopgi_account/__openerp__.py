@@ -21,14 +21,14 @@
     "description": "Accounting",
     "depends": ['account_accountant', 'analytic', 'account', ],
     "data": [
-        'view/%d/config.xml' % ODOO_VERSION_INFO[0],  # noqa
-        'view/%d/company.xml' % ODOO_VERSION_INFO[0],  # noqa
-        'view/%d/account.xml' % ODOO_VERSION_INFO[0],  # noqa
-        'view/%d/filters.xml' % ODOO_VERSION_INFO[0],  # noqa
-        'view/%d/posting.xml' % ODOO_VERSION_INFO[0],  # noqa
-        'view/%d/reconcile.xml' % ODOO_VERSION_INFO[0],  # noqa
-        'static/%d/assets.xml' % ODOO_VERSION_INFO[0],  # noqa
+        'view/%d/config.xml' % MAJOR_ODOO_VERSION,  # noqa
+        'view/%d/company.xml' % MAJOR_ODOO_VERSION,  # noqa
+        'view/%d/account.xml' % MAJOR_ODOO_VERSION,  # noqa
+        'view/%d/filters.xml' % MAJOR_ODOO_VERSION,  # noqa
+        'view/%d/posting.xml' % MAJOR_ODOO_VERSION,  # noqa
+        'view/%d/reconcile.xml' % MAJOR_ODOO_VERSION,  # noqa
+        'static/%d/assets.xml' % MAJOR_ODOO_VERSION,  # noqa
     ],
     "application": False,
-    "installable": (8, 0) <= ODOO_VERSION_INFO < (10, 0),   # noqa
+    "installable": 8 <= MAJOR_ODOO_VERSION < 10,   # noqa
 }

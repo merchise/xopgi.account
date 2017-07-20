@@ -16,39 +16,29 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-from xoeuf.ui import CLOSE_WINDOW
+from xoeuf import models, api, MAJOR_ODOO_VERSION
+from xoeuf.odoo import _
+from xoeuf.odoo.jobs import report_progress, until_timeout
+from xoeuf.odoo.exceptions import ValidationError
 
-try:
-    from odoo import models, api, _
-    from odoo.jobs import Deferred, report_progress, until_timeout
-    from odoo.exceptions import ValidationError
-except ImportError:
-    from openerp import models, api, _
-    from openerp.jobs import Deferred, report_progress, until_timeout
+from .base import CLOSE_PROGRESS_BAR
 
-    from openerp.exceptions import ValidationError
+# The only difference of any importance to us between Odoo 8 and Odoo 9, is
+# how to get the invoice's lines.
+if MAJOR_ODOO_VERSION == 8:
+    def get_lines(invoice):
+        return invoice.invoice_line
 
-try:
-    from odoo.addons import web_celery
-    from odoo.addons.web_celery import WAIT_FOR_TASK
-except ImportError:
-    from openerp.addons import web_celery
-    from openerp.addons.web_celery import WAIT_FOR_TASK
+elif MAJOR_ODOO_VERSION == 9:
+    def get_lines(invoice):
+        return invoice.invoice_line_ids
 
-QUIETLY_WAIT_FOR_TASK = getattr(
-    web_celery,
-    'QUIETLY_WAIT_FOR_TASK',
-    WAIT_FOR_TASK
-)
-CLOSE_PROGRESS_BAR = getattr(web_celery, 'CLOSE_FEEDBACK', None)
+else:
+    raise NotImplemented
 
 
 class ValidateInvoice(models.Model):
     _inherit = _name = 'account.invoice'
-
-    @api.multi
-    def invoice_open_with_celery(self):
-        return QUIETLY_WAIT_FOR_TASK(Deferred(self._do_validate))
 
     @api.multi
     def _do_validate(self):
@@ -61,7 +51,7 @@ class ValidateInvoice(models.Model):
                 valuemin=0,
                 valuemax=len(self)
             )
-            records = self.sorted(lambda invoice: len(invoice.invoice_line))
+            records = self.sorted(lambda invoice: len(get_lines(invoice)))
             for progress, record in enumerate(records):
                 report_progress(progress=progress)
                 with self.env.cr.savepoint():
@@ -77,18 +67,3 @@ class ValidateInvoice(models.Model):
             raise ValidationError(_("No invoice could be validated"))
         else:
             return CLOSE_PROGRESS_BAR
-
-
-class ConfirmInvoices(models.TransientModel):
-    _name = _inherit = 'account.invoice.confirm'
-
-    @api.multi
-    def invoice_confirm_with_celery(self):
-        invoice_ids = self.env.context.get('active_ids', []) or []
-        invoices = self.env['account.invoice'].browse(invoice_ids).filtered(
-            lambda invoice: invoice.state in ('draft', 'proforma', 'proforma2')
-        )
-        if any(invoices):
-            return invoices.invoice_open_with_celery()
-        else:
-            return CLOSE_WINDOW

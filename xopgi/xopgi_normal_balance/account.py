@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # xopgi_normal_balance.account
 # ---------------------------------------------------------------------
-# Copyright (c) 2014-2016 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) 2014-2017 Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -18,22 +18,17 @@ from __future__ import (division as _py3_division,
                         absolute_import as _py3_abs_import)
 
 
-from openerp.osv import fields
-from openerp.osv.orm import Model
-
-import openerp.addons.account as base_account
-
-from xoeuf.osv.orm import get_modelname
+from xoeuf import fields, models, api
 
 
-DEBIT_NORMAL_BALANCE = str('debit')
-CREDIT_NORMAL_BALANCE = str('credit')
+DEBIT_NORMAL_BALANCE = 'debit'
+CREDIT_NORMAL_BALANCE = 'credit'
 
-DEBIT_BALANCE_ACCOUNTS = (str('asset'), str('expense'))
-CREDIT_BALANCE_ACCOUNTS = (str('liability'), str('income'), str('equity'))
+DEBIT_BALANCE_ACCOUNTS = ('asset', 'expense')
+CREDIT_BALANCE_ACCOUNTS = ('liability', 'income', 'equity')
 
 
-class xopgi_account_account(Model):
+class Account(models.Model):
     '''Add the field ``normal_balance`` to manage account's Normal balance.
 
     In the `double-entry bookkeeping system`_, an account has either «credit»
@@ -65,33 +60,28 @@ class xopgi_account_account(Model):
     - "credit" for liabilities, equity and income.
 
     '''
-    _name = get_modelname(base_account.account.account_account)
-    _inherit = _name
+    _inherit = 'account.account'
 
-    def _get_normal_balance(self, cr, uid, ids, field, args, context=None):
-        '''Functional field gutter for ``normal_balance``.'''
-        from xoutil.eight import integer_types
-        res = {}
-        if isinstance(ids, integer_types):
-            ids = [ids]
-        for account in self.browse(cr, uid, ids, context=context):
+    @api.multi
+    def _get_normal_balance(self):
+        '''Functional field getter for ``normal_balance``.'''
+        for account in self:
             if account.user_type.report_type in DEBIT_BALANCE_ACCOUNTS:
-                res[account.id] = DEBIT_NORMAL_BALANCE
+                account.normal_balance = DEBIT_NORMAL_BALANCE
             elif account.user_type.report_type in CREDIT_BALANCE_ACCOUNTS:
-                res[account.id] = CREDIT_NORMAL_BALANCE
+                account.normal_balance = CREDIT_NORMAL_BALANCE
             else:
-                res[account.id] = False
-        return res
+                account.normal_balance = ''
 
-    _columns = {
-        str('normal_balance'):
-            fields.function(
-                _get_normal_balance, method=True, type='char',
-                size=64, string='Normal balance', store=True,
-                help='Identifies the normal balance of the '
-                'account.  An account has either "credit" or '
-                '"debit" normal balance.  An account with '
-                'credit normal balance increases its value '
-                'by credits; an account with debit normal balance '
-                'increases its value by debits.'),
-    }
+    normal_balance = fields.Char(
+        compute=_get_normal_balance,
+        size=64,
+        string='Normal balance',
+        store=True,
+        help=('Identifies the normal balance of the '
+              'account.  An account has either "credit" or '
+              '"debit" normal balance.  An account with '
+              'credit normal balance increases its value '
+              'by credits; an account with debit normal balance '
+              'increases its value by debits.')
+    )

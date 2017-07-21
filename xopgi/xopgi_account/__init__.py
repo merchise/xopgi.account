@@ -34,7 +34,6 @@ if MAJOR_ODOO_VERSION < 9:
 if MAJOR_ODOO_VERSION < 10:
     # Not tested in Odoo 10
     from . import invoice
-    from . import multicompanyitem
     from . import currency
     from . import post
     from . import reconcile

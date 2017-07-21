@@ -16,8 +16,8 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-from xoeuf import ODOO_VERSION_INFO
+from xoeuf import MAJOR_ODOO_VERSION
 
-if ODOO_VERSION_INFO < (10, 0):
+if MAJOR_ODOO_VERSION < 10:
     from . import models  # noqa
     from . import wizard  # noqa

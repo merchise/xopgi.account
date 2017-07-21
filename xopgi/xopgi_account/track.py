@@ -16,9 +16,9 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-from xoeuf import api, models, ODOO_VERSION_INFO
+from xoeuf import api, models, MAJOR_ODOO_VERSION
 
-if (8, 0) <= ODOO_VERSION_INFO < (9, 0):
+if 8 <= MAJOR_ODOO_VERSION < 9:
     TRACK_FIELDS = (
         'property_account_receivable',
         'property_account_payable',
@@ -26,7 +26,7 @@ if (8, 0) <= ODOO_VERSION_INFO < (9, 0):
         'property_payment_term',
         'property_supplier_payment_term',
     )
-elif (9, 0) <= ODOO_VERSION_INFO < (11, 0):
+elif 9 <= MAJOR_ODOO_VERSION < 11:
     TRACK_FIELDS = (
         'property_account_payable_id',
         'property_account_receivable_id',

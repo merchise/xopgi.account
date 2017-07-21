@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # xopgi.xopgi_account_report
 # ---------------------------------------------------------------------
-# Copyright (c) 2013-2016 Merchise Autrement [~º/~]
+# Copyright (c) 2013-2017 Merchise Autrement [~º/~]
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -18,10 +18,13 @@ dict(
     author="Merchise Autrement",
     category="Accounting",
     description="Adds graphs for receivables and payables with currency.",
-    depends=['account', 'xopgi_proper_currency'],
+    depends=[
+        'account',
+        'xopgi_proper_currency'
+    ],
     data=[
         'view/partners.xml'
     ],
     application=False,
-    installable=(8, 0) <= ODOO_VERSION_INFO < (9, 0),   # noqa
+    installable=8 <= MAJOR_ODOO_VERSION < 9,   # noqa
 )

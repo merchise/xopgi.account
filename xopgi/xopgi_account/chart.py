@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # xopgi.xopgi.xopgi_account.chart
 # ---------------------------------------------------------------------
-# Copyright (c) 2013-2016 Merchise Autrement [~º/~]
+# Copyright (c) 2013-2017 Merchise Autrement [~º/~]
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -21,11 +21,11 @@ from __future__ import (division as _py3_division,
 
 from openerp.models import TransientModel
 
-from openerp.release import version_info as ODOO_VERSION_INFO
+from xoeuf import MAJOR_ODOO_VERSION
 
 
 # Odoo 9 has removed the chart of accounts wizard and the fiscal year object.
-assert ODOO_VERSION_INFO < (9, 0)
+assert MAJOR_ODOO_VERSION < 9
 
 
 class account_chart(TransientModel):

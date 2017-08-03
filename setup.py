@@ -53,7 +53,7 @@ setup(name=project_name,
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'xoeuf>=0.7.4,<0.9',
+          'xoeuf>=0.7.4,<1.0',
           'xoutil>=1.7.3,<1.8',
       ],
       entry_points="""

@@ -16,7 +16,24 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-from openerp import api, models
+from xoeuf import api, models, ODOO_VERSION_INFO
+
+if (8, 0) <= ODOO_VERSION_INFO < (9, 0):
+    TRACK_FIELDS = (
+        'property_account_receivable',
+        'property_account_payable',
+        'property_account_position',
+        'property_payment_term',
+        'property_supplier_payment_term',
+    )
+elif (9, 0) <= ODOO_VERSION_INFO < (11, 0):
+    TRACK_FIELDS = (
+        'property_account_payable_id',
+        'property_account_receivable_id',
+        'property_payment_term_id',
+        'property_supplier_payment_term_id',
+        'property_account_position_id',
+    )
 
 
 class ResPartner(models.Model):
@@ -29,6 +46,5 @@ class ResPartner(models.Model):
         # TODO: This is kind of a hack... but rewriting the entire column just
         # to add a metadata-like attribute seems overreaching.
         super(ResPartner, self)._setup_complete()
-        for field in ('property_account_receivable',
-                      'property_account_receivable'):
+        for field in TRACK_FIELDS:
             self._fields[field].track_visibility = 'onchange'

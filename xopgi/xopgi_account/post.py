@@ -29,4 +29,4 @@ class PostMoveConfirmation(models.TransientModel):
     @api.multi
     def post(self):
         Move = self.env['account.move']
-        return Move.browse(self.env.context['active_ids']).post()
+        return Move.browse(self.env.context['active_ids']).button_validate()

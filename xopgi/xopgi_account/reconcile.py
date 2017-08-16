@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # xopgi.account.reconcile
 # ---------------------------------------------------------------------
-# Copyright (c) 2015, 2016 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) 2015, 2016, 2017 Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -17,40 +17,48 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-from openerp.models import TransientModel, Model
+from xoeuf import api, models, MAJOR_ODOO_VERSION
 
 
-class MoveLine(Model):
+if MAJOR_ODOO_VERSION < 9:
+    def is_valid(line):
+        return line.state == 'valid'
+else:
+    def is_valid(line):
+        # Since Odoo 9+ there's no way to have an invalid move line
+        return True
+
+
+class MoveLine(models.Model):
     _inherit = 'account.move.line'
 
-    def _writeoff_amount(self, cr, uid, ids, context=None):
+    @api.multi
+    def _writeoff_amount(self):
         '''Calculates the amount to be written-off if we were to reconcile
         lines with `ids`.
 
         '''
         debit = credit = 0
-        for line in self.browse(cr, uid, ids, context=context):
-            if line.state == 'valid':
-                debit += line.debit
-                credit += line.credit
+        for line in self.filtered(is_valid):
+            debit += line.debit
+            credit += line.credit
         return debit - credit
 
 
-class WriteOffWizard(TransientModel):
+class WriteOffWizard(models.TransientModel):
     _inherit = 'account.move.line.reconcile.writeoff'
 
-    def select_account(self, cr, uid, ids, journal_id, context=None):
-        if journal_id:
-            writeoff = self.pool['account.move.line']._writeoff_amount(
-                cr, uid, context['active_ids'], context=context
-            )
-            journal = self.pool['account.journal'].browse(cr, uid, journal_id)
+    @api.multi
+    @api.onchange('journal_id')
+    def select_account(self):
+        if self.journal_id:
+            lines = self.env['account.move.line'].browse(self.env.context['active_ids'])
+            writeoff = lines._writeoff_amount()
             if writeoff < 0:
                 # debit < credit, we need to debit the account to be balanced
                 # and then credit the write-off account
-                account = journal.default_credit_account_id
+                account = self.journal_id.default_credit_account_id
             else:
-                account = journal.default_debit_account_id
+                account = self.journal_id.default_debit_account_id
             if account:
-                return dict(value=dict(writeoff_acc_id=account.id))
-        return {}
+                self.writeoff_acc_id = account.id

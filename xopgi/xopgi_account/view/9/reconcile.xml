@@ -1,32 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
   <data>
-    <record id="reconcile_writeoff" model="ir.ui.view">
-      <field name="name">xopgi.account_reconcile.writeoff.form</field>
-      <field name="model">account.move.line.reconcile.writeoff</field>
-      <field name="inherit_id"
-	     ref="account.account_move_line_reconcile_writeoff"/>
-      <field name="arch" type="xml">
-	<field name="journal_id" position="attributes">
-          <attribute name="on_change">
-            select_account(journal_id, context)
-          </attribute>
-	</field>
-      </field>
-    </record>
 
     <record id="reconcile_partner_filters" model="ir.ui.view">
       <field name="name">xopgi.account_reconcile.partner_filters</field>
       <field name="model">account.move.line</field>
       <field name="inherit_id"
-	     ref="account.view_account_move_line_filter"/>
+             ref="account.view_account_move_line_filter"/>
       <field name="arch" type="xml">
-	<xpath expr="//search/group" position="before">
-	  <filter string="Customers"
-		  domain="[('partner_id.customer', '=', True)]"/>
-	  <filter string="Suppliers"
-		  domain="[('partner_id.supplier', '=', True)]"/>
-	</xpath>
+        <xpath expr="//search/group" position="before">
+          <filter string="Customers"
+                  domain="[('partner_id.customer', '=', True)]"/>
+          <filter string="Suppliers"
+                  domain="[('partner_id.supplier', '=', True)]"/>
+        </xpath>
       </field>
     </record>
 

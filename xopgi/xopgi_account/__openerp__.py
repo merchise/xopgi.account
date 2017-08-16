@@ -32,5 +32,5 @@
         'static/%d/assets.xml' % MAJOR_ODOO_VERSION,  # noqa
     ],
     "application": False,
-    "installable": 8 <= MAJOR_ODOO_VERSION < 10,   # noqa
+    "installable": 8 <= MAJOR_ODOO_VERSION < 11,   # noqa
 }

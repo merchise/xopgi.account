@@ -16,7 +16,7 @@
 from xoeuf import MAJOR_ODOO_VERSION
 
 
-if MAJOR_ODOO_VERSION < 10:
+if MAJOR_ODOO_VERSION < 11:
     # Not tested in Odoo 10
     from . import config
 
@@ -35,10 +35,7 @@ if MAJOR_ODOO_VERSION < 9:
     # once.
     from . import post
 
-if MAJOR_ODOO_VERSION < 10:
-    # Not tested in Odoo 10
+if MAJOR_ODOO_VERSION < 11:
     from . import invoice
     from . import reconcile
-
-if MAJOR_ODOO_VERSION < 11:
     from . import track

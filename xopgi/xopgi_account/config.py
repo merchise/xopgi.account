@@ -58,5 +58,9 @@ class AccountConfigSettings(models.TransientModel):
     )
 
     module_xopgi_payment_extension = fields.Boolean(
-        'Set payments enhancements.'
+        'Install payments enhancements.'
+    )
+
+    module_xopgi_show_journal_items = fields.Boolean(
+        'Show the Journal Items to Accounting Advisers.'
     )

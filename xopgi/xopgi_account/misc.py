@@ -20,14 +20,13 @@ from __future__ import (division as _py3_division,
                         absolute_import as _py3_abs_import)
 
 
-from openerp.models import TransientModel
-from xoeuf import MAJOR_ODOO_VERSION
+from xoeuf import models, MAJOR_ODOO_VERSION
 
-# Odoo 9 does not create an opening entry anymore.
-assert MAJOR_ODOO_VERSION < 9
+assert MAJOR_ODOO_VERSION < 9, \
+    'Odoo 9 does not create an opening entry anymore.'
 
 
-class OpenClosedFiscalYear(TransientModel):
+class OpenClosedFiscalYear(models.TransientModel):
     '''Override the cancel of a closing entry to refresh the page.'''
 
     _inherit = "account.open.closed.fiscalyear"

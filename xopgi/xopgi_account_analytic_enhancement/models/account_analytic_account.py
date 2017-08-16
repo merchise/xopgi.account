@@ -23,9 +23,9 @@ except ImportError:
 from xoutil.context import Context
 
 from xoeuf import api, fields, models
-from openerp.exceptions import ValidationError
+from xoeuf.odoo.exceptions import ValidationError
 
-from openerp.addons.decimal_precision import decimal_precision as dp
+import xoeuf.odoo.addons.decimal_precision as dp
 
 
 # TODO:  Improve performance.

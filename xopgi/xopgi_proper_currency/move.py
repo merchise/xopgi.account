@@ -26,7 +26,6 @@ import openerp.addons.decimal_precision as dp
 import openerp.addons.account.wizard.account_fiscalyear_close \
     as base_fiscalyear_close
 
-from openerp.addons.account.account import account_move as base_move
 import openerp.addons.account.account_move_line as base_move_line
 
 from xoutil.names import nameof

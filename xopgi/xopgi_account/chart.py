@@ -19,16 +19,14 @@ from __future__ import (division as _py3_division,
                         absolute_import as _absolute_import)
 
 
-from openerp.models import TransientModel
-
-from xoeuf import MAJOR_ODOO_VERSION
+from xoeuf import models, MAJOR_ODOO_VERSION
 
 
 # Odoo 9 has removed the chart of accounts wizard and the fiscal year object.
 assert MAJOR_ODOO_VERSION < 9
 
 
-class account_chart(TransientModel):
+class account_chart(models.TransientModel):
     '''Wizard for "Chart of Accounts".
 
     Minor usability fixes:

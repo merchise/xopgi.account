@@ -16,15 +16,14 @@ from __future__ import (division as _py3_division,
                         absolute_import as _absolute_import)
 
 from openerp.osv import fields
-from openerp.models import Model
+from xoeuf import models, MAJOR_ODOO_VERSION
 
-from xoeuf import MAJOR_ODOO_VERSION
 # Odoo 9 does not have the fiscal year and period objects.  Instead company's
 # have fiscal year's closure (lock) dates.
 assert MAJOR_ODOO_VERSION < 9
 
 
-class account_voucher_line(Model):
+class account_voucher_line(models.Model):
     '''Adds an invoice reference to the voucher line.
 
     '''
@@ -40,7 +39,7 @@ class account_voucher_line(Model):
     }
 
 
-class account_voucher(Model):
+class account_voucher(models.Model):
     '''Cleans the journal and period fields when the company changes.
 
     This avoids errors. Since a voucher requires both the journal and the

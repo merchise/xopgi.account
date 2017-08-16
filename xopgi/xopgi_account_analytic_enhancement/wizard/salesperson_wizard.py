@@ -22,10 +22,8 @@ try:
 except ImportError:
     from xoutil.string import safe_decode
 
-try:
-    from odoo import api, fields, models, _
-except ImportError:
-    from openerp import api, fields, models, _
+from xoeuf import api, fields, models
+from xoeuf.odoo import _
 
 
 class PrimaryInstructorWizard(models.TransientModel):

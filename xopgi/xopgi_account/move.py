@@ -20,14 +20,13 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _absolute_import)
 
-from openerp.models import Model
-from xoeuf import MAJOR_ODOO_VERSION
+from xoeuf import models, MAJOR_ODOO_VERSION
 # Odoo 9 does not have the fiscal year and period objects.  Instead company's
 # have fiscal year's closure (lock) dates.
 assert MAJOR_ODOO_VERSION < 9
 
 
-class account_move(Model):
+class account_move(models.Model):
     '''Fixes to account move.'''
     _inherit = 'account.move'
 

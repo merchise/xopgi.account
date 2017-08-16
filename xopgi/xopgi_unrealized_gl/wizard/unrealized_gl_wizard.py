@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # unrealized_gl_wizard
 # ---------------------------------------------------------------------
-# Copyright (c) 2015-2016 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) 2015-2017 Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -20,28 +20,17 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-from openerp import api, fields, models
+from xoeuf import api, fields, models
+from xoeuf.models.extensions import get_creator
+from xoeuf.models.proxy import (
+    AccountPeriod as Period,
+    AccountMove as Move,
+    AccountAccount as Account,
+    ResCurrency as Currency,
+    DecimalPrecision,
+)
 
-from xoeuf.osv.model_extensions import get_creator
 from xoeuf.osv.orm import CREATE_RELATED
-
-try:
-    from xoeuf.models import (
-        AccountPeriod as Period,
-        AccountMove as Move,
-        AccountAccount as Account,
-        ResCurrency as Currency,
-        DecimalPrecision,
-    )
-except ImportError:
-    # xoeuf 0.7.0+
-    from xoeuf.models.proxy import (
-        AccountPeriod as Period,
-        AccountMove as Move,
-        AccountAccount as Account,
-        ResCurrency as Currency,
-        DecimalPrecision,
-    )
 
 
 def _get_valid_accounts(currency=None):

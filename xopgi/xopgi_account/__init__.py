@@ -37,7 +37,5 @@ if MAJOR_ODOO_VERSION < 10:
     from . import currency
     from . import post
     from . import reconcile
-    from . import analytic
-
 if MAJOR_ODOO_VERSION < 11:
     from . import track

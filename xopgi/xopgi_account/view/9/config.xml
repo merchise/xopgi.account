@@ -7,8 +7,7 @@
       <field name="inherit_id"
              ref="account.view_account_config_settings"/>
       <field name="arch" type="xml">
-        <xpath expr="//separator[1]"
-               position="before">
+        <xpath expr="//separator[1]" position="before">
           <group name='xopgi_account_config'
                  string='Extensions'>
             <div>

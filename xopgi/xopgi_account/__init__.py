@@ -31,10 +31,14 @@ if MAJOR_ODOO_VERSION < 9:
     from . import voucher
     from . import misc
 
+    # Odoo 9 has its own 'Post Journal Entries' to post multiple entries at
+    # once.
+    from . import post
+
 if MAJOR_ODOO_VERSION < 10:
     # Not tested in Odoo 10
     from . import invoice
-    from . import post
     from . import reconcile
+
 if MAJOR_ODOO_VERSION < 11:
     from . import track

@@ -26,7 +26,9 @@
         'view/%d/account.xml' % MAJOR_ODOO_VERSION,  # noqa
         'view/%d/filters.xml' % MAJOR_ODOO_VERSION,  # noqa
         'view/%d/posting.xml' % MAJOR_ODOO_VERSION,  # noqa
-        'view/%d/reconcile.xml' % MAJOR_ODOO_VERSION,  # noqa
+
+        'view/reconcile.xml',
+
         'static/%d/assets.xml' % MAJOR_ODOO_VERSION,  # noqa
     ],
     "application": False,

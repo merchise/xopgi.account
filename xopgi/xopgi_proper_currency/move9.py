@@ -95,8 +95,9 @@ class MoveLine(models.Model):
         # debit/credit.
         company_id = self[0].move_id.company_id
         for line in self:
-            amount = line.amount_currency = self.line_currency_amount
+            amount = self.line_currency_amount
             if line.currency_id:
+                line.amount_currency = amount
                 line_currency = line.currency_id.with_context(
                     date=line.move_id.date
                 )
@@ -105,6 +106,7 @@ class MoveLine(models.Model):
                     company_id.currency_id,
                 )
             else:
+                line.amount_currency = False
                 posted = abs(amount)
             if amount > 0:
                 line.debit = posted

@@ -20,5 +20,5 @@ from xoeuf import MAJOR_ODOO_VERSION
 
 if MAJOR_ODOO_VERSION == 8:
     from . import move  # noqa
-elif MAJOR_ODOO_VERSION == 9:
+elif 9 <= MAJOR_ODOO_VERSION < 11:
     from . import move9  # noqa

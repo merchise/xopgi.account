@@ -123,18 +123,21 @@ class MoveLine(models.Model):
         inverse='_set_currency_credit_debit',
         store=True,
         string='Debit',
+        currency_field='currency_id',
     )
     currency_credit = fields.Monetary(
         compute='_get_currency_credit_debit',
         inverse='_set_currency_credit_debit',
         store=True,
         string='Credit',
+        currency_field='currency_id',
     )
     line_currency_amount = fields.Monetary(
         compute='_get_line_currency_amount',
         inverse='_set_line_currency_amount',
         store=True,
-        string='Currency Amount'
+        string='Currency Amount',
+        currency_field='currency_id',
     )
     line_currency = fields.Many2one(
         'res.currency',

@@ -35,6 +35,8 @@ from ..settings import REGULAR_ACCOUNT_DOMAIN, GENERAL_JOURNAL_DOMAIN
 
 
 if MAJOR_ODOO_VERSION < 9:
+    LINES_FIELD_NAME = 'line_id'
+
     def _get_valid_accounts(currency=None):
         query = [("type", "!=", "view")]
         if currency is None:
@@ -43,14 +45,23 @@ if MAJOR_ODOO_VERSION < 9:
             query += [("currency_id", "=", currency.id)]
         return Account.search(query)
 
+    def next_seq(s):
+        # It seems that Odoo 8, regards `next_by_id` as an api.model instead
+        # of api.multi
+        return s.next_by_id(s.id)
+
 else:
+    LINES_FIELD_NAME = 'line_ids'
+
     def _get_valid_accounts(currency=None):
-        query = [('user_type_id.type', '=', 'other')]
         if currency is None:
-            query += [("currency_id", "!=", False)]
+            query = [("currency_id", "!=", False)]
         else:
-            query += [("currency_id", "=", currency.id)]
+            query = [("currency_id", "=", currency.id)]
         return Account.search(query)
+
+    def next_seq(s):
+        return s.next_by_id()
 
 
 class UnrealizedGLWizard(models.TransientModel):
@@ -168,28 +179,30 @@ class UnrealizedGLWizard(models.TransientModel):
             gainloss = adjustment.gainloss
             if gainloss:
                 sequence = self.journal_id.sequence_id
-                next_name = lambda: sequence.next_by_id(sequence.id)
                 account = adjustment.account
                 name = 'UGL: %s' % self.close_date
                 ref = 'UGL for AC: %s-%s at %s' % (account.code, account.name,
                                                    self.close_date)
                 with get_creator(Move) as creator:
                     creator.update(
-                        name=next_name(),
+                        name=next_seq(sequence),
                         ref=ref,
                         journal_id=self.journal_id.id,
-                        period_id=Period.find(dt=self.close_date).id,
                         date=self.close_date,
                     )
+                    if MAJOR_ODOO_VERSION < 9:
+                        creator.update(
+                            period_id=Period.find(dt=self.close_date).id,
+                        )
                     if gainloss > 0:
                         creator.create(
-                            'line_id',
+                            LINES_FIELD_NAME,
                             name=name,
                             account_id=self.gain_account_id.id,
                             credit=gainloss
                         )
                         creator.create(
-                            'line_id',
+                            LINES_FIELD_NAME,
                             name=name,
                             account_id=account.id,
                             debit=gainloss,
@@ -198,13 +211,13 @@ class UnrealizedGLWizard(models.TransientModel):
                         )
                     else:
                         creator.create(
-                            'line_id',
+                            LINES_FIELD_NAME,
                             name=name,
                             account_id=self.loss_account_id.id,
                             debit=-gainloss
                         )
                         creator.create(
-                            'line_id',
+                            LINES_FIELD_NAME,
                             name=name,
                             account_id=account.id,
                             credit=-gainloss,
@@ -227,10 +240,12 @@ class Adjustment(models.TransientModel):
     account_code = fields.Char(related="account.code")
     account_currency = fields.Many2one(related="account.currency_id")
 
-    foreign_balance = fields.Float(compute='_compute_all')
-    balance = fields.Float(compute='_compute_all')
-    adjusted_balance = fields.Float(compute='_compute_all')
-    gainloss = fields.Float(compute='_compute_all')
+    foreign_balance = fields.Float(compute='_compute_all', default=0)
+    balance = fields.Float(compute='_compute_all', default=0)
+    adjusted_balance = fields.Float(compute='_compute_all', default=0)
+    gainloss = fields.Float(compute='_compute_all', default=0)
 
     if MAJOR_ODOO_VERSION < 9:
         from ._v8 import _compute_all
+    elif 9 <= MAJOR_ODOO_VERSION < 11:
+        from ._v9 import _compute_all

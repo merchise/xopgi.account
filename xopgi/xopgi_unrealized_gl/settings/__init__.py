@@ -24,7 +24,15 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-from xoeuf import fields, models
+from xoeuf import api, fields, models, MAJOR_ODOO_VERSION
+
+GENERAL_JOURNAL_DOMAIN = [('type', '=', 'general')]
+
+if MAJOR_ODOO_VERSION < 9:
+    REGULAR_ACCOUNT_DOMAIN = [('type', '=', 'other')]
+
+else:
+    REGULAR_ACCOUNT_DOMAIN = [('user_type_id.type', '=', 'other')]
 
 
 class Company(models.Model):
@@ -33,19 +41,19 @@ class Company(models.Model):
     ugl_journal_id = fields.Many2one(
         'account.journal',
         'Unrealized gain & loss journal',
-        domain=[('type', '=', 'general')]
+        domain=GENERAL_JOURNAL_DOMAIN,
     )
 
     ugl_gain_account_id = fields.Many2one(
         'account.account',
         'Unrealized gain account',
-        domain=[('type', '=', 'other')]
+        domain=REGULAR_ACCOUNT_DOMAIN,
     )
 
     ugl_loss_account_id = fields.Many2one(
         'account.account',
         'Unrealized loss account',
-        domain=[('type', '=', 'other')]
+        domain=REGULAR_ACCOUNT_DOMAIN,
     )
 
 
@@ -63,3 +71,13 @@ class AccountConfigSettings(models.TransientModel):
     ugl_loss_account_id = fields.Many2one(
         related="company_id.ugl_loss_account_id"
     )
+
+    @api.onchange('ugl_journal_id', 'ugl_journal_id.default_credit_account_id')
+    def _update_ugl_gain_account(self):
+        if not self.ugl_gain_account_id:
+            self.ugl_gain_account_id = self.ugl_journal_id.default_credit_account_id
+
+    @api.onchange('ugl_journal_id', 'ugl_journal_id.default_debit_account_id')
+    def _update_ugl_loss_account(self):
+        if not self.ugl_loss_account_id:
+            self.ugl_loss_account_id = self.ugl_journal_id.default_debit_account_id

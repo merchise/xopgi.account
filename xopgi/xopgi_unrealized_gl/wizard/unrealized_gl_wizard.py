@@ -157,6 +157,13 @@ class UnrealizedGLWizard(models.TransientModel):
 
     @api.multi
     def generate(self):
+        from xoeuf.models.extensions import get_treeview_action
+        moves = self._do_generate()
+        return get_treeview_action(moves)
+
+    @api.multi
+    def _do_generate(self):
+        moves = Move.browse()
         for adjustment in self.adjustments:
             gainloss = adjustment.gainloss
             if gainloss:
@@ -204,6 +211,10 @@ class UnrealizedGLWizard(models.TransientModel):
                             amount_currency=0,
                             currency_id=account.currency_id.id
                         )
+
+                # outside the with we get the result
+                moves |= creator.result
+        return moves
 
 
 class Adjustment(models.TransientModel):

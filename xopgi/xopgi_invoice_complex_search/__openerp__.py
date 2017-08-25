@@ -19,5 +19,5 @@ dict(
     author="Merchise Autrement",
     category='Accounting & Finance',
     data=['views/invoice.xml'],
-    installable=8 <= MAJOR_ODOO_VERSION < 9,   # noqa
+    installable=8 <= MAJOR_ODOO_VERSION < 11,   # noqa
 )

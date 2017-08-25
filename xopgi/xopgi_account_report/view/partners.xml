@@ -5,12 +5,12 @@
       <field name="name">account.receivables.graph</field>
       <field name="model">account.move.line</field>
       <field name="arch" type="xml">
-	<graph string="Invoices" type="pivot" stacked="True">
-	  <field name="partner_id" type="row"/>
-	  <field name="line_currency" type="col"/>
-	  <field name="account_id" type="col"/>
-	  <field name="line_currency_amount" operator="+"/>
-	</graph>
+        <graph string="Invoices" type="pivot" stacked="True">
+          <field name="partner_id" type="row"/>
+          <field name="line_currency" type="col"/>
+          <field name="account_id" type="col"/>
+          <field name="line_currency_amount" operator="+"/>
+        </graph>
       </field>
     </record>
 
@@ -35,14 +35,14 @@
     </record>
 
     <menuitem
-	id="menu_receivables_graph"
-	parent="account.menu_finance_receivables"
-	action="action_receivables_graph"/>
+        id="menu_receivables_graph"
+        parent="account.menu_finance_receivables"
+        action="action_receivables_graph"/>
 
     <menuitem
-	id="menu_payables_graph"
-	parent="account.menu_finance_payables"
-	action="action_payables_graph"/>
+        id="menu_payables_graph"
+        parent="account.menu_finance_payables"
+        action="action_payables_graph"/>
 
   </data>
 </openerp>

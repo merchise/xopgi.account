@@ -3,12 +3,11 @@
 dict(
     name="Account Analytic Enhancement",
     version="1.0",
-    depends=(
-        [
-            'account',
-            'decimal_precision',
-        ] + (['account_analytic_analysis'] if MAJOR_ODOO_VERSION < 9 else [])  # noqa
-    ),
+    depends=list(filter(bool, [
+        'account',
+        'decimal_precision',
+        'account_analytic_analysis' if MAJOR_ODOO_VERSION < 9 else None,  # noqa
+    ])),
     author="Merchise Autrement [~º/~]",
     category="Accounting & Finance",
 

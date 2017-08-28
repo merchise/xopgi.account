@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+    <record id="unrealized_gl_view_wizard" model="ir.ui.view">
+      <field name="name">unrealized_gl.form</field>
+      <field name="model">xopgi.unrealized_gl_wizard</field>
+      <field name="arch" type="xml">
+        <form string="Unrealized Gain - Loss">
+          <group>
+            <group>
+              <field name="close_date"/>
+              <field name="currency_id"/>
+              <field name="currency_rate" readonly="1"/>
+            </group>
+            <group>
+              <field name="journal_id"/>
+              <field name="gain_account_id"/>
+              <field name="loss_account_id"/>
+            </group>
+          </group>
+
+          <group>
+            <field name='adjustments' readonly="1">
+              <tree>
+                <field name="account_code"/>
+                <field name="account_name"/>
+                <field name="foreign_balance"/>
+                <field name="account_currency"/>
+                <field name="balance"/>
+                <field name="adjusted_balance"/>
+                <field name="gainloss"/>
+              </tree>
+            </field>
+          </group>
+
+          <footer>
+            <button name="generate" type="object"
+                    string="Generate" class="oe_highlight"/>
+            or
+            <button special="cancel" string="Cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <record id="unrealized_gl_action" model="ir.actions.act_window">
+      <field name="name">Unrealized Gain - Loss</field>
+      <field name="res_model">xopgi.unrealized_gl_wizard</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="unrealized_gl_view_wizard"/>
+      <field name="target">new</field>
+    </record>
+
+    <menuitem action="unrealized_gl_action"
+              id="menu_wizard_fy_close"
+              parent="account.menu_account_end_year_treatments"/>
+  </data>
+</openerp>

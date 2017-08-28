@@ -22,10 +22,10 @@ except ImportError:
     from xoutil import Unset
 from xoutil.context import Context
 
-from openerp import api, fields, models
-from openerp.exceptions import ValidationError
+from xoeuf import api, fields, models
+from xoeuf.odoo.exceptions import ValidationError
 
-from openerp.addons.decimal_precision import decimal_precision as dp
+import xoeuf.odoo.addons.decimal_precision as dp
 
 
 # TODO:  Improve performance.
@@ -429,11 +429,11 @@ class AccountMove(models.Model):
 
     @api.multi
     def unlink(self):
-        # It seems that the @api.depends in our code above it's not being
-        # properly triggered by Odoo when the account line is being removed in
-        # cascade. THIS NEEDS TO BE CONFIRMED.
+        # The @api.depends in our code above it's not triggered by Odoo when
+        # the account line is being removed in cascade.  So, we collect all
+        # affected analytic accounts to touch them later.
         #
-        # So, we collect all affected analytic accounts to touch them later.
+        # See: https://github.com/odoo/odoo/pull/17982
         accounts = self.mapped('line_id.analytic_lines.account_id')
         res = super(AccountMove, self).unlink()
         accounts._compute_invoiced()

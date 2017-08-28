@@ -13,19 +13,15 @@
 # @created: 2013-11-11
 # flake8:  noqa
 
-try:
-    from openerp.release import version_info as ODOO_VERSION_INFO
-except ImportError:
-    # This is Odoo 10+, but let's be able to get the ODOO_VERSION_INFO
-    from odoo.release import version_info as ODOO_VERSION_INFO
+from xoeuf import MAJOR_ODOO_VERSION
 
 
-if ODOO_VERSION_INFO < (10, 0):
+if MAJOR_ODOO_VERSION < 11:
     # Not tested in Odoo 10
     from . import config
 
 
-if ODOO_VERSION_INFO < (9, 0):
+if MAJOR_ODOO_VERSION < 9:
     # The Chart of Accounts wizard no longer exists in Odoo 9.
     from . import chart
 
@@ -35,14 +31,11 @@ if ODOO_VERSION_INFO < (9, 0):
     from . import voucher
     from . import misc
 
-if ODOO_VERSION_INFO < (10, 0):
-    # Not tested in Odoo 10
-    from . import invoice
-    from . import multicompanyitem
-    from . import currency
+    # Odoo 9 has its own 'Post Journal Entries' to post multiple entries at
+    # once.
     from . import post
-    from . import reconcile
-    from . import analytic
 
-if ODOO_VERSION_INFO < (11, 0):
+if MAJOR_ODOO_VERSION < 11:
+    from . import invoice
+    from . import reconcile
     from . import track

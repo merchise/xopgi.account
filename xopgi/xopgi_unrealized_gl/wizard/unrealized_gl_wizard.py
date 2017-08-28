@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # unrealized_gl_wizard
 # ---------------------------------------------------------------------
-# Copyright (c) 2015-2016 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) 2015-2017 Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -20,41 +20,48 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-from openerp import api, fields, models
+from xoeuf import api, fields, models, MAJOR_ODOO_VERSION
+from xoeuf.models.extensions import get_creator
+from xoeuf.models.proxy import (
+    AccountPeriod as Period,
+    AccountMove as Move,
+    AccountAccount as Account,
+    ResCurrency as Currency,
+)
 
-from xoeuf.osv.model_extensions import get_creator
 from xoeuf.osv.orm import CREATE_RELATED
 
-try:
-    from xoeuf.models import (
-        AccountPeriod as Period,
-        AccountMove as Move,
-        AccountAccount as Account,
-        ResCurrency as Currency,
-        DecimalPrecision,
-    )
-except ImportError:
-    # xoeuf 0.7.0+
-    from xoeuf.models.proxy import (
-        AccountPeriod as Period,
-        AccountMove as Move,
-        AccountAccount as Account,
-        ResCurrency as Currency,
-        DecimalPrecision,
-    )
+from ..settings import REGULAR_ACCOUNT_DOMAIN, GENERAL_JOURNAL_DOMAIN
 
 
-def _get_valid_accounts(currency=None):
-    if currency is None:
-        return Account.search(
-            [("currency_id", "!=", False),
-             ("type", "!=", "view")]
-        )
-    else:
-        return Account.search(
-            [("currency_id", "=", currency.id),
-             ("type", "!=", "view")]
-        )
+if MAJOR_ODOO_VERSION < 9:
+    LINES_FIELD_NAME = 'line_id'
+
+    def _get_valid_accounts(currency=None):
+        query = [("type", "!=", "view")]
+        if currency is None:
+            query += [("currency_id", "!=", False)]
+        else:
+            query += [("currency_id", "=", currency.id)]
+        return Account.search(query)
+
+    def next_seq(s):
+        # It seems that Odoo 8, regards `next_by_id` as an api.model instead
+        # of api.multi
+        return s.next_by_id(s.id)
+
+else:
+    LINES_FIELD_NAME = 'line_ids'
+
+    def _get_valid_accounts(currency=None):
+        if currency is None:
+            query = [("currency_id", "!=", False)]
+        else:
+            query = [("currency_id", "=", currency.id)]
+        return Account.search(query)
+
+    def next_seq(s):
+        return s.next_by_id()
 
 
 class UnrealizedGLWizard(models.TransientModel):
@@ -112,7 +119,7 @@ class UnrealizedGLWizard(models.TransientModel):
         "account.journal",
         string="Journal",
         required=True,
-        domain=[('type', '=', 'general')],
+        domain=GENERAL_JOURNAL_DOMAIN,
         default=_get_journal,
         readonly=True
     )
@@ -121,7 +128,7 @@ class UnrealizedGLWizard(models.TransientModel):
         "account.account",
         string="Gain Account",
         required=True,
-        domain=[('type', '=', 'other')],
+        domain=REGULAR_ACCOUNT_DOMAIN,
         default=_get_gain_account,
         readonly=True
     )
@@ -130,7 +137,7 @@ class UnrealizedGLWizard(models.TransientModel):
         "account.account",
         string="Loss Account",
         required=True,
-        domain=[('type', '=', 'other')],
+        domain=REGULAR_ACCOUNT_DOMAIN,
         default=_get_loss_account,
         readonly=True
     )
@@ -146,47 +153,56 @@ class UnrealizedGLWizard(models.TransientModel):
         company_currency = self.env.user.company_id.currency_id
         for record in self:
             if any(record.currency_id):
-                record.currency_rate = self.currency_id.with_context(date=self.close_date).compute(
+                currency = record.currency_id.with_context(date=self.close_date)
+                record.currency_rate = currency.compute(
                     1,
                     company_currency,
                     round=False,
                 )
                 accounts = _get_valid_accounts(record.currency_id)
                 adjustments = [
-                    CREATE_RELATED(account=account, wizard=self)
+                    CREATE_RELATED(account=account, wizard=record)
                     for account in accounts
                 ]
                 record.adjustments = adjustments
 
     @api.multi
     def generate(self):
-        self.ensure_one()
+        from xoeuf.models.extensions import get_treeview_action
+        moves = self._do_generate()
+        return get_treeview_action(moves)
+
+    @api.multi
+    def _do_generate(self):
+        moves = Move.browse()
         for adjustment in self.adjustments:
             gainloss = adjustment.gainloss
-            if gainloss != 0.0:
+            if gainloss:
                 sequence = self.journal_id.sequence_id
-                next_name = lambda: sequence.next_by_id(sequence.id)
                 account = adjustment.account
                 name = 'UGL: %s' % self.close_date
                 ref = 'UGL for AC: %s-%s at %s' % (account.code, account.name,
                                                    self.close_date)
                 with get_creator(Move) as creator:
                     creator.update(
-                        name=next_name(),
+                        name=next_seq(sequence),
                         ref=ref,
                         journal_id=self.journal_id.id,
-                        period_id=Period.find(dt=self.close_date).id,
                         date=self.close_date,
                     )
+                    if MAJOR_ODOO_VERSION < 9:
+                        creator.update(
+                            period_id=Period.find(dt=self.close_date).id,
+                        )
                     if gainloss > 0:
                         creator.create(
-                            'line_id',
+                            LINES_FIELD_NAME,
                             name=name,
                             account_id=self.gain_account_id.id,
                             credit=gainloss
                         )
                         creator.create(
-                            'line_id',
+                            LINES_FIELD_NAME,
                             name=name,
                             account_id=account.id,
                             debit=gainloss,
@@ -195,19 +211,23 @@ class UnrealizedGLWizard(models.TransientModel):
                         )
                     else:
                         creator.create(
-                            'line_id',
+                            LINES_FIELD_NAME,
                             name=name,
                             account_id=self.loss_account_id.id,
                             debit=-gainloss
                         )
                         creator.create(
-                            'line_id',
+                            LINES_FIELD_NAME,
                             name=name,
                             account_id=account.id,
                             credit=-gainloss,
                             amount_currency=0,
                             currency_id=account.currency_id.id
                         )
+
+                # outside the with we get the result
+                moves |= creator.result
+        return moves
 
 
 class Adjustment(models.TransientModel):
@@ -220,35 +240,12 @@ class Adjustment(models.TransientModel):
     account_code = fields.Char(related="account.code")
     account_currency = fields.Many2one(related="account.currency_id")
 
-    foreign_balance = fields.Float(compute='_compute_all')
-    balance = fields.Float(compute='_compute_all')
-    adjusted_balance = fields.Float(compute='_compute_all')
-    gainloss = fields.Float(compute='_compute_all')
+    foreign_balance = fields.Float(compute='_compute_all', default=0)
+    balance = fields.Float(compute='_compute_all', default=0)
+    adjusted_balance = fields.Float(compute='_compute_all', default=0)
+    gainloss = fields.Float(compute='_compute_all', default=0)
 
-    @api.depends('account', 'wizard')
-    def _compute_all(self):
-        precision = DecimalPrecision.precision_get('Account')
-        company_currency = self.env.user.company_id.currency_id
-        for record in self:
-            account = record.account
-            close_date = record.wizard.close_date
-            # The 'l' alias in the SQL query refers to the move line.
-            data = account.with_context(state='posted')._account_account__compute(
-                field_names=('balance', 'foreign_balance'),
-                # Why do I need to filter line's date instead of the move's.
-                # Is this consistent with the Chart of Account report, and
-                # other reports?
-                query="l.date <= '" + close_date + "'"
-            )
-            get = lambda v: data[account.id][v]
-            record.balance = get('balance')
-            record.foreign_balance = get('foreign_balance')
-            record.adjusted_balance = account.currency_id.with_context(date=close_date).compute(
-                record.foreign_balance,
-                company_currency,
-                round=False,
-            )
-            record.gainloss = round(
-                record.adjusted_balance - record.balance,
-                precision
-            )
+    if MAJOR_ODOO_VERSION < 9:
+        from ._v8 import _compute_all
+    elif 9 <= MAJOR_ODOO_VERSION < 11:
+        from ._v9 import _compute_all

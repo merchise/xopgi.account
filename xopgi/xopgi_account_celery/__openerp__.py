@@ -14,15 +14,18 @@
 
 dict(
     name='xopgi_account_celery',
-    version="1.0",
+    version="2.0",
     author="Merchise Autrement",
     website="http://merchise-autrement.gitlab.io/xopgi/",
     category="Hidden",
-    depends=['xopgi_account', 'account', 'web_celery'],
+    depends=[
+        'account',
+        'web_celery'
+    ],
     data=[
-        'views/validate.xml',
+        'views/%d/validate.xml' % MAJOR_ODOO_VERSION,  # noqa
     ],
     application=False,
-    installable=(8, 0) <= ODOO_VERSION_INFO < (9, 0),   # noqa
+    installable=8 <= MAJOR_ODOO_VERSION < 11,   # noqa
     auto_install=True,
 )

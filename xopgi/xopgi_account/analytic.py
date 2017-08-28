@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # xopgi_account.analytic
 # ---------------------------------------------------------------------
-# Copyright (c) 2016 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) 2016, 2017 Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -26,7 +26,15 @@ from __future__ import (division as _py3_division,
                         absolute_import as _py3_abs_import)
 
 import contextlib
-from openerp import models, api
+from xoeuf import models, api, MAJOR_ODOO_VERSION
+
+assert MAJOR_ODOO_VERSION == 8, \
+    'Analytic account lost its state field since Odoo 9'
+
+# These extensions are not being used.  I think that if we reintroduce the
+# 'state' field, we might enforce that closed analytic accounts could not be
+# modified, and this code would be useful again, although moved to the addon
+# that creates the restriction.
 
 
 class AnalyticAccount(models.Model):

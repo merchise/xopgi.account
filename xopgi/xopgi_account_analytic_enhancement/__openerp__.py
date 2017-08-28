@@ -1,34 +1,21 @@
 # -*- coding: utf-8 -*-
 
-
-{
-    "name": "Account Analytic Enhancement",
-
-    "summary": "Adorna las vistas de cuentas analíticas",
-
-    "version": "1.0",
-
-    "depends": [
-        "account",
-        "account_analytic_analysis",
+dict(
+    name="Account Analytic Enhancement",
+    version="1.0",
+    depends=list(filter(bool, [
+        'account',
         'decimal_precision',
+        'account_analytic_analysis' if MAJOR_ODOO_VERSION < 9 else None,  # noqa
+    ])),
+    author="Merchise Autrement [~º/~]",
+    category="Accounting & Finance",
+
+    data=[
+        "data/%d/salesperson_wizard_data.xml" % MAJOR_ODOO_VERSION, # noqa
+        "views/%d/account_analytic_account_views.xml" % MAJOR_ODOO_VERSION, # noqa
+        "wizard/%d/salesperson_wizard.xml" % MAJOR_ODOO_VERSION, # noqa
     ],
 
-    "author": "Merchise Autrement",
-
-    "category": "Accounting & Finance",
-
-    "description": """
-    - Adiciona la columna % de margen a los datos de la cuenta analítica.
-    - Adiciona la fecha de caducidad de la cuenta analítica si es de contrato o proyecto.
-    """,
-
-    "data": [
-        "data/salesperson_wizard_data.xml",
-        "views/account_analytic_account_views.xml",
-        "wizard/salesperson_wizard.xml"
-    ],
-
-    'installable': (8, 0) <= ODOO_VERSION_INFO < (9, 0),   # noqa
-
-}
+    installable=8 <= MAJOR_ODOO_VERSION < 9,   # noqa
+)

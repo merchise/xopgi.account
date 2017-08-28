@@ -23,8 +23,8 @@ dict(
         'xopgi_proper_currency'
     ],
     data=[
-        'view/partners.xml'
+        'view/%d/partners.xml' % MAJOR_ODOO_VERSION,  # noqa
     ],
     application=False,
-    installable=8 <= MAJOR_ODOO_VERSION < 9,   # noqa
+    installable=8 <= MAJOR_ODOO_VERSION < 11,   # noqa
 )

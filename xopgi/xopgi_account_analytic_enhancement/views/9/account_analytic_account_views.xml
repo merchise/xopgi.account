@@ -30,19 +30,19 @@
       <field name="inherit_id" ref="analytic.view_account_analytic_account_list"/>
       <field name="groups_id" eval="[(4, ref('base.group_sale_salesman'))]"/>
       <field name="arch" type="xml">
-	<field name="code" position="replace"/>
-	<field name="company_id" position="replace"/>
-	<field name="debit" position="replace"/>
-	<field name="credit" position="replace"/>
-	<field name="balance" position="replace"/>
+        <field name="code" position="replace"/>
+        <field name="company_id" position="replace"/>
+        <field name="debit" position="replace"/>
+        <field name="credit" position="replace"/>
+        <field name="balance" position="replace"/>
         <field name="partner_id" position="after">
           <field name="invoiced" sum="Invoiced"/>
           <field name="expended" sum="Expended"/>
           <field name="self_balance" sum="Total Balance"/>
           <field name="percentage_margin"/>
           <field name="percentage_commission"/>
-	  <field name="commission" sum="Total Commission"/>
-	  <field name="primary_salesperson_id"/>
+          <field name="commission" sum="Total Commission"/>
+          <field name="primary_salesperson_id"/>
           <field name="name" invisible="1"/>
           <field name="supplier_invoice_id" invisible="1"/>
         </field>
@@ -54,18 +54,18 @@
       <field name="model">account.analytic.account</field>
       <field name="inherit_id" ref="analytic.view_account_analytic_account_search"/>
       <field name="arch" type="xml">
-	<xpath expr="//group" position="inside">
-	  <filter string="Salesperson" domain="[]"
-		  context="{'group_by':'primary_salesperson_id'}"/>
-	</xpath>
+        <xpath expr="//group" position="inside">
+          <filter string="Salesperson" domain="[]"
+                  context="{'group_by':'primary_salesperson_id'}"/>
+        </xpath>
         <field name="partner_id" position="after">
-	  <field name="primary_salesperson_id"/>
-	  <filter name="commission_paid" string="Com. Invoiced"
-		  domain="[('account_type', '=', 'normal'), ('supplier_invoice_id', '!=', False)]"/>
-	  <filter name="commission_unpaid" string="Com. Uninvoiced"
+          <field name="primary_salesperson_id"/>
+          <filter name="commission_paid" string="Com. Invoiced"
+                  domain="[('account_type', '=', 'normal'), ('supplier_invoice_id', '!=', False)]"/>
+          <filter name="commission_unpaid" string="Com. Uninvoiced"
                   domain="[('account_type', '=', 'normal'), ('supplier_invoice_id', '=', False)]"/>
           <filter name="commission_ready" string="Com. Ready"
-		  domain="[('account_type', '=', 'normal'), ('state', '=', 'close'), ('supplier_invoice_id', '=', False)]"/>
+                  domain="[('account_type', '=', 'normal'), ('state', '=', 'close'), ('supplier_invoice_id', '=', False)]"/>
         </field>
       </field>
     </record>

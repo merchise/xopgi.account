@@ -466,7 +466,9 @@ class AccountMove(models.Model):
         # affected analytic accounts to touch them later.
         #
         # See: https://github.com/odoo/odoo/pull/17982
-        accounts = self.mapped('line_id.analytic_lines.account_id')
+        accounts = self.mapped(
+            "%s.analytic_lines.account_id" % ("line_ids" if MAJOR_ODOO_VERSION > 8 else "line_id")
+        )
         res = super(AccountMove, self).unlink()
         accounts._compute_invoiced()
         return res

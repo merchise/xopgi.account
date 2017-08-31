@@ -6,7 +6,12 @@ dict(
     depends=list(filter(bool, [
         'account',
         'decimal_precision',
+        'analytic',
+        'sales_team' if MAJOR_ODOO_VERSION > 9 else None,  # noqa
         'account_analytic_analysis' if MAJOR_ODOO_VERSION < 9 else None,  # noqa
+        'xopgi_analytic_parent' if MAJOR_ODOO_VERSION > 8 else None,  # noqa
+        'xopgi_analytic_state' if MAJOR_ODOO_VERSION > 8 else None,  # noqa
+        'xopgi_analytic_manager' if MAJOR_ODOO_VERSION > 8 else None,  # noqa
     ])),
     author="Merchise Autrement [~º/~]",
     category="Accounting & Finance",
@@ -17,5 +22,5 @@ dict(
         "wizard/%d/salesperson_wizard.xml" % MAJOR_ODOO_VERSION, # noqa
     ],
 
-    installable=8 <= MAJOR_ODOO_VERSION < 9,   # noqa
+    installable=8 <= MAJOR_ODOO_VERSION < 11,   # noqa
 )

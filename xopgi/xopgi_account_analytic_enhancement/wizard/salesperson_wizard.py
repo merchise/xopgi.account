@@ -22,8 +22,22 @@ try:
 except ImportError:
     from xoutil.string import safe_decode
 
-from xoeuf import api, fields, models
+from xoeuf import api, fields, models, MAJOR_ODOO_VERSION
 from xoeuf.odoo import _
+
+# The difference between Odoo 8 and Odoo 9, is how to get valid domain to
+# search analytic accounts.
+if MAJOR_ODOO_VERSION == 8:
+    def account_domain():
+        return [("type", "=", "contract")]
+elif MAJOR_ODOO_VERSION == 9:
+    def account_domain():
+        return [("account_type", "=", "normal")]
+elif MAJOR_ODOO_VERSION == 10:
+    def account_domain():
+        return [("active", "=", True)]
+else:
+    raise NotImplemented
 
 
 class PrimaryInstructorWizard(models.TransientModel):
@@ -44,15 +58,17 @@ class PrimaryInstructorWizard(models.TransientModel):
         "account.analytic.account",
         string="Operations",
         required=True,
-        domain=[("type", "=", "contract"), ("state", "=", "close"),
-                ("supplier_invoice_id", "=", False)]
+        domain=[("state", "=", "close"),
+                ("supplier_invoice_id", "=", False)] + account_domain()
     )
 
     @api.onchange("primary_salesperson_id")
     def _onchange_primary_salesperson_id(self):
         self.analytic_account_ids = self.env["account.analytic.account"].search(
-            [("primary_salesperson_id.id", "=", self.primary_salesperson_id.id), ("type", "=", "contract"),
-             ("state", "=", "close"), ("supplier_invoice_id", "=", False)])
+            [("primary_salesperson_id.id", "=", self.primary_salesperson_id.id),
+             ("state", "=", "close"),
+             ("supplier_invoice_id", "=", False)] + account_domain()
+        )
 
     @api.multi
     def generate_supplier_invoice(self):
@@ -61,7 +77,8 @@ class PrimaryInstructorWizard(models.TransientModel):
         self._supplier_invoice_generator(partner, account_id,
                                          self.analytic_account_ids)
 
-    def enqueue_generate_supplier_invoice_cron(self, cr, uid, context=None):
+    @api.model
+    def enqueue_generate_supplier_invoice_cron(self):
         from openerp.jobs import Deferred
         # Avoid performing a big computation within the WorkerCron process
         # which is under tight timeout restriction (because the same
@@ -70,10 +87,10 @@ class PrimaryInstructorWizard(models.TransientModel):
         Deferred(self.generate_supplier_invoice_cron)
 
     @api.model
-    def generate_supplier_invoice_cron(self, cr, uid, context=None):
+    def generate_supplier_invoice_cron(self):
         commission_ready = self.env["account.analytic.account"].search(
-            [('type', '=', 'contract'), ('state', '=', 'close'),
-             ('supplier_invoice_id', '=', False)]
+            [('state', '=', 'close'),
+             ('supplier_invoice_id', '=', False)] + account_domain()
         )
         salesperson_commissions = {}
         for commission in commission_ready:

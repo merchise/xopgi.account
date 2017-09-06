@@ -2,7 +2,7 @@
 # ---------------------------------------------------------------------
 # xopgi.account.misc
 # ---------------------------------------------------------------------
-# Copyright (c) 2014-2016 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) 2014-2017 Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -20,14 +20,13 @@ from __future__ import (division as _py3_division,
                         absolute_import as _py3_abs_import)
 
 
-from openerp.models import TransientModel
-from openerp.release import version_info as ODOO_VERSION_INFO
+from xoeuf import models, MAJOR_ODOO_VERSION
 
-# Odoo 9 does not create an opening entry anymore.
-assert ODOO_VERSION_INFO < (9, 0)
+assert MAJOR_ODOO_VERSION < 9, \
+    'Odoo 9 does not create an opening entry anymore.'
 
 
-class OpenClosedFiscalYear(TransientModel):
+class OpenClosedFiscalYear(models.TransientModel):
     '''Override the cancel of a closing entry to refresh the page.'''
 
     _inherit = "account.open.closed.fiscalyear"

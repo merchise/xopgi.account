@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # xopgi.addons.account._release
 # ---------------------------------------------------------------------
-# Copyright (c) 2013-2016 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) 2013-2017 Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -22,7 +22,7 @@ def read_terpfile():
     import os
     with open(os.path.join(os.path.dirname(__file__), '__openerp__.py'), 'rU') as fh:
         content = fh.read()
-        return eval(content, {'ODOO_VERSION_INFO': (8, 0)}, {})
+        return eval(content, {'MAJOR_ODOO_VERSION': 8}, {})
 
 _TERP = read_terpfile()
 VERSION = _TERP['version']

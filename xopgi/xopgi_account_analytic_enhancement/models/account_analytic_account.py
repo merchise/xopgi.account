@@ -22,10 +22,10 @@ except ImportError:
     from xoutil import Unset
 from xoutil.context import Context
 
-from openerp import api, fields, models
-from openerp.exceptions import ValidationError
+from xoeuf import api, fields, models, MAJOR_ODOO_VERSION
+from xoeuf.odoo.exceptions import ValidationError
 
-from openerp.addons.decimal_precision import decimal_precision as dp
+import xoeuf.odoo.addons.decimal_precision as dp
 
 
 # TODO:  Improve performance.
@@ -120,6 +120,30 @@ def _compute_margin_commission(record):
 
 # Types of invoices that affect the income and the margin percent.
 INCOME_INVOICE_TYPES = ('out_invoice', 'out_refund')
+
+# The differences between Odoo 8 and Odoo 9, are how to get the invoice
+# reference from the account move and when compute primary salesperson in the
+# analytic account.
+if MAJOR_ODOO_VERSION == 8:
+    def get_invoice(move):
+        return move.invoice
+
+    def is_valid_account(account):
+        return account.type == 'contract'
+elif MAJOR_ODOO_VERSION == 9:
+    def get_invoice(move):
+        return move.invoice_id
+
+    def is_valid_account(account):
+        return account.account_type == 'normal'
+elif MAJOR_ODOO_VERSION == 10:
+    def get_invoice(move):
+        return move.invoice_id
+
+    def is_valid_account(account):
+        return account.active
+else:
+    raise NotImplemented
 
 
 class AccountAnalyticAccount(models.Model):
@@ -293,8 +317,8 @@ class AccountAnalyticAccount(models.Model):
         for record in self.filtered(lambda r: r not in context_accounts):
             invoiced = expended = undefined = 0
             for line in record.line_ids:
-                if line.move_id and line.move_id.invoice:
-                    if line.move_id.invoice.type in INCOME_INVOICE_TYPES:
+                if line.move_id and get_invoice(line.move_id):
+                    if get_invoice(line.move_id).type in INCOME_INVOICE_TYPES:
                         invoiced += line.amount
                     else:
                         expended -= line.amount
@@ -313,35 +337,43 @@ class AccountAnalyticAccount(models.Model):
             record.percentage_commission = comm_percent * 100
             record.commission = comm_percent * balance
 
-    @api.depends("type", "line_ids.invoice_id.user_id.name")
+    @api.depends(
+        "line_ids.move_id.%s.user_id.name" % ("invoice_id" if MAJOR_ODOO_VERSION > 8 else "invoice")
+    )
     def _compute_primary_salesperson(self):
         context = Context[AVOID_LENGTHY_COMPUTATION]
         context_accounts = context.get('accounts', [])
         for record in self.filtered(lambda r: r not in context_accounts):
-            if record.type != "contract":
+            domain = [("account_id", "=", record.id)]
+            if MAJOR_ODOO_VERSION > 8:
+                domain += [("move_id.invoice_id.user_id", "!=", False)]
+            else:
+                domain += [("move_id.invoice.user_id", "!=", False)]
+            if not is_valid_account(record):
                 record.primary_salesperson_id = False
             else:
-                main_line = record.line_ids.search(
-                    [("account_id", "=", record.id),
-                     ("invoice_id.user_id", "!=", False)], limit=1, order="id")
+                main_line = record.line_ids.search(domain, limit=1, order="id")
                 if any(main_line):
-                    record.primary_salesperson_id = main_line.invoice_id.user_id
+                    record.primary_salesperson_id = get_invoice(main_line.move_id).user_id
                 else:
                     record.primary_salesperson_id = False
 
     # TODO: This can be embedded in _compute_primary_salesperson.
     @api.one
     def has_many_salespeople(self):
-        if self.type != "contract":
+        domain = [("account_id", "=", self.id)]
+        if MAJOR_ODOO_VERSION > 8:
+            domain += [("move_id.invoice_id.user_id", "!=", False)]
+        else:
+            domain += [("move_id.invoice.user_id", "!=", False)]
+        if not is_valid_account(self):
             return False
         else:
-            lines = self.line_ids.search(
-                [("account_id", "=", self.id),
-                 ("invoice_id.user_id", "!=", False)])
+            lines = self.line_ids.search(domain)
             if any(lines):
-                salesperson = lines[0].invoice_id.user_id
+                salesperson = get_invoice(lines[0].move_id).user_id
                 for line in lines[1:]:
-                    if line.invoice_id.user_id != salesperson:
+                    if get_invoice(line.move_id).user_id != salesperson:
                         return True
                 return False
             return False
@@ -429,12 +461,14 @@ class AccountMove(models.Model):
 
     @api.multi
     def unlink(self):
-        # It seems that the @api.depends in our code above it's not being
-        # properly triggered by Odoo when the account line is being removed in
-        # cascade. THIS NEEDS TO BE CONFIRMED.
+        # The @api.depends in our code above it's not triggered by Odoo when
+        # the account line is being removed in cascade.  So, we collect all
+        # affected analytic accounts to touch them later.
         #
-        # So, we collect all affected analytic accounts to touch them later.
-        accounts = self.mapped('line_id.analytic_lines.account_id')
+        # See: https://github.com/odoo/odoo/pull/17982
+        accounts = self.mapped(
+            "%s.analytic_lines.account_id" % ("line_ids" if MAJOR_ODOO_VERSION > 8 else "line_id")
+        )
         res = super(AccountMove, self).unlink()
         accounts._compute_invoiced()
         return res

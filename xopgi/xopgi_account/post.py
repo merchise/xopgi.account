@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # xopgi.account.post
 # ---------------------------------------------------------------------
-# Copyright (c) 2015-2016 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) 2015-2017 Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -20,13 +20,13 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-from openerp.models import TransientModel
+from xoeuf import api, models
 
 
-class PostMoveConfirmation(TransientModel):
+class PostMoveConfirmation(models.TransientModel):
     _name = 'xopgi.account.move.confirm'
 
-    def post(self, cr, uid, ids, context=None):
-        Move = self.pool['account.move']
-        return Move.button_validate(cr, uid, context['active_ids'],
-                                    context=context)
+    @api.multi
+    def post(self):
+        Move = self.env['account.move']
+        return Move.browse(self.env.context['active_ids']).button_validate()

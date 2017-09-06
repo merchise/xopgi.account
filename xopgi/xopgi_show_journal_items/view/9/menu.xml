@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <menuitem action="account.action_account_moves_all_a"
+              id="account.menu_action_account_moves_all"
+              parent="account.menu_finance_entries"
+              sequence="1"
+              groups="account.group_account_manager" />
+
+  </data>
+</openerp>

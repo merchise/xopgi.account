@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------------
 # __openerp__
 # ---------------------------------------------------------------------
-# Copyright (c) 2015-2016 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) 2015-2017 Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
 # This is free software; you can redistribute it and/or modify it under the
@@ -22,10 +22,10 @@ dict(
                  "currencies."),
     depends=['xopgi_account'],
     data=[
-        'view/moves.xml',
+        'view/%d/moves.xml' % MAJOR_ODOO_VERSION,  # noqa
         'view/invoices.xml',
     ],
     application=False,
-    installable=((8, 0) <= ODOO_VERSION_INFO < (9, 0)),   # noqa
+    installable=8 <= MAJOR_ODOO_VERSION < 11,   # noqa
     auto_install=True,
 )

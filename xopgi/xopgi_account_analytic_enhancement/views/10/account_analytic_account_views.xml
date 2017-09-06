@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record id="view_account_analytic_account_form" model="ir.ui.view">
+      <field name="name">analytic.analytic.account.form</field>
+      <field name="model">account.analytic.account</field>
+      <field name="inherit_id"
+             ref="analytic.view_account_analytic_account_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//sheet" position="inside">
+          <div name="commission" groups="sales_team.group_sale_manager">
+            <group string="Commission">
+              <group>
+                <field name='required_margin'/>
+                <field name='max_margin'/>
+              </group>
+              <group>
+                <field name='min_commission_margin'/>
+                <field name='max_commission_margin'/>
+              </group>
+            </group>
+          </div>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="contract_base_view_tree" model="ir.ui.view">
+      <field name="name">account.analytic.account.contract.base.tree</field>
+      <field name="model">account.analytic.account</field>
+      <field name="inherit_id" ref="analytic.view_account_analytic_account_list"/>
+      <field name="groups_id" eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+      <field name="arch" type="xml">
+        <field name="code" position="replace"/>
+        <field name="company_id" position="replace"/>
+        <field name="debit" position="replace"/>
+        <field name="credit" position="replace"/>
+        <field name="balance" position="replace"/>
+        <field name="partner_id" position="after">
+          <field name="invoiced" sum="Invoiced"/>
+          <field name="expended" sum="Expended"/>
+          <field name="self_balance" sum="Total Balance"/>
+          <field name="percentage_margin"/>
+          <field name="percentage_commission"/>
+          <field name="commission" sum="Total Commission"/>
+          <field name="primary_salesperson_id"/>
+          <field name="name" invisible="1"/>
+          <field name="supplier_invoice_id" invisible="1"/>
+        </field>
+      </field>
+    </record>
+
+    <record id="account_analytic_account_contract_view_search" model="ir.ui.view">
+      <field name="name">analytic_account.commission</field>
+      <field name="model">account.analytic.account</field>
+      <field name="inherit_id" ref="analytic.view_account_analytic_account_search"/>
+      <field name="arch" type="xml">
+        <xpath expr="//group" position="inside">
+          <filter string="Salesperson" domain="[]"
+                  context="{'group_by':'primary_salesperson_id'}"/>
+        </xpath>
+        <field name="partner_id" position="after">
+          <field name="primary_salesperson_id"/>
+          <filter name="commission_paid" string="Com. Invoiced"
+                  domain="[('active', '=', True), ('supplier_invoice_id', '!=', False)]"/>
+          <filter name="commission_unpaid" string="Com. Uninvoiced"
+                  domain="[('active', '=', True), ('supplier_invoice_id', '=', False)]"/>
+          <filter name="commission_ready" string="Com. Ready"
+                  domain="[('active', '=', True), ('state', '=', 'close'), ('supplier_invoice_id', '=', False)]"/>
+        </field>
+      </field>
+    </record>
+  </data>
+</openerp>

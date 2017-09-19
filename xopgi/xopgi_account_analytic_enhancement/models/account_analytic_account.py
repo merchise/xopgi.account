@@ -456,6 +456,12 @@ class MoveLine(models.Model):
         return res
 
 
+if MAJOR_ODOO_VERSION < 9:
+    _ACCOUNT_FIELD = 'line_id.analytic_lines.account_id'
+else:
+    _ACCOUNT_FIELD = 'line_ids.analytic_lines_ids.account_id'
+
+
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
@@ -466,9 +472,7 @@ class AccountMove(models.Model):
         # affected analytic accounts to touch them later.
         #
         # See: https://github.com/odoo/odoo/pull/17982
-        accounts = self.mapped(
-            "%s.analytic_lines.account_id" % ("line_ids" if MAJOR_ODOO_VERSION > 8 else "line_id")
-        )
+        accounts = self.mapped(_ACCOUNT_FIELD)
         res = super(AccountMove, self).unlink()
         accounts._compute_invoiced()
         return res

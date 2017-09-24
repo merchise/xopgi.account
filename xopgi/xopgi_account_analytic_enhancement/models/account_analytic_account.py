@@ -120,6 +120,7 @@ def _compute_margin_commission(record):
 
 # Types of invoices that affect the income and the margin percent.
 INCOME_INVOICE_TYPES = ('out_invoice', 'out_refund')
+SALE_INVOICE_TYPES = ('out_invoice', )
 
 # The differences between Odoo 8 and Odoo 9, are how to get the invoice
 # reference from the account move and when compute primary salesperson in the
@@ -346,9 +347,15 @@ class AccountAnalyticAccount(models.Model):
         for record in self.filtered(lambda r: r not in context_accounts):
             domain = [("account_id", "=", record.id)]
             if MAJOR_ODOO_VERSION > 8:
-                domain += [("move_id.invoice_id.user_id", "!=", False)]
+                domain += [
+                    ('move_id.invoice_id.user_id', '!=', False),
+                    ('move_id.invoice_id.type', 'in', SALE_INVOICE_TYPES)
+                ]
             else:
-                domain += [("move_id.invoice.user_id", "!=", False)]
+                domain += [
+                    ('move_id.invoice.user_id', '!=', False),
+                    ('move_id.invoice.type', 'in', SALE_INVOICE_TYPES)
+                ]
             if not is_valid_account(record):
                 record.primary_salesperson_id = False
             else:
@@ -363,9 +370,15 @@ class AccountAnalyticAccount(models.Model):
     def has_many_salespeople(self):
         domain = [("account_id", "=", self.id)]
         if MAJOR_ODOO_VERSION > 8:
-            domain += [("move_id.invoice_id.user_id", "!=", False)]
+            domain += [
+                ('move_id.invoice_id.user_id', '!=', False),
+                ('move_id.invoice_id.type', 'in', SALE_INVOICE_TYPES)
+            ]
         else:
-            domain += [("move_id.invoice.user_id", "!=", False)]
+            domain += [
+                ('move_id.invoice.user_id', '!=', False),
+                ('move_id.invoice.type', 'in', SALE_INVOICE_TYPES)
+            ]
         if not is_valid_account(self):
             return False
         else:

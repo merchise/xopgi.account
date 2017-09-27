@@ -49,10 +49,6 @@ class AccountConfigSettings(models.TransientModel):
         'Add view data to analytic accounts.'
     )
 
-    module_xopgi_operations_performance = fields.Boolean(
-        'Show reports about operations performance.'
-    )
-
     module_xopgi_unrealized_gl = fields.Boolean(
         'Manage unrealized gain & loss.'
     )

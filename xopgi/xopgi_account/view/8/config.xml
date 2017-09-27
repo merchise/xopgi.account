@@ -44,11 +44,6 @@
             <label for="module_xopgi_account_analytic_enhancement"/>
           </div>
           <div>
-            <field name="module_xopgi_operations_performance"
-                   class="oe_inline"/>
-            <label for="module_xopgi_operations_performance"/>
-          </div>
-          <div>
             <field name="module_xopgi_unrealized_gl"
                    class="oe_inline"/>
             <label for="module_xopgi_unrealized_gl"/>

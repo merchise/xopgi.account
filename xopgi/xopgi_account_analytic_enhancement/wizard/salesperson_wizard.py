@@ -109,7 +109,6 @@ class PrimaryInstructorWizard(models.TransientModel):
                 account_id,
                 salesperson_commissions[salesperson_key]
             )
-            del self.env
 
     def _supplier_invoice_generator(self, partner, account_id,
                                     analytic_account_ids):

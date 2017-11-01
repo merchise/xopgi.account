@@ -472,7 +472,7 @@ class MoveLine(models.Model):
 if MAJOR_ODOO_VERSION < 9:
     _ACCOUNT_FIELD = 'line_id.analytic_lines.account_id'
 else:
-    _ACCOUNT_FIELD = 'line_ids.analytic_lines_ids.account_id'
+    _ACCOUNT_FIELD = 'line_ids.analytic_line_ids.account_id'
 
 
 class AccountMove(models.Model):

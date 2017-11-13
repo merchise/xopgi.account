@@ -1,41 +1,35 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
-# xopgi.addons.account
-# ---------------------------------------------------------------------
-# Copyright (c) 2013-2017 Merchise Autrement [~º/~]
+# Copyright (c) Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
+# This is free software; you can do what the LICENCE file allows you to.
 #
-# This is free software; you can redistribute it and/or modify it under the
-# terms of the LICENCE attached (see LICENCE file) in the distribution
-# package.
-#
-# @created: 2013-11-11
-# flake8:  noqa
 
 from xoeuf import MAJOR_ODOO_VERSION
 
 
 if MAJOR_ODOO_VERSION < 11:
     # Not tested in Odoo 10
-    from . import config
+    from . import config  # noqa
 
 
 if MAJOR_ODOO_VERSION < 9:
     # The Chart of Accounts wizard no longer exists in Odoo 9.
-    from . import chart
+    from . import chart  # noqa
 
     # The following contain only UI-level modifications that are no longer
     # compatible with Odoo 9.
-    from . import move
-    from . import voucher
-    from . import misc
+    from . import move  # noqa
+    from . import voucher  # noqa
+    from . import misc  # noqa
 
     # Odoo 9 has its own 'Post Journal Entries' to post multiple entries at
     # once.
-    from . import post
+    from . import post  # noqa
 
 if MAJOR_ODOO_VERSION < 11:
-    from . import invoice
-    from . import reconcile
-    from . import track
+    from . import invoice  # noqa
+    from . import reconcile  # noqa
+    from . import track  # noqa

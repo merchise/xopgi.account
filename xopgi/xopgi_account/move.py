@@ -1,16 +1,11 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
-# xopgi.xopgi.xopgi_account.move
-# ---------------------------------------------------------------------
-# Copyright (c) 2013-2017 Merchise Autrement [~º/~]
+# Copyright (c) Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
+# This is free software; you can do what the LICENCE file allows you to.
 #
-# This is free software; you can redistribute it and/or modify it under the
-# terms of the LICENCE attached (see LICENCE file) in the distribution
-# package.
-#
-# @created: 2013-11-30
 
 '''Extensions & fixes for account move lines.
 

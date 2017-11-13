@@ -43,7 +43,7 @@ class MoveLine(models.Model):
         for line in self:
             if line.currency_id:
                 amount = line.line_currency_amount
-                if  amount > 0:
+                if amount > 0:
                     line.currency_debit = amount
                     line.currency_credit = 0
                 else:

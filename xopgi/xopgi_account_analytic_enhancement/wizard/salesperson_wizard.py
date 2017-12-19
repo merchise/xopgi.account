@@ -17,10 +17,7 @@ from __future__ import (division as _py3_division,
 
 import logging
 from datetime import date
-try:
-    from xoutil.future.string import safe_decode
-except ImportError:
-    from xoutil.string import safe_decode
+from xoutil.future.codecs import safe_decode
 
 from xoeuf import api, fields, models, MAJOR_ODOO_VERSION
 from xoeuf.odoo import _

@@ -71,10 +71,7 @@ class account_move_line(Model):
            to be returned.
 
         '''
-        try:
-            from xoutil.symbols import Unset
-        except ImportError:
-            from xoutil import Unset
+        from xoutil.symbols import Unset
         from xoutil.eight import integer_types
         result = super(account_move_line, self).default_get(
             cr, uid, fields, context=context
@@ -106,10 +103,7 @@ class account_move_line(Model):
         return result
 
     def _calc_currency_debit_credit(self, obj, fields=None):
-        try:
-            from xoutil.future.collections import opendict
-        except ImportError:
-            from xoutil.collections import opendict
+        from xoutil.future.collections import opendict
         if not fields:
             fields = ('currency_debit', 'currency_credit')
         result = opendict.fromkeys(fields, 0)
@@ -142,7 +136,7 @@ class account_move_line(Model):
         negative.
 
         '''
-        from xoutil.types import is_collection
+        from xoutil.future.types import is_collection
         if not is_collection(fields):
             fields = [fields, ]
         result = {}

@@ -45,7 +45,8 @@ class account_voucher(models.Model):
     '''
     _inherit = 'account.voucher'
 
-    def onchange_company(self, cr, uid, ids, context=None):
+    def onchange_company(self, cr, uid, ids, partner_id, journal_id,
+                         currency_id, company_id, context=None):
         '''Cleans the journal and period when the company changes.'''
         return {'value': {'journal_id': False, 'period_id': False}}
 

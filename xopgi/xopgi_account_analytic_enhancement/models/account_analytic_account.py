@@ -267,7 +267,8 @@ class AccountAnalyticAccount(models.Model):
               'discounting refunds.'),
         compute='_compute_invoiced',
         digits=dp.get_precision('Account'),
-        store=True
+        store=True,
+        compute_sudo=True
     )
 
     expended = fields.Float(
@@ -276,7 +277,8 @@ class AccountAnalyticAccount(models.Model):
               'discounting refunds.'),
         compute='_compute_invoiced',
         digits=dp.get_precision('Account'),
-        store=True
+        store=True,
+        compute_sudo=True
     )
 
     amount_undefined = fields.Float(
@@ -285,7 +287,8 @@ class AccountAnalyticAccount(models.Model):
               'it is not attached to an invoice'),
         compute='_compute_invoiced',
         digits=dp.get_precision('Account'),
-        store=True
+        store=True,
+        compute_sudo=True
     )
 
     self_balance = fields.Float(
@@ -293,7 +296,8 @@ class AccountAnalyticAccount(models.Model):
         help=('Self balance'),
         compute='_compute_invoiced',
         digits=dp.get_precision('Account'),
-        store=True
+        store=True,
+        compute_sudo=True
     )
 
     primary_salesperson_id = fields.Many2one(
@@ -461,8 +465,8 @@ class MoveLine(models.Model):
         with Context(AVOID_LENGTHY_COMPUTATION, accounts=accounts | new_accounts):
             res = super(MoveLine, self).create_analytic_lines()
         for account in new_accounts:
-            account._compute_invoiced()
-            account._compute_primary_salesperson()
+            account.sudo()._compute_invoiced()
+            account.sudo()._compute_primary_salesperson()
         return res
 
 

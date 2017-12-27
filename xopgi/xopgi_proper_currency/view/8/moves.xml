@@ -51,11 +51,11 @@
         <field name="debit" position="before">
           <field groups="base.group_multi_currency"
                  name="currency_debit"
-		 string="Debit (line currency)"
+                 string="Debit (line currency)"
                  sum="Total debit. ** Only valid if grouped by currency!"/>
           <field groups="base.group_multi_currency"
                  name="currency_credit"
-		 string="Credit (line currency)"
+                 string="Credit (line currency)"
                  sum="Total credit. ** Only valid if grouped by currency!"/>
           <field groups="base.group_multi_currency"
                  name="currency_id" options="{'no_open': True}"/>

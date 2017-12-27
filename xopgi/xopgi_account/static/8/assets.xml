@@ -2,12 +2,12 @@
 <openerp>
   <data>
     <template id="assets_backend"
-	      name="xopgi account assets"
-	      inherit_id="account.assets_backend">
+              name="xopgi account assets"
+              inherit_id="account.assets_backend">
       <xpath expr="." position="inside">
-	<link
-	    rel="stylesheet"
-	    href="/xopgi_account/static/src/css/xopgi_account.css"/>
+        <link
+            rel="stylesheet"
+            href="/xopgi_account/static/src/css/xopgi_account.css"/>
       </xpath>
     </template>
   </data>

@@ -93,3 +93,32 @@ class TestVoucherOnchangeRegression(HttpCase):
         self.assertEqual(200, self.getcode(response))
         payload = self.get_payload(response)
         self.assertNotIn('error', payload)
+
+    def test_onchange_company_with_many_args(self):
+        self.authenticate('admin', 'admin')
+        setup_json(self)
+        response = self.url_open(
+            '/web/dataset/call_kw/account.voucher/onchange',
+            json.dumps({
+                "params": {
+                    "model": "account.voucher",
+                    "args": [
+                        [],
+                        {"company_id": self.env.ref('base.main_company').id,
+                         "id": False},
+                        ["company_id"],
+                        {"company_id": "onchange_company(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)"}
+                    ],
+                    "method": "onchange",
+                    "kwargs": {}},
+
+                "jsonrpc": "2.0",
+                "id": id(self),
+                "method": "call"})
+        )
+        # Well Odoo, does return 200 (even for a TypeError as described in
+        # MERCURIO-1MA), but the payload says it's an error.  So I have to
+        # assume a *good* response of error.
+        self.assertEqual(200, self.getcode(response))
+        payload = self.get_payload(response)
+        self.assertNotIn('error', payload)

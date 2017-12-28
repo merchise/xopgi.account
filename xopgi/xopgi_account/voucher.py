@@ -12,7 +12,7 @@ from __future__ import (division as _py3_division,
                         absolute_import as _absolute_import)
 
 from openerp.osv import fields
-from xoeuf import models, MAJOR_ODOO_VERSION
+from xoeuf import api, models, MAJOR_ODOO_VERSION
 
 # Odoo 9 does not have the fiscal year and period objects.  Instead company's
 # have fiscal year's closure (lock) dates.
@@ -45,8 +45,8 @@ class account_voucher(models.Model):
     '''
     _inherit = 'account.voucher'
 
-    def onchange_company(self, cr, uid, ids, partner_id, journal_id,
-                         currency_id, company_id, context=None):
+    @api.cr_uid_ids_context
+    def onchange_company(self, cr, uid, ids, *args, **kwargs):
         '''Cleans the journal and period when the company changes.'''
         return {'value': {'journal_id': False, 'period_id': False}}
 

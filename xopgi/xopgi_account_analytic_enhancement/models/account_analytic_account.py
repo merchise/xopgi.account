@@ -488,5 +488,5 @@ class AccountMove(models.Model):
         # See: https://github.com/odoo/odoo/pull/17982
         accounts = self.mapped(_ACCOUNT_FIELD)
         res = super(AccountMove, self).unlink()
-        accounts._compute_invoiced()
+        accounts.sudo()._compute_invoiced()
         return res

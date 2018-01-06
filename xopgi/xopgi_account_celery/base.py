@@ -78,7 +78,7 @@ class ValidateInvoice(models.Model):
 
         def count(iterable):
             result = 0
-            for _ in iterable:
+            for _ in iterable:  # noqa: F402
                 result += 1
             return result
 

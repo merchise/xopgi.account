@@ -9,7 +9,7 @@
       <field name="arch" type="xml">
         <xpath expr="//separator[1]" position="before">
           <group name='xopgi_account_config'
-                 string='Extensions'>
+                 string='Extensions' groups="base.group_system">
             <div>
               <field name="module_xopgi_proper_currency"
                      class="oe_inline"/>
@@ -49,5 +49,11 @@
         </xpath>
       </field>
     </record>
+
+    <menuitem id="account.menu_account_config"
+              name="Settings"
+              parent="account.menu_finance_configuration"
+              sequence="0" action="account.action_account_config"
+              groups="account.group_account_invoice"/>
   </data>
 </openerp>

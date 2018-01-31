@@ -52,7 +52,8 @@
     <record id="account_analytic_account_contract_view_search" model="ir.ui.view">
       <field name="name">analytic_account.commission</field>
       <field name="model">account.analytic.account</field>
-      <field name="inherit_id" ref="analytic.view_account_analytic_account_search"/>
+      <field name="inherit_id"
+             ref="xopgi_analytic_sale_contracts.view_account_analytic_account_overdue_search"/>
       <field name="arch" type="xml">
         <xpath expr="//group" position="inside">
           <filter string="Salesperson" domain="[]"

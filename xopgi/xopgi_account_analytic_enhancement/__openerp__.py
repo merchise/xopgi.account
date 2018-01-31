@@ -12,6 +12,7 @@ dict(
         'xopgi_analytic_parent' if MAJOR_ODOO_VERSION > 8 else None,  # noqa
         'xopgi_analytic_state' if MAJOR_ODOO_VERSION > 8 else None,  # noqa
         'xopgi_analytic_manager' if MAJOR_ODOO_VERSION > 8 else None,  # noqa
+        'xopgi_analytic_sale_contracts' if MAJOR_ODOO_VERSION == 10 else None,  # noqa
     ])),
     author="Merchise Autrement [~º/~]",
     category="Accounting & Finance",

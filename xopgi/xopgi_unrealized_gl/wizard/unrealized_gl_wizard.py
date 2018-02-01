@@ -1,18 +1,13 @@
 #!/usr/bin/env python
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
-# unrealized_gl_wizard
-# ---------------------------------------------------------------------
-# Copyright (c) 2015-2017 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
-# This is free software; you can redistribute it and/or modify it under the
-# terms of the LICENCE attached (see LICENCE file) in the distribution
-# package.
+# This is free software; you can do what the LICENCE file allows you to.
+#
 
 '''Perform the Unrealized Gain/Loss adjustment.
-
-
 
 '''
 
@@ -20,10 +15,11 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-from xoeuf import api, fields, models, MAJOR_ODOO_VERSION
+from xoeuf import api, fields, models
 from xoeuf.models.extensions import get_creator
 from xoeuf.models.proxy import (
-    AccountPeriod as Period,
+    DecimalPrecision,
+    AccountMoveLine,
     AccountMove as Move,
     AccountAccount as Account,
     ResCurrency as Currency,
@@ -34,34 +30,19 @@ from xoeuf.osv.orm import CREATE_RELATED
 from ..settings import REGULAR_ACCOUNT_DOMAIN, GENERAL_JOURNAL_DOMAIN
 
 
-if MAJOR_ODOO_VERSION < 9:
-    LINES_FIELD_NAME = 'line_id'
+LINES_FIELD_NAME = 'line_ids'
 
-    def _get_valid_accounts(currency=None):
-        query = [("type", "!=", "view")]
-        if currency is None:
-            query += [("currency_id", "!=", False)]
-        else:
-            query += [("currency_id", "=", currency.id)]
-        return Account.search(query)
 
-    def next_seq(s):
-        # It seems that Odoo 8, regards `next_by_id` as an api.model instead
-        # of api.multi
-        return s.next_by_id(s.id)
+def _get_valid_accounts(currency=None):
+    if currency is None:
+        query = [("currency_id", "!=", False)]
+    else:
+        query = [("currency_id", "=", currency.id)]
+    return Account.search(query)
 
-else:
-    LINES_FIELD_NAME = 'line_ids'
 
-    def _get_valid_accounts(currency=None):
-        if currency is None:
-            query = [("currency_id", "!=", False)]
-        else:
-            query = [("currency_id", "=", currency.id)]
-        return Account.search(query)
-
-    def next_seq(s):
-        return s.next_by_id()
+def next_seq(s):
+    return s.next_by_id()
 
 
 class UnrealizedGLWizard(models.TransientModel):
@@ -190,10 +171,6 @@ class UnrealizedGLWizard(models.TransientModel):
                         journal_id=self.journal_id.id,
                         date=self.close_date,
                     )
-                    if MAJOR_ODOO_VERSION < 9:
-                        creator.update(
-                            period_id=Period.find(dt=self.close_date).id,
-                        )
                     if gainloss > 0:
                         creator.create(
                             LINES_FIELD_NAME,
@@ -245,7 +222,46 @@ class Adjustment(models.TransientModel):
     adjusted_balance = fields.Float(compute='_compute_all', default=0)
     gainloss = fields.Float(compute='_compute_all', default=0)
 
-    if MAJOR_ODOO_VERSION < 9:
-        from ._v8 import _compute_all
-    elif 9 <= MAJOR_ODOO_VERSION < 11:
-        from ._v9 import _compute_all
+    @api.depends('account', 'wizard')
+    def _compute_all(self):
+        precision = DecimalPrecision.precision_get('Account')
+        company_currency = self.env.user.company_id.currency_id
+        # Map records to accounts so that we can compute the balances in a single
+        # DB query
+        account_map = dict(zip(self.mapped('account.id'), self))
+        assert len(account_map) == len(self)
+        close_date = self[0].wizard.close_date
+        tables, where_clause, where_params = AccountMoveLine.with_context(
+            state='posted', date_to=close_date
+        )._query_get()
+        if not tables:
+            tables = '"account_move_line"'
+        if where_clause.strip():
+            filters = [where_clause]
+        else:
+            filters = []
+        filters.append('"account_move_line"."account_id" IN %s')
+        where_params.append(tuple(account_map.keys()))
+        query = ('''
+            SELECT account_id AS id,
+                   COALESCE(SUM(debit), 0) - COALESCE(SUM(credit), 0) AS balance,
+                   COALESCE(SUM(amount_currency), 0) as foreign_balance
+               FROM {tables}
+               WHERE {filters}
+               GROUP BY account_id
+        ''').format(tables=tables, filters=' AND '.join(filters))
+        self.env.cr.execute(query, where_params)
+        for row in self.env.cr.dictfetchall():
+            record = account_map.pop(int(row['id']))  # cast to int, otherwise KeyError
+            account = record.account
+            record.balance = balance = row['balance']
+            record.foreign_balance = row['foreign_balance']
+            record.adjusted_balance = adjusted = account.currency_id.with_context(date=close_date).compute(
+                record.foreign_balance,
+                company_currency,
+                round=False,
+            )
+            record.gainloss = round(adjusted - balance, precision)
+        for record in account_map.values():
+            record.balance = record.foreign_balance = 0
+            record.adjusted_balance = record.gainloss = 0

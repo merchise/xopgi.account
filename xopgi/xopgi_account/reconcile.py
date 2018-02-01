@@ -11,16 +11,7 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-from xoeuf import api, models, MAJOR_ODOO_VERSION
-
-
-if MAJOR_ODOO_VERSION < 9:
-    def is_valid(line):
-        return line.state == 'valid'
-else:
-    def is_valid(line):
-        # Since Odoo 9+ there's no way to have an invalid move line
-        return True
+from xoeuf import api, models
 
 
 class MoveLine(models.Model):
@@ -33,7 +24,7 @@ class MoveLine(models.Model):
 
         '''
         debit = credit = 0
-        for line in self.filtered(is_valid):
+        for line in self:
             debit += line.debit
             credit += line.credit
         return debit - credit

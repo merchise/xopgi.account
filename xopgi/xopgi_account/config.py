@@ -17,14 +17,6 @@ from xoeuf import fields, models
 class AccountConfigSettings(models.TransientModel):
     _inherit = 'account.config.settings'
 
-    module_xopgi_invisible_tax = fields.Boolean(
-        'Hide account tax column when editing journal items.'
-    )
-
-    module_xopgi_invisible_conciliation = fields.Boolean(
-        'Hides conciliation columns when editing journal items.'
-    )
-
     module_xopgi_proper_currency = fields.Boolean(
         'Enter foreign currencies in debit/credit columns.'
     )
@@ -46,10 +38,6 @@ class AccountConfigSettings(models.TransientModel):
 
     module_xopgi_unrealized_gl = fields.Boolean(
         'Manage unrealized gain & loss.'
-    )
-
-    module_xopgi_payment_extension = fields.Boolean(
-        'Install payments enhancements.'
     )
 
     module_xopgi_show_journal_items = fields.Boolean(

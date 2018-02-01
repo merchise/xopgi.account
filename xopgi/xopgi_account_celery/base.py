@@ -13,7 +13,7 @@ from __future__ import (division as _py3_division,
 
 from xoeuf.ui import CLOSE_WINDOW
 
-from xoeuf import models, api, MAJOR_ODOO_VERSION
+from xoeuf import models, api
 from xoeuf.odoo import _
 from xoeuf.odoo.jobs import Deferred, report_progress, until_timeout
 from xoeuf.odoo.addons import web_celery
@@ -27,24 +27,12 @@ QUIETLY_WAIT_FOR_TASK = getattr(web_celery, 'QUIETLY_WAIT_FOR_TASK',
 CLOSE_PROGRESS_BAR = getattr(web_celery, 'CLOSE_FEEDBACK', None)
 
 
-# The only differences of any importance to us between Odoo 8 and Odoo 9+, is
-# how to get the invoice's lines, and how to actually perform the validation.
-if MAJOR_ODOO_VERSION == 8:
-    def get_lines(invoice):
-        return invoice.invoice_line
-
-elif MAJOR_ODOO_VERSION < 11:
-    def get_lines(invoice):
-        return invoice.invoice_line_ids
+def get_lines(invoice):
+    return invoice.invoice_line_ids
 
 
-if MAJOR_ODOO_VERSION < 10:
-    def perform_validate(invoice):
-        invoice.signal_workflow('invoice_open')
-
-else:
-    def perform_validate(invoice):
-        invoice.action_invoice_open()
+def perform_validate(invoice):
+    invoice.action_invoice_open()
 
 
 class ValidateInvoice(models.Model):

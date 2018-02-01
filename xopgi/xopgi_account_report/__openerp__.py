@@ -1,16 +1,11 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
-# xopgi.xopgi_account_report
-# ---------------------------------------------------------------------
-# Copyright (c) 2013-2017 Merchise Autrement [~º/~]
+# Copyright (c) Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
-# This is free software; you can redistribute it and/or modify it under the
-# terms of the LICENCE attached (see LICENCE file) in the distribution
-# package.
+# This is free software; you can do what the LICENCE file allows you to.
 #
-# @created: 2015-03-26
-
 
 dict(
     name="Summarize Account Partner Balance (extended - xopgi)",
@@ -23,8 +18,8 @@ dict(
         'xopgi_proper_currency'
     ],
     data=[
-        'view/%d/partners.xml' % MAJOR_ODOO_VERSION,  # noqa
+        'view/partners.xml',
     ],
     application=False,
-    installable=8 <= MAJOR_ODOO_VERSION < 11,   # noqa
+    installable=10 <= MAJOR_ODOO_VERSION < 11,   # noqa
 )

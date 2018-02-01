@@ -1,16 +1,11 @@
 #!/usr/bin/env python
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
-# account_analytic_account
-# ---------------------------------------------------------------------
-# Copyright (c) 2015-2017 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
-# This is free software; you can redistribute it and/or modify it under the
-# terms of the LICENCE attached (see LICENCE file) in the distribution
-# package.
+# This is free software; you can do what the LICENCE file allows you to.
 #
-# Created on 2015-11-24
 
 from __future__ import (division as _py3_division,
                         print_function as _py3_print,
@@ -19,7 +14,7 @@ from __future__ import (division as _py3_division,
 from xoutil.symbols import Unset
 from xoutil.context import Context
 
-from xoeuf import api, fields, models, MAJOR_ODOO_VERSION
+from xoeuf import api, fields, models
 from xoeuf.odoo.exceptions import ValidationError
 
 import xoeuf.odoo.addons.decimal_precision as dp
@@ -119,29 +114,13 @@ def _compute_margin_commission(record):
 INCOME_INVOICE_TYPES = ('out_invoice', 'out_refund')
 SALE_INVOICE_TYPES = ('out_invoice', )
 
-# The differences between Odoo 8 and Odoo 9, are how to get the invoice
-# reference from the account move and when compute primary salesperson in the
-# analytic account.
-if MAJOR_ODOO_VERSION == 8:
-    def get_invoice(move):
-        return move.invoice
 
-    def is_valid_account(account):
-        return account.type == 'contract'
-elif MAJOR_ODOO_VERSION == 9:
-    def get_invoice(move):
-        return move.invoice_id
+def get_invoice(move):
+    return move.invoice_id
 
-    def is_valid_account(account):
-        return account.account_type == 'normal'
-elif MAJOR_ODOO_VERSION == 10:
-    def get_invoice(move):
-        return move.invoice_id
 
-    def is_valid_account(account):
-        return account.active
-else:
-    raise NotImplemented
+def is_valid_account(account):
+    return account.active
 
 
 class AccountAnalyticAccount(models.Model):
@@ -339,24 +318,14 @@ class AccountAnalyticAccount(models.Model):
             record.percentage_commission = comm_percent * 100
             record.commission = comm_percent * balance
 
-    @api.depends(
-        "line_ids.move_id.%s.user_id.name" % ("invoice_id" if MAJOR_ODOO_VERSION > 8 else "invoice")
-    )
+    @api.depends('line_ids.move_id.invoice_id.user_id.name')
     def _compute_primary_salesperson(self):
         context = Context[AVOID_LENGTHY_COMPUTATION]
         context_accounts = context.get('accounts', [])
         for record in self.filtered(lambda r: r not in context_accounts):
-            domain = [("account_id", "=", record.id)]
-            if MAJOR_ODOO_VERSION > 8:
-                domain += [
-                    ('move_id.invoice_id.user_id', '!=', False),
-                    ('move_id.invoice_id.type', 'in', SALE_INVOICE_TYPES)
-                ]
-            else:
-                domain += [
-                    ('move_id.invoice.user_id', '!=', False),
-                    ('move_id.invoice.type', 'in', SALE_INVOICE_TYPES)
-                ]
+            domain = [("account_id", "=", record.id),
+                      ('move_id.invoice_id.user_id', '!=', False),
+                      ('move_id.invoice_id.type', 'in', SALE_INVOICE_TYPES)]
             if not is_valid_account(record):
                 record.primary_salesperson_id = False
             else:
@@ -369,17 +338,9 @@ class AccountAnalyticAccount(models.Model):
     # TODO: This can be embedded in _compute_primary_salesperson.
     @api.one
     def has_many_salespeople(self):
-        domain = [("account_id", "=", self.id)]
-        if MAJOR_ODOO_VERSION > 8:
-            domain += [
-                ('move_id.invoice_id.user_id', '!=', False),
-                ('move_id.invoice_id.type', 'in', SALE_INVOICE_TYPES)
-            ]
-        else:
-            domain += [
-                ('move_id.invoice.user_id', '!=', False),
-                ('move_id.invoice.type', 'in', SALE_INVOICE_TYPES)
-            ]
+        domain = [("account_id", "=", self.id),
+                  ('move_id.invoice_id.user_id', '!=', False),
+                  ('move_id.invoice_id.type', 'in', SALE_INVOICE_TYPES)]
         if not is_valid_account(self):
             return False
         else:
@@ -470,10 +431,7 @@ class MoveLine(models.Model):
         return res
 
 
-if MAJOR_ODOO_VERSION < 9:
-    _ACCOUNT_FIELD = 'line_id.analytic_lines.account_id'
-else:
-    _ACCOUNT_FIELD = 'line_ids.analytic_line_ids.account_id'
+_ACCOUNT_FIELD = 'line_ids.analytic_line_ids.account_id'
 
 
 class AccountMove(models.Model):

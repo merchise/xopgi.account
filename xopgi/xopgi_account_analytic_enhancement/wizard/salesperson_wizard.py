@@ -15,12 +15,12 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-import logging
 from datetime import date
 from xoutil.future.codecs import safe_decode
 
 from xoeuf import api, fields, models, MAJOR_ODOO_VERSION
 from xoeuf.odoo import _
+
 
 # The difference between Odoo 8 and Odoo 9, is how to get valid domain to
 # search analytic accounts.

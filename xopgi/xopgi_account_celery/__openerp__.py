@@ -18,9 +18,9 @@ dict(
         'web_celery'
     ],
     data=[
-        'views/%d/validate.xml' % MAJOR_ODOO_VERSION,  # noqa
+        'views/validate.xml',
     ],
     application=False,
-    installable=8 <= MAJOR_ODOO_VERSION < 11,   # noqa
+    installable=10 <= MAJOR_ODOO_VERSION < 11,   # noqa
     auto_install=True,
 )

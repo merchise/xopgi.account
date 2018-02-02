@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<openerp>
-  <data>
-    <!-- Odoo 9 view_move_form does not have the fields we're suppose to hide
-         here. -->
-  </data>
-</openerp>

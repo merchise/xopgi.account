@@ -11,24 +11,15 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
-from xoeuf import api, models, MAJOR_ODOO_VERSION
+from xoeuf import api, models
 
-if 8 <= MAJOR_ODOO_VERSION < 9:
-    TRACK_FIELDS = (
-        'property_account_receivable',
-        'property_account_payable',
-        'property_account_position',
-        'property_payment_term',
-        'property_supplier_payment_term',
-    )
-elif 9 <= MAJOR_ODOO_VERSION < 11:
-    TRACK_FIELDS = (
-        'property_account_payable_id',
-        'property_account_receivable_id',
-        'property_payment_term_id',
-        'property_supplier_payment_term_id',
-        'property_account_position_id',
-    )
+TRACK_FIELDS = (
+    'property_account_payable_id',
+    'property_account_receivable_id',
+    'property_payment_term_id',
+    'property_supplier_payment_term_id',
+    'property_account_position_id',
+)
 
 
 class ResPartner(models.Model):

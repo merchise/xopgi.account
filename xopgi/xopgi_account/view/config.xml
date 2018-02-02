@@ -36,11 +36,6 @@
               <label for="module_xopgi_unrealized_gl"/>
             </div>
             <div>
-              <field name="module_xopgi_payment_extension"
-                     class="oe_inline"/>
-              <label for="module_xopgi_payment_extension"/>
-            </div>
-            <div>
               <field name="module_xopgi_show_journal_items"
                      class="oe_inline"/>
               <label for="module_xopgi_show_journal_items"/>

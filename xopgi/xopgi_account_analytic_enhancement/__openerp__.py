@@ -7,21 +7,20 @@ dict(
         'account',
         'decimal_precision',
         'analytic',
-        'sales_team' if MAJOR_ODOO_VERSION > 9 else None,  # noqa
-        'account_analytic_analysis' if MAJOR_ODOO_VERSION < 9 else None,  # noqa
-        'xopgi_analytic_parent' if MAJOR_ODOO_VERSION > 8 else None,  # noqa
-        'xopgi_analytic_state' if MAJOR_ODOO_VERSION > 8 else None,  # noqa
-        'xopgi_analytic_manager' if MAJOR_ODOO_VERSION > 8 else None,  # noqa
-        'xopgi_analytic_sale_contracts' if MAJOR_ODOO_VERSION == 10 else None,  # noqa
+        'sales_team',
+        'xopgi_analytic_parent',
+        'xopgi_analytic_state',
+        'xopgi_analytic_manager',
+        'xopgi_analytic_sale_contracts',
     ])),
     author="Merchise Autrement [~º/~]",
     category="Accounting & Finance",
 
     data=[
-        "data/%d/salesperson_wizard_data.xml" % MAJOR_ODOO_VERSION, # noqa
-        "views/%d/account_analytic_account_views.xml" % MAJOR_ODOO_VERSION, # noqa
-        "wizard/%d/salesperson_wizard.xml" % MAJOR_ODOO_VERSION, # noqa
+        "data/salesperson_wizard_data.xml",
+        "views/account_analytic_account_views.xml",
+        "wizard/salesperson_wizard.xml",
     ],
 
-    installable=8 <= MAJOR_ODOO_VERSION < 11,   # noqa
+    installable=10 <= MAJOR_ODOO_VERSION < 11,   # noqa
 )

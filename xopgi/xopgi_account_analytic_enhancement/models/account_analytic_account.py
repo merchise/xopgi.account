@@ -115,14 +115,6 @@ INCOME_INVOICE_TYPES = ('out_invoice', 'out_refund')
 SALE_INVOICE_TYPES = ('out_invoice', )
 
 
-def get_invoice(move):
-    return move.invoice_id
-
-
-def is_valid_account(account):
-    return account.active
-
-
 class AccountAnalyticAccount(models.Model):
     _inherit = 'account.analytic.account'
 
@@ -298,8 +290,8 @@ class AccountAnalyticAccount(models.Model):
         for record in self.filtered(lambda r: r not in context_accounts):
             invoiced = expended = undefined = 0
             for line in record.line_ids:
-                if line.move_id and get_invoice(line.move_id):
-                    if get_invoice(line.move_id).type in INCOME_INVOICE_TYPES:
+                if line.move_id and line.move_id.invoice_id:
+                    if line.move_id.invoice_id.type in INCOME_INVOICE_TYPES:
                         invoiced += line.amount
                     else:
                         expended -= line.amount
@@ -318,40 +310,26 @@ class AccountAnalyticAccount(models.Model):
             record.percentage_commission = comm_percent * 100
             record.commission = comm_percent * balance
 
-    @api.depends('line_ids.move_id.invoice_id.user_id.name')
+    @api.depends('line_ids.move_id.invoice_id.user_id')
     def _compute_primary_salesperson(self):
         context = Context[AVOID_LENGTHY_COMPUTATION]
         context_accounts = context.get('accounts', [])
-        for record in self.filtered(lambda r: r not in context_accounts):
-            domain = [("account_id", "=", record.id),
-                      ('move_id.invoice_id.user_id', '!=', False),
-                      ('move_id.invoice_id.type', 'in', SALE_INVOICE_TYPES)]
-            if not is_valid_account(record):
-                record.primary_salesperson_id = False
+        for account in self.filtered(lambda r: r not in context_accounts):
+            if not account.active:
+                account.primary_salesperson_id = False
             else:
-                main_line = record.line_ids.search(domain, limit=1, order="id")
-                if any(main_line):
-                    record.primary_salesperson_id = get_invoice(main_line.move_id).user_id
+                user_id = next(
+                    (line.move_id.invoice_id.user_id
+                     for line in account.line_ids
+                     if line and line.move_id and line.move_id.invoice_id
+                     if line.move_id.invoice_id.type in INCOME_INVOICE_TYPES
+                     if line.move_id.invoice_id.user_id),
+                    None
+                )
+                if user_id:
+                    account.primary_salesperson_id = user_id
                 else:
-                    record.primary_salesperson_id = False
-
-    # TODO: This can be embedded in _compute_primary_salesperson.
-    @api.one
-    def has_many_salespeople(self):
-        domain = [("account_id", "=", self.id),
-                  ('move_id.invoice_id.user_id', '!=', False),
-                  ('move_id.invoice_id.type', 'in', SALE_INVOICE_TYPES)]
-        if not is_valid_account(self):
-            return False
-        else:
-            lines = self.line_ids.search(domain)
-            if any(lines):
-                salesperson = get_invoice(lines[0].move_id).user_id
-                for line in lines[1:]:
-                    if get_invoice(line.move_id).user_id != salesperson:
-                        return True
-                return False
-            return False
+                    account.primary_salesperson_id = False
 
     @api.constrains('required_margin', 'max_margin')
     def _validate_margins(self):
@@ -427,7 +405,14 @@ class MoveLine(models.Model):
             res = super(MoveLine, self).create_analytic_lines()
         for account in new_accounts:
             account.sudo()._compute_invoiced()
-            account.sudo()._compute_primary_salesperson()
+        # TODO: We should compute the primary salesperson only once per
+        # analytic account.  This has to be moved to the place where the
+        # dossier is being created, not here.
+        invoices = self.mapped('invoice_id')\
+                       .filtered(lambda i: i.type in INCOME_INVOICE_TYPES)
+        if any(invoices):
+            for account in new_accounts:
+                account.sudo()._compute_primary_salesperson()
         return res
 
 

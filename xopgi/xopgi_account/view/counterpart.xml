@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+
+    <record id="account_line_show_counterpart"
+            model="ir.ui.view">
+      <field name="name">account.move.line.form</field>
+      <field name="model">account.move.line</field>
+      <field name="inherit_id"
+             ref="account.view_move_line_form"/>
+      <field name="arch" type="xml">
+        <!-- Show the counterpart account(s) -->
+        <field name="statement_id" position="after">
+          <field name="counterpart_account_ids" widget="many2many_tags"/>
+        </field>
+      </field>
+    </record>
+
+  </data>
+</openerp>

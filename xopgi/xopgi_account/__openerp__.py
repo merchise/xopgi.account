@@ -21,6 +21,7 @@
         'view/account.xml',
         'view/filters.xml',
         'view/reconcile.xml',
+        'view/counterpart.xml',
     ],
     "application": False,
     "installable": 10 <= MAJOR_ODOO_VERSION < 11,   # noqa

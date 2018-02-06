@@ -1,14 +1,10 @@
 #!/usr/bin/env python
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
-# salesperson_wizard
-# ---------------------------------------------------------------------
-# Copyright (c) 2015-2017 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
-# This is free software; you can redistribute it and/or modify it under the
-# terms of the LICENCE attached (see LICENCE file) in the distribution
-# package.
+# This is free software; you can do what the LICENCE file allows you to.
 #
 
 from __future__ import (division as _py3_division,
@@ -18,23 +14,8 @@ from __future__ import (division as _py3_division,
 from datetime import date
 from xoutil.future.codecs import safe_decode
 
-from xoeuf import api, fields, models, MAJOR_ODOO_VERSION
+from xoeuf import api, fields, models
 from xoeuf.odoo import _
-
-
-# The difference between Odoo 8 and Odoo 9, is how to get valid domain to
-# search analytic accounts.
-if MAJOR_ODOO_VERSION == 8:
-    def account_domain():
-        return [("type", "=", "contract")]
-elif MAJOR_ODOO_VERSION == 9:
-    def account_domain():
-        return [("account_type", "=", "normal")]
-elif MAJOR_ODOO_VERSION == 10:
-    def account_domain():
-        return [("active", "=", True)]
-else:
-    raise NotImplemented
 
 
 class PrimaryInstructorWizard(models.TransientModel):
@@ -55,8 +36,7 @@ class PrimaryInstructorWizard(models.TransientModel):
         "account.analytic.account",
         string="Operations",
         required=True,
-        domain=[("state", "=", "close"),
-                ("supplier_invoice_id", "=", False)] + account_domain()
+        domain=[("state", "=", "close"), ("supplier_invoice_id", "=", False)]
     )
 
     @api.onchange("primary_salesperson_id")
@@ -64,7 +44,7 @@ class PrimaryInstructorWizard(models.TransientModel):
         self.analytic_account_ids = self.env["account.analytic.account"].search(
             [("primary_salesperson_id.id", "=", self.primary_salesperson_id.id),
              ("state", "=", "close"),
-             ("supplier_invoice_id", "=", False)] + account_domain()
+             ("supplier_invoice_id", "=", False)]
         )
 
     @api.multi
@@ -87,7 +67,7 @@ class PrimaryInstructorWizard(models.TransientModel):
     def generate_supplier_invoice_cron(self):
         commission_ready = self.env["account.analytic.account"].search(
             [('state', '=', 'close'),
-             ('supplier_invoice_id', '=', False)] + account_domain()
+             ('supplier_invoice_id', '=', False)]
         )
         salesperson_commissions = {}
         for commission in commission_ready:

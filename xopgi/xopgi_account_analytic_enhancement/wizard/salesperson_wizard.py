@@ -16,6 +16,8 @@ from xoutil.future.codecs import safe_decode
 
 from xoeuf import api, fields, models
 from xoeuf.odoo import _
+from xoeuf.osv.orm import CREATE_RELATED
+from xoeuf.models.proxy import AccountInvoice as Invoice
 
 
 class PrimaryInstructorWizard(models.TransientModel):
@@ -47,16 +49,20 @@ class PrimaryInstructorWizard(models.TransientModel):
              ("supplier_invoice_id", "=", False)]
         )
 
-    @api.multi
+    @api.requires_singleton
     def generate_supplier_invoice(self):
         partner = self.primary_salesperson_id.partner_id
-        account_id = partner.property_account_payable.id
-        self._supplier_invoice_generator(partner, account_id,
-                                         self.analytic_account_ids)
+        account = partner.property_account_payable_id
+        invoice = self._supplier_invoice_generator(
+            partner,
+            account,
+            self.analytic_account_ids
+        )
+        return invoice.get_formview_action()
 
     @api.model
     def enqueue_generate_supplier_invoice_cron(self):
-        from openerp.jobs import Deferred
+        from xoeuf.odoo.jobs import Deferred
         # Avoid performing a big computation within the WorkerCron process
         # which is under tight timeout restriction (because the same
         # restriction applies to Cron and HTTP workers).  Jobs are allowed to
@@ -80,41 +86,44 @@ class PrimaryInstructorWizard(models.TransientModel):
                 comm.append(commission)
         for salesperson_key in salesperson_commissions:
             partner = self.env["res.partner"].browse([salesperson_key])
-            account_id = partner.property_account_payable.id
+            account = partner.property_account_payable_id
             self._supplier_invoice_generator(
                 partner,
-                account_id,
+                account,
                 salesperson_commissions[salesperson_key]
             )
 
-    def _supplier_invoice_generator(self, partner, account_id,
-                                    analytic_account_ids):
-        # TODO: Performance.  This code: issues lots of SQL, if needed use the
-        # xoeuf.orm.get_creator API to make this easier.
+    def _supplier_invoice_generator(self, partner, account, analytic_account_ids):
         d = date.today()
-        supplier_invoice = self.env["account.invoice"].sudo().create(
-            {"partner_id": partner.id,
-             "account_id": account_id,
-             "type": "in_invoice",
-             "name": _(u"Commission/") + safe_decode(d.strftime("%B")) + u"/" + safe_decode(partner.name),
-             "journal_id": self.env['account.journal'].search(
-                 [('type', 'in', ['purchase']),
-                  ('company_id', '=', self._context.get(
-                      'company_id', self.env.user.company_id.id))],
-                 limit=1).id})
-        supplier_invoice.message_follower_ids |= self.env["res.partner"].browse(partner.id)  # UPDATE ...
+        company = self._context.get('company_id', self.env.user.company_id)
+        journal = self.env['account.journal'].search(
+            [('type', '=', 'purchase'), ('company_id', '=', company.id)],
+            limit=1
+        )
+        # The context allows Odoo to compute the defaults we're missing here.
+        result = Invoice.sudo().with_context(journal_id=journal.id).create(dict(
+            partner_id=partner.id,
+            account_id=account.id,
+            type='in_invoice',  # supplier invoice
+            name=_(u"Commission/") + safe_decode(d.strftime("%B")) + u"/" + safe_decode(partner.name),
+            journal_id=journal.id,
+            invoice_line_ids=[
+                CREATE_RELATED(
+                    quatity=1,
+                    account_analytic_id=analytic_account.id,
+                    name=_("Operation") + safe_decode(analytic_account.name),
+                    price_unit=analytic_account.commission
+                )
+                for analytic_account in analytic_account_ids
+            ]
+        ))
+        analytic_account_ids.write(dict(supplier_invoice_id=result.id))
+        followers = [partner.id]
         employees = self.env["hr.employee"].search([("user_id.partner_id", "=", partner.id)])
         for employee in employees:
             if employee.parent_id:
                 manager = employee.parent_id.user_id.partner_id
                 if any(manager):
-                    supplier_invoice.message_follower_ids |= manager  # UPDATE ...
-        for analytic_account_id in analytic_account_ids:
-            # Lots of INSERT INTO (and possible UPDATE...)
-            self.env["account.invoice.line"].sudo().create(
-                {"invoice_id": supplier_invoice.id,
-                 "quantity": 1,
-                 "account_analytic_id": analytic_account_id.id,
-                 "name": _(u"Operation ") + safe_decode(analytic_account_id.complete_name),
-                 "price_unit": analytic_account_id.commission})
-            analytic_account_id.supplier_invoice_id = supplier_invoice.id
+                    followers.append(manager.id)
+        result.message_subscribe(partner_ids=followers)
+        return result

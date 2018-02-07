@@ -11,6 +11,12 @@ from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
+
+import operator
+from operator import attrgetter
+from itertools import groupby
+from functools import reduce
+
 from datetime import date
 from xoutil.future.codecs import safe_decode
 
@@ -102,26 +108,18 @@ class CreateInvoiceWizard(models.TransientModel):
 
     @api.model
     def generate_supplier_invoice_cron(self):
-        commission_ready = self.env["account.analytic.account"].search(
+        Account = self.env["account.analytic.account"]
+        accounts = Account.search(
             [('state', '=', 'close'),
-             ('supplier_invoice_id', '=', False)]
+             ('supplier_invoice_id', '=', False),
+             ('primary_salesperson_id', '!=', False)],
+            order='primary_salesperson_id'
         )
-        salesperson_commissions = {}
-        for commission in commission_ready:
-            salesperson = commission.primary_salesperson_id
-            if salesperson:
-                sale_partner = salesperson.partner_id
-                comm = salesperson_commissions.setdefault(
-                    sale_partner.id, []
-                )
-                comm.append(commission)
-        for salesperson_key in salesperson_commissions:
-            partner = self.env["res.partner"].browse([salesperson_key])
-            account = partner.property_account_payable_id
+        for user, partner_accounts in groupby(accounts, attrgetter('primary_salesperson_id')):
             self._supplier_invoice_generator(
-                partner,
-                account,
-                salesperson_commissions[salesperson_key]
+                user.partner_id,
+                user.property_account_payable_id,
+                reduce(operator.or_, partner_accounts, Account)
             )
 
     def _supplier_invoice_generator(self, partner, account, analytic_account_ids):
@@ -136,7 +134,8 @@ class CreateInvoiceWizard(models.TransientModel):
             partner_id=partner.id,
             account_id=account.id,
             type='in_invoice',  # supplier invoice
-            name=_(u"Commission/") + safe_decode(d.strftime("%B")) + u"/" + safe_decode(partner.name),
+            name=_(u"Commission. ") + safe_decode(d.strftime("%B")) + u" / " + safe_decode(partner.name),
+            origin=_(u"Commission. ") + safe_decode(d.strftime("%B")) + u" / " + safe_decode(partner.name),
             journal_id=journal.id,
             invoice_line_ids=[
                 CREATE_RELATED(

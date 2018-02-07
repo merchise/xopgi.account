@@ -16,11 +16,18 @@ from xoutil.future.codecs import safe_decode
 
 from xoeuf import api, fields, models
 from xoeuf.odoo import _
-from xoeuf.osv.orm import CREATE_RELATED
+from xoeuf.osv.orm import (
+    CREATE_RELATED,
+    UNLINKALL_RELATED,
+    LINK_RELATED,
+    UPDATE_RELATED,
+    COMMAND_INDEX,
+    ID_INDEX
+)
 from xoeuf.models.proxy import AccountInvoice as Invoice
 
 
-class PrimaryInstructorWizard(models.TransientModel):
+class CreateInvoiceWizard(models.TransientModel):
     _name = "xopgi.salesperson_wizard"
     _description = "Create supplier invoice in form of commission"
 
@@ -41,13 +48,37 @@ class PrimaryInstructorWizard(models.TransientModel):
         domain=[("state", "=", "close"), ("supplier_invoice_id", "=", False)]
     )
 
-    @api.onchange("primary_salesperson_id")
-    def _onchange_primary_salesperson_id(self):
-        self.analytic_account_ids = self.env["account.analytic.account"].search(
+    @api.multi
+    def onchange(self, values, field_name, field_onchange):
+        # Sanitize the result of the onchange.  Odoo and the Web Client seems
+        # not to look eye to eye when dealing with x2many.  Odoo sends
+        # UNLINKALL and the UPDATE commands.  I thought that if Odoo would
+        # send the LINK_RELATED before, it would fix all the issues.  However,
+        # it does not work.
+        #
+        # This hack solves this for this specific case: Replace all
+        # UPDATE_RELATED by LINK_RELATED.  We can do this at this point,
+        # because we're no editing any of the values of the accounts.
+        def correct(cmd):
+            if cmd[COMMAND_INDEX] == UPDATE_RELATED:
+                return LINK_RELATED(cmd[ID_INDEX])
+            else:
+                return cmd
+        result = super(CreateInvoiceWizard, self).onchange(values, field_name, field_onchange)
+        value = result.setdefault('value', {})
+        links = value.setdefault('analytic_account_ids', [])
+        if links and links[0] == (UNLINKALL_RELATED, ):
+            links[1:] = [correct(cmd) for cmd in links[1:]]
+        return result
+
+    @api.onchange('primary_salesperson_id')
+    def _update_accounts(self):
+        accounts = self.env["account.analytic.account"].search(
             [("primary_salesperson_id.id", "=", self.primary_salesperson_id.id),
              ("state", "=", "close"),
              ("supplier_invoice_id", "=", False)]
         )
+        self.analytic_account_ids = accounts
 
     @api.requires_singleton
     def generate_supplier_invoice(self):

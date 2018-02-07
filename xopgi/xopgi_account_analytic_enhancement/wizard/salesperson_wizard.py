@@ -1,43 +1,39 @@
 #!/usr/bin/env python
-# -*- encoding: utf-8 -*-
+# -*- coding: utf-8 -*-
 # ---------------------------------------------------------------------
-# salesperson_wizard
-# ---------------------------------------------------------------------
-# Copyright (c) 2015-2017 Merchise Autrement [~º/~] and Contributors
+# Copyright (c) Merchise Autrement [~º/~] and Contributors
 # All rights reserved.
 #
-# This is free software; you can redistribute it and/or modify it under the
-# terms of the LICENCE attached (see LICENCE file) in the distribution
-# package.
+# This is free software; you can do what the LICENCE file allows you to.
 #
 
 from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _py3_abs_import)
 
+
+import operator
+from operator import attrgetter
+from itertools import groupby
+from functools import reduce
+
 from datetime import date
 from xoutil.future.codecs import safe_decode
 
-from xoeuf import api, fields, models, MAJOR_ODOO_VERSION
+from xoeuf import api, fields, models
 from xoeuf.odoo import _
+from xoeuf.osv.orm import (
+    CREATE_RELATED,
+    UNLINKALL_RELATED,
+    LINK_RELATED,
+    UPDATE_RELATED,
+    COMMAND_INDEX,
+    ID_INDEX
+)
+from xoeuf.models.proxy import AccountInvoice as Invoice
 
 
-# The difference between Odoo 8 and Odoo 9, is how to get valid domain to
-# search analytic accounts.
-if MAJOR_ODOO_VERSION == 8:
-    def account_domain():
-        return [("type", "=", "contract")]
-elif MAJOR_ODOO_VERSION == 9:
-    def account_domain():
-        return [("account_type", "=", "normal")]
-elif MAJOR_ODOO_VERSION == 10:
-    def account_domain():
-        return [("active", "=", True)]
-else:
-    raise NotImplemented
-
-
-class PrimaryInstructorWizard(models.TransientModel):
+class CreateInvoiceWizard(models.TransientModel):
     _name = "xopgi.salesperson_wizard"
     _description = "Create supplier invoice in form of commission"
 
@@ -55,28 +51,55 @@ class PrimaryInstructorWizard(models.TransientModel):
         "account.analytic.account",
         string="Operations",
         required=True,
-        domain=[("state", "=", "close"),
-                ("supplier_invoice_id", "=", False)] + account_domain()
+        domain=[("state", "=", "close"), ("supplier_invoice_id", "=", False)]
     )
 
-    @api.onchange("primary_salesperson_id")
-    def _onchange_primary_salesperson_id(self):
-        self.analytic_account_ids = self.env["account.analytic.account"].search(
+    @api.multi
+    def onchange(self, values, field_name, field_onchange):
+        # Sanitize the result of the onchange.  Odoo and the Web Client seems
+        # not to look eye to eye when dealing with x2many.  Odoo sends
+        # UNLINKALL and the UPDATE commands.  I thought that if Odoo would
+        # send the LINK_RELATED before, it would fix all the issues.  However,
+        # it does not work.
+        #
+        # This hack solves this for this specific case: Replace all
+        # UPDATE_RELATED by LINK_RELATED.  We can do this at this point,
+        # because we're no editing any of the values of the accounts.
+        def correct(cmd):
+            if cmd[COMMAND_INDEX] == UPDATE_RELATED:
+                return LINK_RELATED(cmd[ID_INDEX])
+            else:
+                return cmd
+        result = super(CreateInvoiceWizard, self).onchange(values, field_name, field_onchange)
+        value = result.setdefault('value', {})
+        links = value.setdefault('analytic_account_ids', [])
+        if links and links[0] == (UNLINKALL_RELATED, ):
+            links[1:] = [correct(cmd) for cmd in links[1:]]
+        return result
+
+    @api.onchange('primary_salesperson_id')
+    def _update_accounts(self):
+        accounts = self.env["account.analytic.account"].search(
             [("primary_salesperson_id.id", "=", self.primary_salesperson_id.id),
              ("state", "=", "close"),
-             ("supplier_invoice_id", "=", False)] + account_domain()
+             ("supplier_invoice_id", "=", False)]
         )
+        self.analytic_account_ids = accounts
 
-    @api.multi
+    @api.requires_singleton
     def generate_supplier_invoice(self):
         partner = self.primary_salesperson_id.partner_id
-        account_id = partner.property_account_payable.id
-        self._supplier_invoice_generator(partner, account_id,
-                                         self.analytic_account_ids)
+        account = partner.property_account_payable_id
+        invoice = self._supplier_invoice_generator(
+            partner,
+            account,
+            self.analytic_account_ids
+        )
+        return invoice.get_formview_action()
 
     @api.model
     def enqueue_generate_supplier_invoice_cron(self):
-        from openerp.jobs import Deferred
+        from xoeuf.odoo.jobs import Deferred
         # Avoid performing a big computation within the WorkerCron process
         # which is under tight timeout restriction (because the same
         # restriction applies to Cron and HTTP workers).  Jobs are allowed to
@@ -85,56 +108,52 @@ class PrimaryInstructorWizard(models.TransientModel):
 
     @api.model
     def generate_supplier_invoice_cron(self):
-        commission_ready = self.env["account.analytic.account"].search(
+        Account = self.env["account.analytic.account"]
+        accounts = Account.search(
             [('state', '=', 'close'),
-             ('supplier_invoice_id', '=', False)] + account_domain()
+             ('supplier_invoice_id', '=', False),
+             ('primary_salesperson_id', '!=', False)],
+            order='primary_salesperson_id'
         )
-        salesperson_commissions = {}
-        for commission in commission_ready:
-            salesperson = commission.primary_salesperson_id
-            if salesperson:
-                sale_partner = salesperson.partner_id
-                comm = salesperson_commissions.setdefault(
-                    sale_partner.id, []
-                )
-                comm.append(commission)
-        for salesperson_key in salesperson_commissions:
-            partner = self.env["res.partner"].browse([salesperson_key])
-            account_id = partner.property_account_payable.id
+        for user, partner_accounts in groupby(accounts, attrgetter('primary_salesperson_id')):
             self._supplier_invoice_generator(
-                partner,
-                account_id,
-                salesperson_commissions[salesperson_key]
+                user.partner_id,
+                user.property_account_payable_id,
+                reduce(operator.or_, partner_accounts, Account)
             )
 
-    def _supplier_invoice_generator(self, partner, account_id,
-                                    analytic_account_ids):
-        # TODO: Performance.  This code: issues lots of SQL, if needed use the
-        # xoeuf.orm.get_creator API to make this easier.
+    def _supplier_invoice_generator(self, partner, account, analytic_account_ids):
         d = date.today()
-        supplier_invoice = self.env["account.invoice"].sudo().create(
-            {"partner_id": partner.id,
-             "account_id": account_id,
-             "type": "in_invoice",
-             "name": _(u"Commission/") + safe_decode(d.strftime("%B")) + u"/" + safe_decode(partner.name),
-             "journal_id": self.env['account.journal'].search(
-                 [('type', 'in', ['purchase']),
-                  ('company_id', '=', self._context.get(
-                      'company_id', self.env.user.company_id.id))],
-                 limit=1).id})
-        supplier_invoice.message_follower_ids |= self.env["res.partner"].browse(partner.id)  # UPDATE ...
+        company = self._context.get('company_id', self.env.user.company_id)
+        journal = self.env['account.journal'].search(
+            [('type', '=', 'purchase'), ('company_id', '=', company.id)],
+            limit=1
+        )
+        # The context allows Odoo to compute the defaults we're missing here.
+        result = Invoice.sudo().with_context(journal_id=journal.id).create(dict(
+            partner_id=partner.id,
+            account_id=account.id,
+            type='in_invoice',  # supplier invoice
+            name=_(u"Commission. ") + safe_decode(d.strftime("%B")) + u" / " + safe_decode(partner.name),
+            origin=_(u"Commission. ") + safe_decode(d.strftime("%B")) + u" / " + safe_decode(partner.name),
+            journal_id=journal.id,
+            invoice_line_ids=[
+                CREATE_RELATED(
+                    quatity=1,
+                    account_analytic_id=analytic_account.id,
+                    name=_("Operation") + safe_decode(analytic_account.name),
+                    price_unit=analytic_account.commission
+                )
+                for analytic_account in analytic_account_ids
+            ]
+        ))
+        analytic_account_ids.write(dict(supplier_invoice_id=result.id))
+        followers = [partner.id]
         employees = self.env["hr.employee"].search([("user_id.partner_id", "=", partner.id)])
         for employee in employees:
             if employee.parent_id:
                 manager = employee.parent_id.user_id.partner_id
                 if any(manager):
-                    supplier_invoice.message_follower_ids |= manager  # UPDATE ...
-        for analytic_account_id in analytic_account_ids:
-            # Lots of INSERT INTO (and possible UPDATE...)
-            self.env["account.invoice.line"].sudo().create(
-                {"invoice_id": supplier_invoice.id,
-                 "quantity": 1,
-                 "account_analytic_id": analytic_account_id.id,
-                 "name": _(u"Operation ") + safe_decode(analytic_account_id.complete_name),
-                 "price_unit": analytic_account_id.commission})
-            analytic_account_id.supplier_invoice_id = supplier_invoice.id
+                    followers.append(manager.id)
+        result.message_subscribe(partner_ids=followers)
+        return result

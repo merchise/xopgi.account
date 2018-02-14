@@ -11,16 +11,16 @@
         <xpath expr="//tree/field[@name='debit']" position="replace">
           <field name="currency_debit"
                  string="Debit (line currency)"
-                 sum=""
+                 sum="Debit"
                  context="{'parent_date': parent.date}"/>
           <field name="currency_credit"
                  string="Credit (line currency)"
-                 sum=""
+                 sum="Credit"
                  context="{'parent_date': parent.date}"/>
           <field name="currency_id"
                  context="{'parent_date': parent.date}"/>
-          <field name="debit" sum="" string="Debit (base currency)"/>
-          <field name="credit" sum="" string="Credit (base currency)"/>
+          <field name="debit" sum="Debit" string="Debit (base currency)"/>
+          <field name="credit" sum="Credit" string="Credit (base currency)"/>
         </xpath>
         <xpath expr="//tree/field[@name='amount_currency']"
                position="attributes">

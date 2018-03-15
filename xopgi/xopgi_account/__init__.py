@@ -16,3 +16,4 @@ if MAJOR_ODOO_VERSION < 11:
     from . import reconcile  # noqa
     from . import track  # noqa
     from . import counterpart  # noqa
+    from . import account  # noqa

@@ -71,7 +71,7 @@ class ValidateInvoice(models.Model):
             return result
 
         res = count(until_timeout(_validate()))
-        if not res and any(self):
+        if not res:
             raise ValidationError(_("No invoice could be validated"))
         else:
             return CLOSE_PROGRESS_BAR

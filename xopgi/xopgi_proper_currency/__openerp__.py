@@ -15,12 +15,12 @@ dict(
     category="Hidden",
     description=("Usability improvements for accounting with foreign "
                  "currencies."),
-    depends=['account', 'account_accountant'],
+    depends=['account'],
     data=[
         'view/moves.xml',
         'view/invoices.xml',
     ],
     application=False,
-    installable=10 <= MAJOR_ODOO_VERSION < 11,   # noqa
+    installable=10 <= MAJOR_ODOO_VERSION < 12,   # noqa
     auto_install=False,
 )

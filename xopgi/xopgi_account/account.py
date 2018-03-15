@@ -20,7 +20,6 @@ class Account(models.Model):
     @fields.Property
     def balance(self):
         cr = self.env.cr
-        # Faster with SQL
         cr.execute('''
            SELECT COALESCE(SUM(debit) - SUM(credit), 0) AS balance
            FROM account_move_line WHERE account_id=%s

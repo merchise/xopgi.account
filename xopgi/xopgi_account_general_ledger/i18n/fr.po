@@ -1,0 +1,27 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* xopgi_account_general_ledger
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0.20180312.152030+a589baf\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-27 18:13+0000\n"
+"PO-Revision-Date: 2018-03-27 18:13+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: xopgi_account_general_ledger
+#: model:ir.model.fields,field_description:xopgi_account_general_ledger.field_account_report_general_ledger_account_ids
+msgid "Accounts"
+msgstr "Comptes"
+
+#. module: xopgi_account_general_ledger
+#: model:ir.model,name:xopgi_account_general_ledger.model_account_report_general_ledger
+msgid "General Ledger Report"
+msgstr "Grand livre"
+

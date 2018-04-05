@@ -38,6 +38,7 @@ def _get_valid_accounts(currency=None):
         query = [("currency_id", "!=", False)]
     else:
         query = [("currency_id", "=", currency.id)]
+    query += [('deprecated', '!=', False)]
     return Account.search(query)
 
 

@@ -19,6 +19,10 @@ from xoeuf.odoo.exceptions import ValidationError
 
 import xoeuf.odoo.addons.decimal_precision as dp
 
+import logging
+logger = logging.getLogger(__name__)
+del logging
+
 
 # TODO:  Improve performance.
 #
@@ -330,6 +334,13 @@ class AccountAnalyticAccount(models.Model):
                     account.primary_salesperson_id = user_id
                 else:
                     account.primary_salesperson_id = False
+
+    @api.multi
+    def write(self, values):
+        result = super(AccountAnalyticAccount, self).write(values)
+        if 'primary_salesperson_id' in values and not values['primary_salesperson_id']:
+            logger.warn('The Primary salesperson is was set to None.', extra={'stack': True})
+        return result
 
     @api.constrains('required_margin', 'max_margin')
     def _validate_margins(self):

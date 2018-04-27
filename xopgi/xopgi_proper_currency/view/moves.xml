@@ -6,25 +6,38 @@
       <field name="model">account.move</field>
       <field name="inherit_id" ref="account.view_move_form" />
       <field name="arch" type="xml">
-        <xpath expr="//tree/field[@name='currency_id']" position="replace" />
-        <xpath expr="//tree/field[@name='credit']" position="replace" />
-        <xpath expr="//tree/field[@name='debit']" position="replace">
+        <xpath expr="//tree/field[@name='currency_id']" position="attributes">
+          <attribute name="context">{'parent_date': parent.date}</attribute>
+        </xpath>
+        <xpath expr="//tree/field[@name='debit']" position="attributes">
+          <attribute name="string">Debit (base currency)</attribute>
+        </xpath>
+        <xpath expr="//tree/field[@name='credit']" position="attributes">
+          <attribute name="string">Credit (base currency)</attribute>
+        </xpath>
+        <xpath expr="//tree/field[@name='currency_id']" position="before">
           <field name="currency_debit"
                  string="Debit (line currency)"
-                 sum="Debit"
+                 sum="Total Debit"
                  context="{'parent_date': parent.date}"/>
           <field name="currency_credit"
                  string="Credit (line currency)"
-                 sum="Credit"
+                 sum="Total Credit"
                  context="{'parent_date': parent.date}"/>
-          <field name="currency_id"
-                 context="{'parent_date': parent.date}"/>
-          <field name="debit" sum="Debit" string="Debit (base currency)"/>
-          <field name="credit" sum="Credit" string="Credit (base currency)"/>
         </xpath>
         <xpath expr="//tree/field[@name='amount_currency']"
                position="attributes">
           <attribute name="invisible">True</attribute>
+        </xpath>
+        <xpath expr="//notebook//field[@name='line_ids']" position="after">
+          <field name="balance" invisible="1"/>
+        </xpath>
+        <xpath expr="//notebook//field[@name='line_ids']" position="attributes">
+          <attribute name="context">
+            {'line_ids': line_ids, 'journal_id': journal_id,
+            'default_currency_debit': balance &lt; 0 and balance * -1 or 0.0,
+            'default_currency_credit': balance &gt; 0 and balance or 0.0}
+          </attribute>
         </xpath>
       </field>
     </record>

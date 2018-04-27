@@ -6,21 +6,24 @@
       <field name="model">account.move</field>
       <field name="inherit_id" ref="account.view_move_form" />
       <field name="arch" type="xml">
-        <xpath expr="//tree/field[@name='currency_id']" position="replace" />
-        <xpath expr="//tree/field[@name='credit']" position="replace" />
-        <xpath expr="//tree/field[@name='debit']" position="replace">
+        <xpath expr="//tree/field[@name='currency_id']" position="attributes">
+          <attribute name="context">{'parent_date': parent.date}</attribute>
+        </xpath>
+        <xpath expr="//tree/field[@name='debit']" position="attributes">
+          <attribute name="string">Debit (base currency)</attribute>
+        </xpath>
+        <xpath expr="//tree/field[@name='credit']" position="attributes">
+          <attribute name="string">Credit (base currency)</attribute>
+        </xpath>
+        <xpath expr="//tree/field[@name='currency_id']" position="before">
           <field name="currency_debit"
                  string="Debit (line currency)"
-                 sum="Debit"
+                 sum="Total Debit"
                  context="{'parent_date': parent.date}"/>
           <field name="currency_credit"
                  string="Credit (line currency)"
-                 sum="Credit"
+                 sum="Total Credit"
                  context="{'parent_date': parent.date}"/>
-          <field name="currency_id"
-                 context="{'parent_date': parent.date}"/>
-          <field name="debit" sum="Debit" string="Debit (base currency)"/>
-          <field name="credit" sum="Credit" string="Credit (base currency)"/>
         </xpath>
         <xpath expr="//tree/field[@name='amount_currency']"
                position="attributes">

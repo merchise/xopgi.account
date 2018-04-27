@@ -29,6 +29,16 @@
                position="attributes">
           <attribute name="invisible">True</attribute>
         </xpath>
+        <xpath expr="//notebook//field[@name='line_ids']" position="after">
+          <field name="balance" invisible="1"/>
+        </xpath>
+        <xpath expr="//notebook//field[@name='line_ids']" position="attributes">
+          <attribute name="context">
+            {'line_ids': line_ids, 'journal_id': journal_id,
+            'default_currency_debit': balance &lt; 0 and balance * -1 or 0.0,
+            'default_currency_credit': balance &gt; 0 and balance or 0.0}
+          </attribute>
+        </xpath>
       </field>
     </record>
 

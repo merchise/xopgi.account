@@ -321,6 +321,7 @@ class AccountAnalyticAccount(models.Model):
         for account in self.filtered(lambda r: r not in context_accounts):
             if not account.active:
                 account.primary_salesperson_id = False
+                logger.warn('The Primary salesperson is was set to None.', extra={'stack': True})
             else:
                 user_id = next(
                     (line.move_id.invoice_id.user_id
@@ -334,6 +335,7 @@ class AccountAnalyticAccount(models.Model):
                     account.primary_salesperson_id = user_id
                 else:
                     account.primary_salesperson_id = False
+                    logger.warn('The Primary salesperson is was set to None.', extra={'stack': True})
 
     @api.multi
     def write(self, values):

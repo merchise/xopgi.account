@@ -64,12 +64,9 @@ class AccountConfigSettings(models.TransientModel):
         related="company_id.ugl_loss_account_id"
     )
 
-    @api.onchange('ugl_journal_id', 'ugl_journal_id.default_credit_account_id')
-    def _update_ugl_gain_account(self):
+    @api.onchange('ugl_journal_id')
+    def _update_ugl_gain_and_loss_account(self):
         if not self.ugl_gain_account_id:
             self.ugl_gain_account_id = self.ugl_journal_id.default_credit_account_id
-
-    @api.onchange('ugl_journal_id', 'ugl_journal_id.default_debit_account_id')
-    def _update_ugl_loss_account(self):
         if not self.ugl_loss_account_id:
             self.ugl_loss_account_id = self.ugl_journal_id.default_debit_account_id

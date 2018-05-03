@@ -18,26 +18,7 @@ from __future__ import (division as _py3_division,
 from xoeuf import fields, models, api
 
 from xoeuf.models import get_modelname
-from xoeuf.models.proxy import AccountMove as BaseMove
 from xoeuf.models.proxy import AccountMoveLine as BaseMoveLine
-
-
-class Move(models.Model):
-    _name = get_modelname(BaseMove)
-    _inherit = _name
-
-    balance = fields.Monetary(
-        string='balance',
-        compute='_compute_balance',
-        help="This is a field only used for internal purpose and shouldn't be displayed"
-    )
-
-    @api.multi
-    @api.depends('line_ids', 'line_ids.debit', 'line_ids.credit',
-                 'line_ids.currency_debit', 'line_ids.currency_credit')
-    def _compute_balance(self):
-        for move in self:
-            move.balance = sum(move.line_ids.mapped('balance'))
 
 
 class MoveLine(models.Model):

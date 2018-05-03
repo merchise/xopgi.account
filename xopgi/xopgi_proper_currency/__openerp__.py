@@ -15,7 +15,10 @@ dict(
     category="Hidden",
     description=("Usability improvements for accounting with foreign "
                  "currencies."),
-    depends=['account'],
+    depends=[
+        'account',
+        'xopgi_account',
+    ],
     data=[
         'view/moves.xml',
         'view/invoices.xml',

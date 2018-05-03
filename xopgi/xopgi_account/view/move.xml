@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+  <data>
+    <record id="xopgi_account_move_view_form" model="ir.ui.view">
+      <field name="name">xopgi.view.move.form</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_move_form" />
+      <field name="arch" type="xml">
+        <xpath expr="//notebook//field[@name='line_ids']" position="after">
+          <field name="unbalanced_amount" invisible="1"/>
+        </xpath>
+        <xpath expr="//notebook//field[@name='line_ids']" position="attributes">
+          <attribute name="context"><![CDATA[
+          {'line_ids': line_ids,
+           'journal_id': journal_id,
+           'default_debit': unbalanced_amount < 0 and -unbalanced_amount or 0,
+           'default_credit': unbalanced_amount > 0 and unbalanced_amount or 0}
+          ]]>
+          </attribute>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</openerp>

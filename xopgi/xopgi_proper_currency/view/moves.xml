@@ -29,14 +29,18 @@
                position="attributes">
           <attribute name="invisible">True</attribute>
         </xpath>
-        <xpath expr="//notebook//field[@name='line_ids']" position="after">
-          <field name="balance" invisible="1"/>
-        </xpath>
         <xpath expr="//notebook//field[@name='line_ids']" position="attributes">
-          <attribute name="context">
-            {'line_ids': line_ids, 'journal_id': journal_id,
-            'default_currency_debit': balance &lt; 0 and balance * -1 or 0.0,
-            'default_currency_credit': balance &gt; 0 and balance or 0.0}
+          <!-- Even though default_currency_debit/credit are to be expressed
+               in the line's currency and not necessarily in the company's (as
+               unbalaced_amount does) since the line's currency is not set by
+               default it will be the same as the company, so we can put the
+               unbalanced amount in the default_currency_debit/credit. -->
+          <attribute name="context"><![CDATA[
+            {'line_ids': line_ids,
+             'journal_id': journal_id,
+             'default_currency_debit': unbalanced_amount < 0 and -unbalanced_amount or 0,
+             'default_currency_credit':unbalanced_amount > 0 and unbalanced_amount or 0}
+           ]]>
           </attribute>
         </xpath>
       </field>

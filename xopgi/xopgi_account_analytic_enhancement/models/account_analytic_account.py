@@ -12,7 +12,6 @@ from __future__ import (division as _py3_division,
                         absolute_import as _py3_abs_import)
 
 from xoutil.symbols import Unset
-from xoutil.context import Context
 
 from xoeuf import api, fields, models
 from xoeuf.odoo.exceptions import ValidationError
@@ -289,9 +288,7 @@ class AccountAnalyticAccount(models.Model):
     # commission margins.  So far, only the goodwill of ignorance may save us.
     @api.depends('line_ids')
     def _compute_invoiced(self):
-        context = Context[AVOID_LENGTHY_COMPUTATION]
-        context_accounts = context.get('accounts', [])
-        for record in self.filtered(lambda r: r not in context_accounts):
+        for record in self:
             invoiced = expended = undefined = 0
             for line in record.line_ids:
                 if line.move_id and line.move_id.invoice_id:
@@ -316,9 +313,7 @@ class AccountAnalyticAccount(models.Model):
 
     @api.depends('line_ids.move_id.invoice_id.user_id')
     def _compute_primary_salesperson(self):
-        context = Context[AVOID_LENGTHY_COMPUTATION]
-        context_accounts = context.get('accounts', [])
-        for account in self.filtered(lambda r: r not in context_accounts):
+        for account in self:
             if not account.active:
                 account.primary_salesperson_id = False
                 logger.warn('The Primary salesperson is was set to None.', extra={'stack': True})
@@ -395,38 +390,6 @@ class AccountAnalyticAccount(models.Model):
 
 def raise_validation_error(*fields):
     raise ValidationError('Invalid value for field(s) %r', fields)
-
-
-# Context that avoids computing the invoiced and comission for each line added
-# to the analytic account.  We use it when creating the analitic account lines
-# to wrap the whole process.
-AVOID_LENGTHY_COMPUTATION = object()
-
-
-class MoveLine(models.Model):
-    _name = _inherit = 'account.move.line'
-
-    @api.multi
-    def create_analytic_lines(self):
-        # If, for any unforeseen reason, we get to this point recursively, add
-        # the accounts from our parent context with the accounts we're going
-        # to touch.
-        context = Context[AVOID_LENGTHY_COMPUTATION]
-        accounts = context.get('accounts', self.env['account.analytic.account'])
-        new_accounts = self.mapped('analytic_account_id') - accounts
-        with Context(AVOID_LENGTHY_COMPUTATION, accounts=accounts | new_accounts):
-            res = super(MoveLine, self).create_analytic_lines()
-        for account in new_accounts:
-            account.sudo()._compute_invoiced()
-        # TODO: We should compute the primary salesperson only once per
-        # analytic account.  This has to be moved to the place where the
-        # dossier is being created, not here.
-        invoices = self.mapped('invoice_id')\
-                       .filtered(lambda i: i.type in INCOME_INVOICE_TYPES)
-        if any(invoices):
-            for account in new_accounts:
-                account.sudo()._compute_primary_salesperson()
-        return res
 
 
 _ACCOUNT_FIELD = 'line_ids.analytic_line_ids.account_id'

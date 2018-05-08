@@ -1,0 +1,71 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* xopgi_statements_from_payments
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0.20180504.222143+07bb764bbe7\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-08 19:34+0000\n"
+"PO-Revision-Date: 2018-05-08 19:34+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: xopgi_statements_from_payments
+#: model:ir.ui.view,arch_db:xopgi_statements_from_payments.view_account_payment_tree
+msgid "Amount"
+msgstr "Importe"
+
+#. module: xopgi_statements_from_payments
+#: model:ir.model,name:xopgi_statements_from_payments.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Línea de extracto bancario"
+
+#. module: xopgi_statements_from_payments
+#: model:ir.actions.act_window,help:xopgi_statements_from_payments.action_all_payments
+msgid "Click to register a payment"
+msgstr "Pulse para registrar un pago"
+
+#. module: xopgi_statements_from_payments
+#: model:ir.actions.server,name:xopgi_statements_from_payments.action_statement_from_payments
+msgid "Create statement from payments"
+msgstr "Crear extracto a partir de los pagos"
+
+#. module: xopgi_statements_from_payments
+#: model:ir.model.fields,field_description:xopgi_statements_from_payments.field_account_bank_statement_line_created_from_payment_id
+msgid "Created from payment id"
+msgstr "Creado desde el pago"
+
+#. module: xopgi_statements_from_payments
+#: model:ir.model,name:xopgi_statements_from_payments.model_account_payment
+msgid "Payments"
+msgstr "Pagos"
+
+#. module: xopgi_statements_from_payments
+#: model:ir.actions.act_window,help:xopgi_statements_from_payments.action_all_payments
+msgid "Payments are used to register liquidity movements (send, collect or transfer money).\n"
+"          You can then process those payments by your own means or by using installed facilities."
+msgstr "Los pagos se utilizan para registrar movimiento de liquidez (cobros, pagos o transferencias).\n"
+"          Usted puede procesar los pagos de forma manual o utilizando herramientas instaladas."
+
+#. module: xopgi_statements_from_payments
+#: model:ir.model.fields,help:xopgi_statements_from_payments.field_account_payment_should_reconcile_with_statement
+#: model:ir.ui.view,arch_db:xopgi_statements_from_payments.view_account_payment_search
+msgid "Payments which are not reconciled with a bank statement"
+msgstr "Pagos que no están concialiados con un extracto bancario"
+
+#. module: xopgi_statements_from_payments
+#: model:ir.model.fields,field_description:xopgi_statements_from_payments.field_account_payment_should_reconcile_with_statement
+#: model:ir.ui.view,arch_db:xopgi_statements_from_payments.view_account_payment_search
+msgid "To reconcile"
+msgstr "A conciliar"
+
+#. module: xopgi_statements_from_payments
+#: model:ir.actions.act_window,name:xopgi_statements_from_payments.action_all_payments
+#: model:ir.ui.menu,name:xopgi_statements_from_payments.menu_action_all_payments
+msgid "Unreconciled payments"
+msgstr "Pagos sin conciliar"

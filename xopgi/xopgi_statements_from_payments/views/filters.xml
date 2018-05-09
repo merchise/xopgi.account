@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<odoo>
+  <data>
+    <record id="view_account_payment_search" model="ir.ui.view">
+      <field name="name">account.payment.search</field>
+      <field name="model">account.payment</field>
+      <field name="inherit_id" ref="account.view_account_payment_search"/>
+      <field name="arch" type="xml">
+        <xpath expr="/search" position="inside">
+          <filter string="To reconcile"
+                  help="Payments which are not reconciled with a bank statement"
+                  domain="[('should_reconcile_with_statement', '=', True)]"
+                  name="should_reconcile_with_statement"/>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

@@ -152,7 +152,7 @@ class AccountAnalyticAccount(models.Model):
     # The account may have any desired min commission and max commission, no
     # restrictions are placed.
     #
-    # By default, accounts take all these parameters from it's parent. So it's
+    # By default, accounts take all these parameters from its parent. So it's
     # wise to only establish them at accounts that consolidate operational
     # branches.
     #

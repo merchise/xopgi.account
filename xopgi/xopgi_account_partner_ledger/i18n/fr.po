@@ -1,0 +1,26 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* xopgi_account_partner_ledger
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 10.0.20180504.222143+07bb764\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-10 15:21+0000\n"
+"PO-Revision-Date: 2018-05-10 15:21+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: xopgi_account_partner_ledger
+#: model:ir.model,name:xopgi_account_partner_ledger.model_account_report_partner_ledger
+msgid "Account Partner Ledger"
+msgstr "Livre des tiers"
+
+#. module: xopgi_account_partner_ledger
+#: model:ir.model.fields,field_description:xopgi_account_partner_ledger.field_account_report_partner_ledger_partner_ids
+msgid "Partners"
+msgstr "Partenaires"

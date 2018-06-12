@@ -12,7 +12,7 @@ from __future__ import (division as _py3_division,
                         absolute_import as _py3_abs_import)
 
 from xoutil.context import Context
-from odoo import fields, models, api
+from xoeuf import fields, models, api
 
 # This context use to hack the `query_get` function in the ` Account Partner
 # Ledger` report to filter the data of the report by partners.

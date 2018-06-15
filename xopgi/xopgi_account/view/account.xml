@@ -55,9 +55,8 @@
       <field name="model">account.invoice</field>
       <field name="inherit_id" ref="account.invoice_supplier_tree" />
       <field name="arch" type="xml">
-        <field name="name" position="replace"/>
-        <field name="date_due" position="replace" >
-          <field name="name" />
+        <field name="name" position="attributes" >
+          <attribute name="invisible">False</attribute>
         </field>
       </field>
     </record>

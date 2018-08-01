@@ -139,7 +139,7 @@ class CreateInvoiceWizard(models.TransientModel):
             journal_id=journal.id,
             invoice_line_ids=[
                 CREATE_RELATED(
-                    quatity=1,
+                    quantity=1,
                     account_analytic_id=analytic_account.id,
                     name=_("Operation") + safe_decode(analytic_account.name),
                     price_unit=analytic_account.commission

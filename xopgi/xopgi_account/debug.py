@@ -24,7 +24,7 @@ class DebugReopenedInvoice(models.Model):
             closed_before = len(self.filtered(lambda i: i.state == 'paid'))
             res = super(DebugReopenedInvoice, self).write(vals)
             closed_after = len(self.filtered(lambda i: i.state == 'paid'))
-            if closed_before < closed_after:
+            if closed_before > closed_after:
                 logger.error(
                     'Reopening invoices %r: UID: %r.',
                     self.mapped('number'),

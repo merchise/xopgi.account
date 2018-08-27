@@ -7,7 +7,10 @@
 # This is free software; you can do what the LICENCE file allows you to.
 #
 import logging
-from xoeuf import models, api
+from datetime import timedelta
+
+from xoeuf import models, api, fields
+from xoeuf.tools import normalize_date
 
 logger = logging.getLogger()
 
@@ -17,18 +20,24 @@ class DebugReopenedInvoice(models.Model):
 
     @api.multi
     def write(self, vals):
-        explicitly_open = vals.get('state', None) == 'open'
-        if explicitly_open:
-            return super(DebugReopenedInvoice, self).write(vals)
-        else:
-            closed_before = len(self.filtered(lambda i: i.state == 'paid'))
-            res = super(DebugReopenedInvoice, self).write(vals)
-            closed_after = len(self.filtered(lambda i: i.state == 'paid'))
-            if closed_before > closed_after:
-                logger.error(
-                    'Reopening invoices %r: UID: %r.',
-                    self.mapped('number'),
-                    self.env.uid,
-                    extra=dict(stack=True),
-                )
-            return res
+        today = normalize_date(fields.Date.today())
+        try:
+            date = max(
+                normalize_date(d)
+                for d in self.mapped('date_invoice')
+                if d
+            )
+        except ValueError:
+            date = normalize_date(fields.Date.today())
+        old = (today - date) > timedelta(days=365)
+        closed_before = len(self.filtered(lambda i: i.state == 'paid'))
+        res = super(DebugReopenedInvoice, self).write(vals)
+        closed_after = len(self.filtered(lambda i: i.state == 'paid'))
+        if old and closed_before > closed_after:
+            logger.error(
+                'Reopening old invoices %r: UID: %r.',
+                self.mapped('number'),
+                self.env.uid,
+                extra=dict(stack=True),
+            )
+        return res

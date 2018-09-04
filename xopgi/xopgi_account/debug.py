@@ -7,7 +7,7 @@
 # This is free software; you can do what the LICENCE file allows you to.
 #
 import logging
-from datetime import timedelta
+from datetime import date as Date
 
 from xoeuf import models, api, fields
 from xoeuf.tools import normalize_date
@@ -29,7 +29,7 @@ class DebugReopenedInvoice(models.Model):
             )
         except ValueError:
             date = normalize_date(fields.Date.today())
-        old = (today - date) > timedelta(days=365)
+        old = date < Date(2018, 2, 1)
         closed_before = len(self.filtered(lambda i: i.state == 'paid'))
         res = super(DebugReopenedInvoice, self).write(vals)
         closed_after = len(self.filtered(lambda i: i.state == 'paid'))

@@ -6,6 +6,8 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
+from __future__ import division, print_function, absolute_import
+
 import logging
 from datetime import date as Date
 
@@ -28,7 +30,7 @@ class DebugReopenedInvoice(models.Model):
                 if d
             )
         except ValueError:
-            date = normalize_date(fields.Date.today())
+            date = today
         old = date < Date(2018, 2, 1)
         closed_before = len(self.filtered(lambda i: i.state == 'paid'))
         res = super(DebugReopenedInvoice, self).write(vals)

@@ -35,6 +35,52 @@ def perform_validate(invoice):
     invoice.action_invoice_open()
 
 
+def perform_post(move):
+    move.post()
+
+
+class ValidateMove(models.Model):
+    _inherit = 'account.move'
+
+    @api.multi
+    def post_with_celery(self):
+        return QUIETLY_WAIT_FOR_TASK(Deferred(self._do_post_with_celery))
+
+    @api.multi
+    def _do_post_with_celery(self):
+        # Do the real work inside an iterator so that we can use the
+        # until_timeout.
+        def _validate():
+            report_progress(
+                _("Posting the entries. This may take several "
+                  "minutes depending on the length of the entries."),
+                valuemin=0,
+                valuemax=len(self)
+            )
+            records = self.sorted(lambda invoice: len(get_lines(invoice)))
+            for progress, record in enumerate(records):
+                report_progress(progress=progress)
+                with self.env.cr.savepoint():
+                    # Since the soft time-limit may occur after the first
+                    # invoice was validate, but before the second finishes, we
+                    # must ensure all DB changes for each invoice is
+                    # 'atomically' done or not done at all.
+                    perform_post(record)
+                yield record
+
+        def count(iterable):
+            result = 0
+            for _ in iterable:  # noqa: F402
+                result += 1
+            return result
+
+        res = count(until_timeout(_validate()))
+        if not res:
+            raise ValidationError(_("No entry could be posted"))
+        else:
+            return CLOSE_PROGRESS_BAR
+
+
 class ValidateInvoice(models.Model):
     _inherit = _name = 'account.invoice'
 

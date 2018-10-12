@@ -18,7 +18,8 @@ dict(
         'web_celery'
     ],
     data=[
-        'views/validate.xml',
+        'views/invoice.xml',
+        'views/move.xml',
     ],
     application=False,
     installable=10 <= MAJOR_ODOO_VERSION < 11,   # noqa

@@ -18,5 +18,3 @@ if MAJOR_ODOO_VERSION < 11:
     from . import counterpart  # noqa
     from . import account  # noqa
     from . import move  # noqa
-
-    from . import debug  # noqa

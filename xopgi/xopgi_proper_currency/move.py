@@ -22,7 +22,7 @@ from xoeuf.models.proxy import AccountMoveLine as BaseMoveLine
 
 
 class MoveLine(models.Model):
-    _inherit = this = get_modelname(BaseMoveLine)
+    _inherit = get_modelname(BaseMoveLine)
 
     @api.multi
     @api.depends('line_currency_amount')

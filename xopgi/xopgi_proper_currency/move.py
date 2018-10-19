@@ -27,17 +27,9 @@ class MoveLine(models.Model):
     @api.multi
     @api.depends('line_currency_amount')
     def _get_currency_credit_debit(self):
-        '''Functional getter for `credit` and `debit` fields.
-
-        This changes the normal behaviour of a single :class:`journal item
-        <account_move_line>`: Instead of having a separate `amount_currency`
-        field when the currency is not the same as the one defined for
-        company, use debit for positive `amount_currency` and credit for
-        negative.
-
-        '''
+        company_id = self[0].move_id.company_id
         for line in self:
-            if line.currency_id:
+            if line.currency_id and company_id.currency_id != line.currency_id:
                 amount = line.line_currency_amount
                 if amount > 0:
                     line.currency_debit = amount
@@ -59,8 +51,9 @@ class MoveLine(models.Model):
     @api.multi
     @api.depends('amount_currency', 'debit', 'credit', 'currency_id')
     def _get_line_currency_amount(self):
+        company_id = self[0].move_id.company_id
         for line in self:
-            if line.currency_id:
+            if line.currency_id and company_id.currency_id != line.currency_id:
                 line.line_currency_amount = line.amount_currency
             else:
                 line.line_currency_amount = line.debit - line.credit
@@ -80,7 +73,7 @@ class MoveLine(models.Model):
         company_id = self[0].move_id.company_id
         for line in self:
             amount = self.line_currency_amount
-            if line.currency_id:
+            if line.currency_id and company_id.currency_id != line.currency_id:
                 line.amount_currency = amount
                 line_currency = line.currency_id.with_context(
                     date=line.move_id.date
@@ -90,6 +83,7 @@ class MoveLine(models.Model):
                     company_id.currency_id,
                 )
             else:
+                line.currency_id = False
                 line.amount_currency = False
                 posted = abs(amount)
             if amount > 0:
@@ -102,8 +96,9 @@ class MoveLine(models.Model):
     @api.multi
     @api.depends('currency_id', 'company_id.currency_id')
     def _get_line_currency(self):
+        company_id = self[0].move_id.company_id
         for line in self:
-            if line.currency_id:
+            if line.currency_id and company_id.currency_id != line.currency_id:
                 line.line_currency = line.currency_id
             else:
                 line.line_currency = line.company_id.currency_id.id

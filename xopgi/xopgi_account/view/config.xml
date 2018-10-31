@@ -40,6 +40,11 @@
                      class="oe_inline"/>
               <label for="module_xopgi_show_journal_items"/>
             </div>
+            <div>
+              <field name="module_xopgi_account_advancement"
+                     class="oe_inline"/>
+              <label for="module_xopgi_account_advancement"/>
+            </div>
           </group>
         </xpath>
       </field>

@@ -16,36 +16,33 @@ El Odoo no facilita este tipo de gestión.
 Funciones de este addon
 =======================
 
+- Se requiere la configuración de dos tipos de cuentas especiales para Cobros
+  y Pagos Anticipados; y la configuración de los diarios de Cobros y Pagos
+  Anticipados.
+
 - Cuentas dedicadas cobros y pagos anticipados.  Cada Partner puede tener
   configurada su cuenta de Cobros Anticipados y Pagos anticipados.
-
-  La compañía tiene las Cuentas de Cobros y Pagos anticipados por defecto para
-  los nuevos partners.
-
-  En la información contable el total a cobrar y a pagar se diferencian entre
-  los Payables, Receivable y los anticipos.
-
 
 - Cambios en la facturación.
 
   En las facturas de clientes se puede rebajar saldo de los cobros
-  anticipados.  En las facturas de proveedor se puede rebajar saldo de los
+  anticipados. En las facturas de proveedor se puede rebajar saldo de los
   pagos anticipados.
 
   Al igual que pasa cuando hay "débitos pendientes", el sistema saca una
-  notificación.
+  notificación y muestra la cuenta de cobro o pago anticipado asociada a la
+  venta o compra.
 
-  La interfaz de usuario se modifica de dos formas:
+  La interfaz de usuario se modifica:
 
-  1) Se añade un botón de 'Rebajar'.  Al apretarlo sale una ventana con
-     información similar a la que se utiliza para registrar pagos.  En el
-     saldo a rebajar se propone el máximo monto posible.
+  1) Para el caso de las facturas de clientes se muestra una lista con los
+     montos de cada una de las cuentas de Cobros Anticipados donde hay un
+     saldo para el cliente.
 
-  2) Se añade al final de la lista de débitos pendientes, un enlace de
-     'Rebajar' ``$tanto`` del anticipo de ``$cuanto``.
+  2) Para el caso de las facturas de proveedor se muestra una lista con los
+     montos de cada una de las cuentas de Pagos Anticipados donde hay un saldo
+     para el proveedor.
 
-     Apretar aquí tiene el mismo efecto que poner el máximo posible en el
-     diálogo de rebajar.
 
 ..
    Local Variables:

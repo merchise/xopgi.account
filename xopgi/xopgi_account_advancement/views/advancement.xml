@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+  <data>
+    <!-- Partner Extension -->
+    <record id = "view_partner_property_form_ext" model = "ir.ui.view">
+      <field name="name">res.partner.property.form.inherit_ext</field>
+      <field name="model">res.partner</field>
+      <field name="priority">2</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+      <field name="arch" type="xml">
+        <xpath expr="//notebook/page[@name='accounting'][1]//group[@name='accounting_entries']"
+               position="inside">
+          <field name = "property_account_receivable_advance_id"/>
+          <field name = "property_account_payment_advance_id"/>
+        </xpath>
+      </field>
+    </record>
+
+  </data>
+</odoo>
+
+<!-- Local Variables: -->
+<!-- indent-tabs-mode: nil -->
+<!-- End: -->

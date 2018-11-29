@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+  <data>
+    <!-- Invoice from extension -->
+    <record id="account_invoice_form_ext" model="ir.ui.view">
+      <field name="name">account.invoice.form.inherit_ext</field>
+      <field name="model">account.invoice</field>
+      <field name="priority">2</field>
+      <field name="inherit_id" ref="account.invoice_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//header" position="after">
+          <div class="alert alert-info" role="alert" style="margin-bottom:0px;"
+               attrs="{'invisible': [('has_advancements', '=', False)]}">
+            You have a <bold><a class="alert-link" href="#has_amount_to_reduce"
+            role="button"> pre-collection account(s) </a></bold> for this customer.
+            You can allocate them to mark this invoice as paid.
+          </div>
+          <field name="has_advancements" invisible ="1"/>
+        </xpath>
+
+        <xpath expr="//field[@name='outstanding_credits_debits_widget']" position="after">
+          <field id="advance_credits_debits_widget"
+                 name="advance_credits_debits_widget"
+                 colspan="2"
+                 nolabel="1"
+                 widget="advance_account"
+                 attrs="{'invisible': [('state', 'not in', 'open')]}"/>
+        </xpath>
+
+      </field>
+    </record>
+
+    <!-- Invoice supplier from extension -->
+    <record id="account_invoice_supplier_form_ext" model="ir.ui.view">
+      <field name="name">account.invoice.form.inherit_ext</field>
+      <field name="model">account.invoice</field>
+      <field name="priority">2</field>
+      <field name="inherit_id" ref="account.invoice_supplier_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//header" position="after">
+          <div class="alert alert-info" role="alert" style="margin-bottom:0px;"
+               attrs="{'invisible': [('has_advancements', '=', False)]}">
+            You have a <bold><a class="alert-link" href="#has_amount_to_reduce"
+            role="button">pre-payment account(s)</a></bold> for this customer.
+            You can allocate them to mark this invoice as paid.
+          </div>
+          <field name="has_advancements" invisible ="1"/>
+        </xpath>
+        <xpath expr="//field[@name='outstanding_credits_debits_widget']" position="after">
+          <field id="advance_credits_debits_widget"
+                 name="advance_credits_debits_widget"
+                 colspan="2"
+                 nolabel="1"
+                 widget="advance_account"
+                 attrs="{'invisible': [('state', 'not in', 'open')]}"/>
+        </xpath>
+      </field>
+    </record>
+
+  </data>
+</odoo>
+
+<!-- Local Variables: -->
+<!-- indent-tabs-mode: nil -->
+<!-- End: -->

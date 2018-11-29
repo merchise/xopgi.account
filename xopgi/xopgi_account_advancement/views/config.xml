@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+  <data>
+    <!-- Account Config Extention -->
+    <record id = "view_account_config_form_ext" model = "ir.ui.view">
+      <field name="name">account.config.form.inherit_ext</field>
+      <field name="model">account.config.settings</field>
+      <field name="inherit_id" ref="account.view_account_config_settings"/>
+      <field name="arch" type="xml">
+        <group name="followup" position="before">
+          <separator string="Pre-collection and pre-payments" groups="account.group_account_user"/>
+          <group name="advance_accounts_group" groups="account.group_account_user">
+            <label for="id" string="Pre-payment Account"/>
+            <div name="advance_accounts">
+              <div>
+                <field name="advanced_payable_type_id" string="Pre-payment Account" class="oe_inline"/>
+              </div>
+            </div>
+
+            <label for="id" string="Pre-collection Account"/>
+            <div>
+              <field name="advanced_receivable_type_id" string="Pre-collection Account" class="oe_inline"/>
+            </div>
+
+            <label for="id" string="Pre-payment Journal"/>
+            <div name="advance_journals">
+              <div>
+                <field name="prepayment_journal_type_id" string="Pre-payment Journal" class="oe_inline"/>
+              </div>
+            </div>
+
+            <label for="id" string="Pre-collection Journal"/>
+            <div>
+              <field name="precollection_journal_type_id" string="Pre-collection Journal" class="oe_inline"/>
+            </div>
+          </group>
+        </group>
+      </field>
+    </record>
+  </data>
+</odoo>
+
+<!-- Local Variables: -->
+<!-- indent-tabs-mode: nil -->
+<!-- End: -->

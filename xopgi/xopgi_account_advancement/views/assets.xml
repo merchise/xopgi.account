@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <template id="account_assets_backend"
+              name="account advance assets"
+              inherit_id="web.assets_backend">
+      <xpath expr="." position="inside">
+        <link rel="stylesheet"
+              href="/xopgi_account_advancement/static/src/less/style.less"/>
+        <script type="text/javascript" src="/xopgi_account_advancement/static/src/js/advance_payment_widget.js"></script>
+      </xpath>
+    </template>
+  </data>
+</odoo>
+
+<!-- Local Variables: -->
+<!-- indent-tabs-mode: nil -->
+<!-- End: -->

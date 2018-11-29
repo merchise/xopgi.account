@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+  <t t-name="ShowAdvanceAccountInfo">
+    <table class="xopgi-advacements">
+      <caption><t t-esc="title"></t></caption>
+      <t t-foreach="lines" t-as="line">
+        <tr>
+          <td>
+            <a title="match account"
+               role="button"
+               class="oe_form_field lower"
+               t-att-data-id="line.id"
+               t-att-data-max_reduction="line.max_reduction"
+               >Match</a>
+          </td>
+          <td style="min-width: 8em;">
+            <t t-esc="line.journal_name"></t>
+          </td>
+          <td>
+            <t t-if="line.position === 'before'">
+              <t t-esc="line.currency_symbol"/> <t t-esc="line.amount"></t>
+            </t>
+            <t t-if="line.position === 'after'">
+              <t t-esc="line.amount"></t> <t t-esc="line.currency_symbol"/>
+            </t>
+          </td>
+        </tr>
+      </t>
+    </table>
+  </t>
+
+</templates>
+
+<!-- Local Variables: -->
+<!-- indent-tabs-mode: nil -->
+<!-- End: -->

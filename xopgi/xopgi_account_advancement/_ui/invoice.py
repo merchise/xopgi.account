@@ -34,31 +34,14 @@ class AccountInvoice(models.Model):
             self.advance_credits_debits_widget = json.dumps(False)
             self.has_advancements = False
             return
-        advacements = []
-        if self.state == 'open':
-            accounts = self._get_advancement_accounts()
-            for pre_account in accounts:
-                if not pre_account.currency_id or pre_account.currency_id == self.currency_id:
-                    amount = abs(self._credit_debit_get(pre_account.id))
-                    if amount:
-                        advacements.append({
-                            'id': pre_account.id,
-                            'journal_name': pre_account.name,
-                            'amount': amount,
-                            'max_reduction': min(self.residual, amount),
-                            'currency_symbol': self.currency_id.symbol,
-                            'position': self.currency_id.position,
-                            # TODO: What does 69 mean?
-                            'digits': [69, self.currency_id.decimal_places],
-                        })
-        if advacements:
+        if self._advancements:
             if self.type == 'out_invoice':
                 title = PRECOLLECTION_TITLE
             elif self.type == 'in_invoice':
                 title = PREPAYMENT_TITLE
             data = {
                 'title': title,
-                'content': advacements,
+                'content': self._advancements,
                 'invoice_id': self.id,
                 'partner_id': self.partner_id.id
             }

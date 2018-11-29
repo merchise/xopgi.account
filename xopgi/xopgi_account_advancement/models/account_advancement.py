@@ -11,7 +11,6 @@ from __future__ import division, print_function, absolute_import
 from odoo import _
 from xoeuf import api, models
 from xoeuf.osv.orm import CREATE_RELATED
-from xoeuf.odoo.tools import float_precision
 
 from .config import get_account_config
 
@@ -64,7 +63,18 @@ class AccountAdvanceInvoice(models.Model):
         type = self._matching_advancement_account_type
         if type:
             Account = self.env['account.account']
-            return Account.search([('user_type_id', '=', type.id)])
+            if self.currency_id:
+                return Account.search([
+                    ('user_type_id', '=', type.id),
+                    '|',
+                    ('currency_id', '=', False),
+                    ('currency_id', '=', self.currency_id.id),
+                ])
+            else:
+                return Account.search([
+                    ('user_type_id', '=', type.id),
+                    ('currency_id', '=', False),
+                ])
         else:
             return Account.browse()
 
@@ -77,29 +87,40 @@ class AccountAdvanceInvoice(models.Model):
         ])
 
     @api.model
-    def _credit_debit_get(self, pre_account_id):
-        cr = self.env.cr
-        cr.execute(
-            '''SELECT COALESCE(SUM(debit)-SUM(credit),0) AS amount
-                      FROM account_move_line
-                WHERE account_id=%s AND partner_id=%s''',
-            (pre_account_id, self.partner_id.id)
+    def _get_normal_balance(self, pre_account, account_type):
+        return account_type.get_balance(
+            pre_account,
+            currency=self.currency_id,
+            conditions=dict(
+                partner_id=self.partner_id.id,
+            )
         )
-        rows = cr.fetchall()
-        amount = rows[0][0]
-        invoice_currency = self.currency_id
-        if amount:
-            if invoice_currency != self.company_currency_id:
-                amount = self.company_currency_id.compute(
-                    amount,
-                    invoice_currency
-                )
-            elif invoice_currency:
-                amount = float_precision(
-                    invoice_currency.round(amount),
-                    invoice_currency.decimal_places
-                )
-        return amount
+
+    @property
+    def _advancements(self):
+        '''The possible advancement to match.'''
+        from .normal_balance import get_account_normal_type
+        if self.state != 'open':
+            return []
+        advancements = []
+        accounts = self._get_advancement_accounts()
+        for pre_account in accounts:
+            amount = self._get_normal_balance(
+                pre_account,
+                get_account_normal_type(pre_account),
+            )
+            if amount:
+                advancements.append({
+                    'id': pre_account.id,
+                    'journal_name': pre_account.name,
+                    'amount': amount,
+                    'max_reduction': min(self.residual, amount),
+                    'currency_symbol': self.currency_id.symbol,
+                    'position': self.currency_id.position,
+                    # TODO: What does 69 mean?
+                    'digits': [69, self.currency_id.decimal_places],
+                })
+        return advancements
 
 
 def _is_payable(account):

@@ -146,12 +146,8 @@ class Config(models.TransientModel):
     _inherit = [_name, XopgiAccountAdvancementConfig._name]
 
 
-class AccountConfigReader(models.AbstractModel):
-    _name = 'account.config.reader'
-
-    @property
-    def _account_configuration(self):
-        config = self.env['account.config.settings'].search([], limit=1)
-        if not config:
-            config = self.env['account.config.settings'].create({})
-        return config
+def get_account_config(self):
+    config = self.env['account.config.settings'].search([], limit=1)
+    if not config:
+        config = self.env['account.config.settings'].create({})
+    return config

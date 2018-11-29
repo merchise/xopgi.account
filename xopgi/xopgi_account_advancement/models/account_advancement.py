@@ -13,20 +13,20 @@ from xoeuf import api, models
 from xoeuf.osv.orm import CREATE_RELATED
 from xoeuf.odoo.tools import float_precision
 
-from .config import AccountConfigReader
+from .config import get_account_config
 
 
 class AccountAdvanceInvoice(models.Model):
-    _name = 'account.invoice'
-    _inherit = [_name, AccountConfigReader._name]
+    _inherit = 'account.invoice'
 
     @property
     def _matching_advancement_account_type(self):
         '''The account type for advancements of the invoice's type.'''
+        config = get_account_config(self)
         if self.type == 'out_invoice':
-            type = self._account_configuration.advanced_receivable_type_id
+            type = config.advanced_receivable_type_id
         elif self.type == 'in_invoice':
-            type = self._account_configuration.advanced_payable_type_id
+            type = config.advanced_payable_type_id
         else:
             type = None
         return type
@@ -119,8 +119,7 @@ def _is_receivable_line(line):
 
 
 class AdvancedAccountMove(models.Model):
-    _name = 'account.move'
-    _inherit = [_name, AccountConfigReader._name]
+    _inherit = 'account.move'
 
     @api.requires_singleton
     def _match_prepayment(self, invoice_move, pre_account, amount,
@@ -138,7 +137,7 @@ class AdvancedAccountMove(models.Model):
             currency_id = currency.id
         payable_line = invoice_move.line_ids.filtered(_is_payable_line)
         assert len(payable_line) == 1
-        config = self._account_configuration
+        config = get_account_config(self)
         journal = config.prepayment_journal_type_id
         date = invoice_move.date
         res = self.create(dict(
@@ -183,7 +182,7 @@ class AdvancedAccountMove(models.Model):
         `_match_prepayment`:meth:
 
         '''
-        config = self._account_configuration
+        config = get_account_config(self)
         journal = config.precollection_journal_type_id
         if currency and currency == invoice_move.company_id.currency_id:
             # We must not set the currency if it's the same as the company's

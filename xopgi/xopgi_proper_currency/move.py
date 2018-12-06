@@ -6,23 +6,18 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
-
 '''Extensions & fixes for account move lines.
 
 '''
-
 from __future__ import (division as _py3_division,
                         print_function as _py3_print,
                         absolute_import as _absolute_import)
 
 from xoeuf import fields, models, api
 
-from xoeuf.models import get_modelname
-from xoeuf.models.proxy import AccountMoveLine as BaseMoveLine
-
 
 class MoveLine(models.Model):
-    _inherit = get_modelname(BaseMoveLine)
+    _inherit = 'account.move.line'
 
     @api.multi
     @api.depends('line_currency_amount')

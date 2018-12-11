@@ -19,11 +19,21 @@ from xoeuf import fields, models, api
 class MoveLine(models.Model):
     _inherit = 'account.move.line'
 
+    # Trick to remove every attempt of the code to set the currency_id with
+    # the same as the company's; which creates all sorts of problems.
+    @api.constrains('currency_id')
+    def _sanity_of_currency_id(self):
+        for record in self:
+            company_id = record.move_id.company_id
+            currency_id = record.currency_id
+            if currency_id and currency_id == company_id.currency_id:
+                record.currency_id = None
+
     @api.multi
     @api.depends('line_currency_amount')
     def _get_currency_credit_debit(self):
-        company_id = self[0].move_id.company_id
         for line in self:
+            company_id = line.move_id.company_id
             if line.currency_id and company_id.currency_id != line.currency_id:
                 amount = line.line_currency_amount
                 if amount > 0:
@@ -61,7 +71,7 @@ class MoveLine(models.Model):
 
     @api.multi
     def _set_line_currency_amount(self):
-        # It's best to got all the way to the move_id, since NewId records may
+        # It's best to go all the way to the move_id, since NewId records may
         # not have the company_id set.  This allows the _adjust_debit_credit
         # on-change method to use this method to compute the adjusted
         # debit/credit.

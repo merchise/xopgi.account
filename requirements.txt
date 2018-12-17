@@ -1,0 +1,1 @@
+-e git+https://github.com/merchise/xopgi.base.git@master#egg=xopgi.base

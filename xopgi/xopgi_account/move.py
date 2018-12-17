@@ -12,12 +12,10 @@ from __future__ import (division as _py3_division,
                         absolute_import as _py3_abs_import)
 
 from xoeuf import api, fields, models
-from xoeuf.models import get_modelname
-from xoeuf.models.proxy import AccountMove as BaseMove
 
 
 class Move(models.Model):
-    _name = get_modelname(BaseMove)
+    _name = 'account.move'
     _inherit = _name
 
     # Keeps the unbalanced amount of the move.  This is only used to put the
